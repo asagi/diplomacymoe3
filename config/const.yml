@@ -1,0 +1,25 @@
+# use gem 'settingslogic'
+defaults: &defaults
+  turns:
+    initial: 0
+  phases:
+    # 行軍命令と結果
+    spr_1st: 0
+    # 撤退解体命令と結果
+    spr_2nd: 1
+    # 行軍命令と結果
+    fal_1st: 2
+    # 撤退解体命令と結果
+    fal_2nd: 3
+    # 増減命令と結果
+    fal_3rd: 4
+    final: 4
+
+development:
+  <<: *defaults
+
+test:
+  <<: *defaults
+
+production:
+  <<: *defaults

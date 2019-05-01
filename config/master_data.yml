@@ -1,0 +1,1975 @@
+# use gem 'settingslogic'
+defaults: &defaults
+  powers:
+    a:
+      name: Austria
+      genitive: Austrian
+      jname: オーストリア
+    e:
+      name: England
+      genitive: English
+      jname: イギリス
+    f:
+      name: France
+      genitive: French
+      jname: フランス
+    g:
+      name: Germany
+      genitive: German
+      jname: ドイツ
+    i:
+      name: Italy
+      genitive: Italian
+      jname: イタリア
+    r:
+      name: Russia
+      genitive: Russian
+      jname: ロシア
+    t:
+      name: Turky
+      genitive: Turkish
+      jname: トルコ
+    x:
+      name: Master
+      jname: 管理人
+
+  provinces:
+    adr:
+     type: Water
+     name: Adriatic Water
+     jname: アドリア海
+    aeg:
+     type: Water
+     name: Aegean Water
+     jname: エーゲ海
+    alb:
+     type: Coastal
+     name: Albania
+     jname: アルバニア
+    ank:
+     type: Coastal
+     name: Ankara
+     jname: アンカラ
+     supplycenter: true
+     owner: t
+    apu:
+     type: Coastal
+     name: Apulia
+     jname: アプリア
+     owner: i
+    arm:
+     type: Coastal
+     name: Armenia
+     jname: アルメニア
+     owner: t
+    bal:
+     type: Water
+     name: Baltic Water
+     jname: バルト海
+    bar:
+     type: Water
+     name: Barents Water
+     jname: バレンツ海
+    bel:
+     type: Coastal
+     name: Belgium
+     jname: ベルギー
+     supplycenter: true
+    ber:
+     type: Coastal
+     name: Berlin
+     jname: ベルリン
+     supplycenter: true
+     owner: g
+    bla:
+     type: Water
+     name: Black Water
+     jname: 黒海
+    boh:
+     type: Inland
+     name: Bohemia
+     jname: ボヘミア
+     owner: a
+    bot:
+     type: Water
+     name: Gulf of Bothnia
+     jname: ボスニア湾
+    bre:
+     type: Coastal
+     name: Brest
+     jname: ブレスト
+     supplycenter: true
+     owner: f
+    bud:
+     type: Inland
+     name: Budapest
+     jname: ブダペスト
+     supplycenter: true
+     owner: a
+    bul:
+     type: Coastal
+     name: Bulgaria
+     jname: ブルガリア
+     supplycenter: true
+    bul_ec:
+     type: Coastal
+     name: Bulgaria(EC)
+     jname: ブルガリア(EC)
+     supplycenter: false
+    bul_sc:
+     type: Coastal
+     name: Bulgaria(SC)
+     jname: ブルガリア(SC)
+     supplycenter: false
+    bur:
+     type: Inland
+     name: Burgundy
+     jname: ブルゴーニュ
+     owner: f
+    cly:
+     type: Coastal
+     name: Clyde
+     jname: クライド
+     owner: e
+    con:
+     type: Coastal
+     name: Constantinople
+     jname: コンスタンティノープル
+     supplycenter: true
+     owner: t
+    den:
+     type: Coastal
+     name: Denmark
+     jname: デンマーク
+     supplycenter: true
+    eas:
+     type: Water
+     name: Eastern Mediterranean
+     jname: 東地中海
+    edi:
+     type: Coastal
+     name: Edinburgh
+     jname: エディンバラ
+     supplycenter: true
+     owner: e
+    eng:
+     type: Water
+     name: English Channel
+     jname: イギリス海峡
+    fin:
+     type: Coastal
+     name: Finland
+     jname: フィンランド
+     owner: r
+    gal:
+     type: Inland
+     name: Galicia
+     jname: ガリツィア
+     owner: a
+    gas:
+     type: Coastal
+     name: Gascony
+     jname: ガスコーニュ
+     owner: f
+    gre:
+     type: Coastal
+     name: Greece
+     jname: ギリシア
+     supplycenter: true
+    hel:
+     type: Water
+     name: Helgoland Bight
+     jname: ヘルゴラント湾
+    hol:
+     type: Coastal
+     name: Holland
+     jname: オランダ
+     supplycenter: true
+    ion:
+     type: Water
+     name: Ionian Water
+     jname: イオニア海
+    iri:
+     type: Water
+     name: Irish Water
+     jname: アイリッシュ海
+    kie:
+     type: Coastal
+     name: Kiel
+     jname: キール
+     supplycenter: true
+     owner: g
+    lon:
+     type: Coastal
+     name: London
+     jname: ロンドン
+     supplycenter: true
+     owner: e
+    lvn:
+     type: Coastal
+     name: Livonia
+     jname: リヴォニア
+     owner: r
+    lvp:
+     type: Coastal
+     name: Liverpool
+     jname: リヴァプール
+     supplycenter: true
+     owner: e
+    lyo:
+     type: Water
+     name: Gulf of Lyon
+     jname: リオン湾
+    mao:
+     type: Water
+     name: Mid-Atlantic Ocean
+     jname: 中大西洋
+    mar:
+     type: Coastal
+     name: Marseilles
+     jname: マルセイユ
+     supplycenter: true
+     owner: f
+    mos:
+     type: Inland
+     name: Moscow
+     jname: モスクワ
+     supplycenter: true
+     owner: r
+    mun:
+     type: Inland
+     name: Munich
+     jname: ミュンヘン
+     supplycenter: true
+     owner: g
+    naf:
+     type: Coastal
+     name: North Africa
+     jname: 北アフリカ
+    nao:
+     type: Water
+     name: North Atlantic Ocean
+     jname: 北大西洋
+    nap:
+     type: Coastal
+     name: Naples
+     jname: ナポリ
+     supplycenter: true
+     owner: i
+    nth:
+     type: Water
+     name: North Water
+     jname: 北海
+    nwg:
+     type: Water
+     name: Norwegian Water
+     jname: ノルウェー海
+    nwy:
+     type: Coastal
+     name: Norway
+     jname: ノルウェー
+     supplycenter: true
+    par:
+     type: Inland
+     name: Paris
+     jname: パリ
+     supplycenter: true
+     owner: f
+    pic:
+     type: Coastal
+     name: Picardy
+     jname: ピカルディ
+     owner: f
+    pie:
+     type: Coastal
+     name: Piedmont
+     jname: ピエモンテ
+     owner: i
+    por:
+     type: Coastal
+     name: Portugal
+     jname: ポルトガル
+     supplycenter: true
+    pru:
+     type: Coastal
+     name: Prussia
+     jname: プロイセン
+     owner: g
+    rom:
+     type: Coastal
+     name: Rome
+     jname: ローマ
+     supplycenter: true
+     owner: i
+    ruh:
+     type: Inland
+     name: Ruhrl
+     jname: ルール
+     owner: g
+    rum:
+     type: Coastal
+     name: Rumania
+     jname: ルーマニア
+     supplycenter: true
+    ser:
+     type: Inland
+     name: Serbia
+     jname: セルビア
+     supplycenter: true
+    sev:
+     type: Coastal
+     name: Sevastopol
+     jname: セヴァストポリ
+     supplycenter: true
+     owner: r
+    sil:
+     type: Inland
+     name: Silesia
+     jname: シレジア
+     owner: g
+    ska:
+     type: Water
+     name: Skagerrak
+     jname: スカゲラク海峡
+    smy:
+     type: Coastal
+     name: Smyrna
+     jname: スミルナ
+     supplycenter: true
+     owner: t
+    spa:
+     type: Coastal
+     name: Spain
+     jname: スペイン
+     supplycenter: true
+    spa_nc:
+     type: Coastal
+     name: Spain(NC)
+     jname: スペイン(NC)
+     supplycenter: false
+    spa_sc:
+     type: Coastal
+     name: Spain(SC)
+     jname: スペイン(SC)
+     supplycenter: false
+    stp:
+     type: Coastal
+     name: St. Petersburg
+     jname: サンクトペテルブルク
+     supplycenter: true
+     owner: r
+    stp_nc:
+     type: Coastal
+     name: St. Petersburg(NC)
+     jname: サンクトペテルブルク(NC)
+     supplycenter: false
+     owner: r
+    stp_sc:
+     type: Coastal
+     name: St. Petersburg(SC)
+     jname: サンクトペテルブルク(SC)
+     supplycenter: false
+     owner: r
+    swe:
+     type: Coastal
+     name: Sweden
+     jname: スウェーデン
+     supplycenter: true
+    syr:
+     type: Coastal
+     name: Syria
+     jname: シリア
+    tri:
+     type: Coastal
+     name: Trieste
+     jname: トリエステ
+     supplycenter: true
+     owner: a
+    tun:
+     type: Coastal
+     name: Tunis
+     jname: チュニス
+     supplycenter: true
+    tus:
+     type: Coastal
+     name: Tuscany
+     jname: トスカーナ
+     owner: i
+    tyr:
+     type: Inland
+     name: Tyrolia
+     jname: ティロル
+     owner: a
+    tys:
+     type: Water
+     name: Tyrrhenian Water
+     jname: ティレニア海
+    ukr:
+     type: Inland
+     name: Ukraine
+     jname: ウクライナ
+     owner: r
+    ven:
+     type: Coastal
+     name: Venice
+     jname: ヴェネツィア
+     supplycenter: true
+     owner: i
+    vie:
+     type: Inland
+     name: Vienna
+     jname: ウィーン
+     supplycenter: true
+     owner: a
+    wal:
+     type: Coastal
+     name: Wales
+     jname: ウェールズ
+     owner: e
+    war:
+     type: Inland
+     name: Warsaw
+     jname: ワルシャワ
+     supplycenter: true
+     owner: r
+    wes:
+     type: Water
+     name: Western Mediterranean
+     jname: 西地中海
+    yor:
+     type: Coastal
+     name: Yorkshire
+     jname: ヨークシャー
+     owner: e
+
+  adjacent_provinces:
+    adr:
+      apu:
+        army: false
+        fleet: true
+      ion:
+        army: false
+        fleet: true
+      alb:
+        army: false
+        fleet: true
+      tri:
+        army: false
+        fleet: true
+      ven:
+        army: false
+        fleet: true
+    aeg:
+      gre:
+        army: false
+        fleet: true
+      smy:
+        army: false
+        fleet: true
+      bul:
+        army: true
+        fleet: false
+      bul_sc:
+        army: false
+        fleet: true
+      eas:
+        army: false
+        fleet: true
+      con:
+        army: false
+        fleet: true
+      ion:
+        army: false
+        fleet: true
+    alb:
+      adr:
+        army: false
+        fleet: true
+      gre:
+        army: true
+        fleet: true
+      ser:
+        army: true
+        fleet: false
+      ion:
+        army: false
+        fleet: true
+      tri:
+        army: true
+        fleet: true
+    ank:
+      smy:
+        army: true
+        fleet: false
+      bla:
+        army: false
+        fleet: true
+      arm:
+        army: true
+        fleet: true
+      con:
+        army: true
+        fleet: true
+    apu:
+      rom:
+        army: true
+        fleet: false
+      ion:
+        army: false
+        fleet: true
+      ven:
+        army: true
+        fleet: true
+      adr:
+        army: false
+        fleet: true
+      nap:
+        army: true
+        fleet: true
+    arm:
+      bla:
+        army: false
+        fleet: true
+      syr:
+        army: true
+        fleet: false
+      ank:
+        army: true
+        fleet: true
+      sev:
+        army: true
+        fleet: true
+      smy:
+        army: true
+        fleet: false
+    bal:
+      den:
+        army: false
+        fleet: true
+      ber:
+        army: false
+        fleet: true
+      kie:
+        army: false
+        fleet: true
+      swe:
+        army: false
+        fleet: true
+      lvn:
+        army: false
+        fleet: true
+      bot:
+        army: false
+        fleet: true
+      pru:
+        army: false
+        fleet: true
+    bar:
+      nwy:
+        army: false
+        fleet: true
+      nwg:
+        army: false
+        fleet: true
+      stp:
+        army: true
+        fleet: false
+      stp_nc:
+        army: false
+        fleet: true
+    bel:
+      eng:
+        army: false
+        fleet: true
+      pic:
+        army: true
+        fleet: true
+      hol:
+        army: true
+        fleet: true
+      ruh:
+        army: true
+        fleet: false
+      nth:
+        army: false
+        fleet: true
+      bur:
+        army: true
+        fleet: false
+    ber:
+      bal:
+        army: false
+        fleet: true
+      kie:
+        army: true
+        fleet: true
+      mun:
+        army: true
+        fleet: false
+      sil:
+        army: true
+        fleet: false
+      pru:
+        army: true
+        fleet: true
+    bla:
+      arm:
+        army: false
+        fleet: true
+      con:
+        army: false
+        fleet: true
+      ank:
+        army: false
+        fleet: true
+      sev:
+        army: false
+        fleet: true
+      rum:
+        army: false
+        fleet: true
+      bul:
+        army: true
+        fleet: false
+      bul_ec:
+        army: false
+        fleet: true
+    boh:
+      mun:
+        army: true
+        fleet: false
+      sil:
+        army: true
+        fleet: false
+      gal:
+        army: true
+        fleet: false
+      vie:
+        army: true
+        fleet: false
+      tyr:
+        army: true
+        fleet: false
+    bot:
+      swe:
+        army: false
+        fleet: true
+      fin:
+        army: false
+        fleet: true
+      lvn:
+        army: false
+        fleet: true
+      stp:
+        army: true
+        fleet: false
+      stp_sc:
+        army: false
+        fleet: true
+      bal:
+        army: false
+        fleet: true
+    bre:
+      mao:
+        army: false
+        fleet: true
+      eng:
+        army: false
+        fleet: true
+      par:
+        army: true
+        fleet: false
+      pic:
+        army: true
+        fleet: true
+      gas:
+        army: true
+        fleet: true
+    bud:
+      tri:
+        army: true
+        fleet: false
+      ser:
+        army: true
+        fleet: false
+      gal:
+        army: true
+        fleet: false
+      vie:
+        army: true
+        fleet: false
+      rum:
+        army: true
+        fleet: false
+    bul:
+      con:
+        army: true
+        fleet: false
+      ser:
+        army: true
+        fleet: false
+      gre:
+        army: true
+        fleet: false
+      rum:
+        army: true
+        fleet: false
+      aeg:
+        army: false
+        fleet: true
+      bla:
+        army: false
+        fleet: true
+    bul_ec:
+      con:
+        army: false
+        fleet: true
+      bla:
+        army: false
+        fleet: true
+      rum:
+        army: false
+        fleet: true
+    bul_sc:
+      con:
+        army: false
+        fleet: true
+      aeg:
+        army: false
+        fleet: true
+      gre:
+        army: false
+        fleet: true
+    bur:
+      par:
+        army: true
+        fleet: false
+      pic:
+        army: true
+        fleet: false
+      gas:
+        army: true
+        fleet: false
+      ruh:
+        army: true
+        fleet: false
+      bel:
+        army: true
+        fleet: false
+      mar:
+        army: true
+        fleet: false
+      mun:
+        army: true
+        fleet: false
+    cly:
+      edi:
+        army: true
+        fleet: true
+      nao:
+        army: false
+        fleet: true
+      lvp:
+        army: true
+        fleet: true
+      nwg:
+        army: false
+        fleet: true
+    con:
+      bul:
+        army: true
+        fleet: false
+      aeg:
+        army: false
+        fleet: true
+      ank:
+        army: true
+        fleet: true
+      bla:
+        army: false
+        fleet: true
+      bul:
+        army: true
+        fleet: false
+      bul_sc:
+        army: false
+        fleet: true
+      bul_ec:
+        army: false
+        fleet: true
+      smy:
+        army: true
+        fleet: true
+    den:
+      swe:
+        army: true
+        fleet: true
+      hel:
+        army: false
+        fleet: true
+      bal:
+        army: false
+        fleet: true
+      nth:
+        army: false
+        fleet: true
+      ska:
+        army: false
+        fleet: true
+      kie:
+        army: true
+        fleet: true
+    eas:
+      syr:
+        army: false
+        fleet: true
+      aeg:
+        army: false
+        fleet: true
+      ion:
+        army: false
+        fleet: true
+      smy:
+        army: false
+        fleet: true
+    edi:
+      yor:
+        army: true
+        fleet: true
+      nth:
+        army: false
+        fleet: true
+      nwg:
+        army: false
+        fleet: true
+      cly:
+        army: true
+        fleet: true
+      lvp:
+        army: true
+        fleet: false
+    eng:
+      mao:
+        army: false
+        fleet: true
+      lon:
+        army: false
+        fleet: true
+      nth:
+        army: false
+        fleet: true
+      bel:
+        army: false
+        fleet: true
+      pic:
+        army: false
+        fleet: true
+      bre:
+        army: false
+        fleet: true
+      iri:
+        army: false
+        fleet: true
+      wal:
+        army: false
+        fleet: true
+    fin:
+      bot:
+        army: false
+        fleet: true
+      swe:
+        army: true
+        fleet: true
+      nwy:
+        army: true
+        fleet: false
+      stp_sc:
+        army: false
+        fleet: true
+      stp:
+        army: true
+        fleet: false
+    gal:
+      boh:
+        army: true
+        fleet: false
+      sil:
+        army: true
+        fleet: false
+      rum:
+        army: true
+        fleet: false
+      ukr:
+        army: true
+        fleet: false
+      war:
+        army: true
+        fleet: false
+      vie:
+        army: true
+        fleet: false
+      bud:
+        army: true
+        fleet: false
+    gas:
+      mao:
+        army: false
+        fleet: true
+      spa:
+        army: true
+        fleet: false
+      spa_nc:
+        army: false
+        fleet: true
+      spa:
+        army: true
+        fleet: false
+      bre:
+        army: true
+        fleet: true
+      bur:
+        army: true
+        fleet: false
+      mar:
+        army: true
+        fleet: false
+      par:
+        army: true
+        fleet: false
+    gre:
+      bul:
+        army: true
+        fleet: false
+      alb:
+        army: true
+        fleet: true
+      ion:
+        army: false
+        fleet: true
+      ser:
+        army: true
+        fleet: false
+      aeg:
+        army: false
+        fleet: true
+      bul:
+        army: true
+        fleet: false
+      bul_sc:
+        army: false
+        fleet: true
+    hel:
+      den:
+        army: false
+        fleet: true
+      kie:
+        army: false
+        fleet: true
+      nth:
+        army: false
+        fleet: true
+      hol:
+        army: false
+        fleet: true
+    hol:
+      hel:
+        army: false
+        fleet: true
+      bel:
+        army: true
+        fleet: true
+      nth:
+        army: false
+        fleet: true
+      ruh:
+        army: true
+        fleet: false
+      kie:
+        army: true
+        fleet: true
+    ion:
+      nap:
+        army: false
+        fleet: true
+      eas:
+        army: false
+        fleet: true
+      gre:
+        army: false
+        fleet: true
+      apu:
+        army: false
+        fleet: true
+      alb:
+        army: false
+        fleet: true
+      aeg:
+        army: false
+        fleet: true
+      adr:
+        army: false
+        fleet: true
+      tun:
+        army: false
+        fleet: true
+      tys:
+        army: false
+        fleet: true
+    iri:
+      mao:
+        army: false
+        fleet: true
+      nao:
+        army: false
+        fleet: true
+      lvp:
+        army: false
+        fleet: true
+      eng:
+        army: false
+        fleet: true
+      wal:
+        army: false
+        fleet: true
+    kie:
+      ruh:
+        army: true
+        fleet: false
+      hol:
+        army: true
+        fleet: true
+      mun:
+        army: true
+        fleet: false
+      hel:
+        army: false
+        fleet: true
+      den:
+        army: true
+        fleet: true
+      ber:
+        army: true
+        fleet: true
+      bal:
+        army: false
+        fleet: true
+    lon:
+      nth:
+        army: false
+        fleet: true
+      eng:
+        army: false
+        fleet: true
+      wal:
+        army: true
+        fleet: true
+      yor:
+        army: true
+        fleet: true
+    lvn:
+      bal:
+        army: false
+        fleet: true
+      stp:
+        army: true
+        fleet: false
+      stp_sc:
+        army: false
+        fleet: true
+      mos:
+        army: true
+        fleet: false
+      bot:
+        army: false
+        fleet: true
+      pru:
+        army: true
+        fleet: true
+      war:
+        army: true
+        fleet: false
+    lvp:
+      yor:
+        army: true
+        fleet: false
+      cly:
+        army: true
+        fleet: true
+      wal:
+        army: true
+        fleet: true
+      nao:
+        army: false
+        fleet: true
+      iri:
+        army: false
+        fleet: true
+      edi:
+        army: true
+        fleet: false
+    lyo:
+      mar:
+        army: false
+        fleet: true
+      spa:
+        army: true
+        fleet: false
+      spa_sc:
+        army: false
+        fleet: true
+      pie:
+        army: false
+        fleet: true
+      wes:
+        army: false
+        fleet: true
+      tys:
+        army: false
+        fleet: true
+      tus:
+        army: false
+        fleet: true
+    mao:
+      spa:
+        army: true
+        fleet: false
+      spa_nc:
+        army: false
+        fleet: true
+      bre:
+        army: false
+        fleet: true
+      por:
+        army: false
+        fleet: true
+      gas:
+        army: false
+        fleet: true
+      nao:
+        army: false
+        fleet: true
+      naf:
+        army: false
+        fleet: true
+      wes:
+        army: false
+        fleet: true
+      eng:
+        army: false
+        fleet: true
+      iri:
+        army: false
+        fleet: true
+      spa_sc:
+        army: false
+        fleet: true
+    mar:
+      spa:
+        army: true
+        fleet: false
+      spa:
+        army: true
+        fleet: false
+      pie:
+        army: true
+        fleet: true
+      gas:
+        army: true
+        fleet: false
+      spa_sc:
+        army: false
+        fleet: true
+      bur:
+        army: true
+        fleet: false
+      lyo:
+        army: false
+        fleet: true
+    mos:
+      lvn:
+        army: true
+        fleet: false
+      ukr:
+        army: true
+        fleet: false
+      stp:
+        army: true
+        fleet: false
+      sev:
+        army: true
+        fleet: false
+      war:
+        army: true
+        fleet: false
+    mun:
+      sil:
+        army: true
+        fleet: false
+      boh:
+        army: true
+        fleet: false
+      kie:
+        army: true
+        fleet: false
+      ber:
+        army: true
+        fleet: false
+      tyr:
+        army: true
+        fleet: false
+      ruh:
+        army: true
+        fleet: false
+      bur:
+        army: true
+        fleet: false
+    naf:
+      tun:
+        army: true
+        fleet: true
+      mao:
+        army: false
+        fleet: true
+      wes:
+        army: false
+        fleet: true
+    nao:
+      lvp:
+        army: false
+        fleet: true
+      mao:
+        army: false
+        fleet: true
+      cly:
+        army: false
+        fleet: true
+      iri:
+        army: false
+        fleet: true
+      nwg:
+        army: false
+        fleet: true
+    nap:
+      ion:
+        army: false
+        fleet: true
+      rom:
+        army: true
+        fleet: true
+      tys:
+        army: false
+        fleet: true
+      apu:
+        army: true
+        fleet: true
+    nth:
+      yor:
+        army: false
+        fleet: true
+      nwy:
+        army: false
+        fleet: true
+      nwg:
+        army: false
+        fleet: true
+      ska:
+        army: false
+        fleet: true
+      lon:
+        army: false
+        fleet: true
+      bel:
+        army: false
+        fleet: true
+      den:
+        army: false
+        fleet: true
+      edi:
+        army: false
+        fleet: true
+      eng:
+        army: false
+        fleet: true
+      hel:
+        army: false
+        fleet: true
+      hol:
+        army: false
+        fleet: true
+    nwg:
+      edi:
+        army: false
+        fleet: true
+      cly:
+        army: false
+        fleet: true
+      nth:
+        army: false
+        fleet: true
+      bar:
+        army: false
+        fleet: true
+      nao:
+        army: false
+        fleet: true
+      nwy:
+        army: false
+        fleet: true
+    nwy:
+      nth:
+        army: false
+        fleet: true
+      nwg:
+        army: false
+        fleet: true
+      bar:
+        army: false
+        fleet: true
+      stp:
+        army: true
+        fleet: false
+      stp_nc:
+        army: false
+        fleet: true
+      ska:
+        army: false
+        fleet: true
+      fin:
+        army: true
+        fleet: false
+      swe:
+        army: true
+        fleet: true
+    par:
+      bur:
+        army: true
+        fleet: false
+      pic:
+        army: true
+        fleet: false
+      gas:
+        army: true
+        fleet: false
+      bre:
+        army: true
+        fleet: false
+    pic:
+      eng:
+        army: false
+        fleet: true
+      bel:
+        army: true
+        fleet: true
+      bur:
+        army: true
+        fleet: false
+      bre:
+        army: true
+        fleet: true
+      par:
+        army: true
+        fleet: false
+    pie:
+      lyo:
+        army: false
+        fleet: true
+      ven:
+        army: true
+        fleet: false
+      mar:
+        army: true
+        fleet: true
+      tyr:
+        army: true
+        fleet: false
+      tus:
+        army: true
+        fleet: true
+    por:
+      spa_nc:
+        army: false
+        fleet: true
+      mao:
+        army: false
+        fleet: true
+      spa:
+        army: true
+        fleet: false
+      spa_sc:
+        army: false
+        fleet: true
+    pru:
+      lvn:
+        army: true
+        fleet: true
+      war:
+        army: true
+        fleet: false
+      ber:
+        army: true
+        fleet: true
+      bal:
+        army: false
+        fleet: true
+      sil:
+        army: true
+        fleet: false
+    rom:
+      ven:
+        army: true
+        fleet: false
+      tus:
+        army: true
+        fleet: true
+      tys:
+        army: false
+        fleet: true
+      apu:
+        army: true
+        fleet: false
+      nap:
+        army: true
+        fleet: true
+    ruh:
+      hol:
+        army: true
+        fleet: false
+      mun:
+        army: true
+        fleet: false
+      kie:
+        army: true
+        fleet: false
+      bur:
+        army: true
+        fleet: false
+      bel:
+        army: true
+        fleet: false
+    rum:
+      bud:
+        army: true
+        fleet: false
+      ukr:
+        army: true
+        fleet: false
+      bla:
+        army: false
+        fleet: true
+      gal:
+        army: true
+        fleet: false
+      bul:
+        army: true
+        fleet: false
+      ser:
+        army: true
+        fleet: false
+      bul:
+        army: true
+        fleet: false
+      bul_ec:
+        army: false
+        fleet: true
+      sev:
+        army: true
+        fleet: true
+    ser:
+      bul:
+        army: true
+        fleet: false
+      gre:
+        army: true
+        fleet: false
+      tri:
+        army: true
+        fleet: false
+      bud:
+        army: true
+        fleet: false
+      alb:
+        army: true
+        fleet: false
+      rum:
+        army: true
+        fleet: false
+    sev:
+      mos:
+        army: true
+        fleet: false
+      rum:
+        army: true
+        fleet: true
+      bla:
+        army: false
+        fleet: true
+      arm:
+        army: true
+        fleet: true
+      ukr:
+        army: true
+        fleet: false
+    sil:
+      war:
+        army: true
+        fleet: false
+      gal:
+        army: true
+        fleet: false
+      pru:
+        army: true
+        fleet: false
+      mun:
+        army: true
+        fleet: false
+      ber:
+        army: true
+        fleet: false
+      boh:
+        army: true
+        fleet: false
+    ska:
+      nth:
+        army: false
+        fleet: true
+      nwy:
+        army: false
+        fleet: true
+      swe:
+        army: false
+        fleet: true
+      den:
+        army: false
+        fleet: true
+    smy:
+      con:
+        army: true
+        fleet: true
+      ank:
+        army: true
+        fleet: false
+      arm:
+        army: true
+        fleet: false
+      syr:
+        army: true
+        fleet: true
+      aeg:
+        army: false
+        fleet: true
+      eas:
+        army: false
+        fleet: true
+    spa:
+      gas:
+        army: true
+        fleet: false
+      mar:
+        army: true
+        fleet: false
+      por:
+        army: true
+        fleet: false
+      mao:
+        army: false
+        fleet: true
+      lyo:
+        army: false
+        fleet: true
+      wes:
+        army: false
+        fleet: true
+    spa_nc:
+      gas:
+        army: false
+        fleet: true
+      por:
+        army: false
+        fleet: true
+      mao:
+        army: false
+        fleet: true
+    spa_sc:
+      mar:
+        army: false
+        fleet: true
+      mao:
+        army: false
+        fleet: true
+      lyo:
+        army: false
+        fleet: true
+      wes:
+        army: false
+        fleet: true
+      por:
+        army: false
+        fleet: true
+    stp:
+      nwy:
+        army: true
+        fleet: false
+      fin:
+        army: true
+        fleet: false
+      lvn:
+        army: true
+        fleet: false
+      mos:
+        army: true
+        fleet: false
+      bar:
+        army: false
+        fleet: true
+      bot:
+        army: false
+        fleet: true
+    stp_nc:
+      bar:
+        army: false
+        fleet: true
+      nwy:
+        army: false
+        fleet: true
+    stp_sc:
+      fin:
+        army: false
+        fleet: true
+      lvn:
+        army: false
+        fleet: true
+      bot:
+        army: false
+        fleet: true
+    swe:
+      ska:
+        army: false
+        fleet: true
+      den:
+        army: true
+        fleet: true
+      nwy:
+        army: true
+        fleet: true
+      fin:
+        army: true
+        fleet: true
+      bot:
+        army: false
+        fleet: true
+      bal:
+        army: false
+        fleet: true
+    syr:
+      arm:
+        army: true
+        fleet: false
+      eas:
+        army: false
+        fleet: true
+      smy:
+        army: true
+        fleet: true
+    tri:
+      vie:
+        army: true
+        fleet: false
+      alb:
+        army: true
+        fleet: true
+      adr:
+        army: false
+        fleet: true
+      ven:
+        army: true
+        fleet: true
+      ser:
+        army: true
+        fleet: false
+      tyr:
+        army: true
+        fleet: false
+      bud:
+        army: true
+        fleet: false
+    tun:
+      wes:
+        army: false
+        fleet: true
+      tys:
+        army: false
+        fleet: true
+      ion:
+        army: false
+        fleet: true
+      naf:
+        army: true
+        fleet: true
+    tus:
+      lyo:
+        army: false
+        fleet: true
+      ven:
+        army: true
+        fleet: false
+      tys:
+        army: false
+        fleet: true
+      pie:
+        army: true
+        fleet: true
+      rom:
+        army: true
+        fleet: true
+    tyr:
+      vie:
+        army: true
+        fleet: false
+      tri:
+        army: true
+        fleet: false
+      mun:
+        army: true
+        fleet: false
+      boh:
+        army: true
+        fleet: false
+      ven:
+        army: true
+        fleet: false
+      pie:
+        army: true
+        fleet: false
+    tys:
+      tus:
+        army: false
+        fleet: true
+      ion:
+        army: false
+        fleet: true
+      rom:
+        army: false
+        fleet: true
+      tun:
+        army: false
+        fleet: true
+      wes:
+        army: false
+        fleet: true
+      lyo:
+        army: false
+        fleet: true
+      nap:
+        army: false
+        fleet: true
+    ukr:
+      sev:
+        army: true
+        fleet: false
+      mos:
+        army: true
+        fleet: false
+      rum:
+        army: true
+        fleet: false
+      gal:
+        army: true
+        fleet: false
+      war:
+        army: true
+        fleet: false
+    ven:
+      tri:
+        army: true
+        fleet: true
+      adr:
+        army: false
+        fleet: true
+      apu:
+        army: true
+        fleet: true
+      tyr:
+        army: true
+        fleet: false
+      pie:
+        army: true
+        fleet: false
+      rom:
+        army: true
+        fleet: false
+      tus:
+        army: true
+        fleet: false
+    vie:
+      gal:
+        army: true
+        fleet: false
+      tyr:
+        army: true
+        fleet: false
+      tri:
+        army: true
+        fleet: false
+      boh:
+        army: true
+        fleet: false
+      bud:
+        army: true
+        fleet: false
+    wal:
+      eng:
+        army: false
+        fleet: true
+      lvp:
+        army: true
+        fleet: true
+      iri:
+        army: false
+        fleet: true
+      lon:
+        army: true
+        fleet: true
+      yor:
+        army: true
+        fleet: false
+    war:
+      ukr:
+        army: true
+        fleet: false
+      pru:
+        army: true
+        fleet: false
+      gal:
+        army: true
+        fleet: false
+      mos:
+        army: true
+        fleet: false
+      sil:
+        army: true
+        fleet: false
+      lvn:
+        army: true
+        fleet: false
+    wes:
+      tys:
+        army: false
+        fleet: true
+      mao:
+        army: false
+        fleet: true
+      tun:
+        army: false
+        fleet: true
+      spa:
+        army: true
+        fleet: false
+      spa_sc:
+        army: false
+        fleet: true
+      naf:
+        army: false
+        fleet: true
+      lyo:
+        army: false
+        fleet: true
+    yor:
+      edi:
+        army: true
+        fleet: true
+      wal:
+        army: true
+        fleet: false
+      lon:
+        army: true
+        fleet: true
+      nth:
+        army: false
+        fleet: true
+      lvp:
+        army: true
+        fleet: false
+
+  units:
+    # Austria
+    - province: vie
+      type: Army
+      power: a
+    - province: bud
+      type: Army
+      power: a
+    - province: tri
+      type: Fleet
+      power: a
+    # England
+    - province: lvp
+      type: Army
+      power: e
+    - province: lon
+      type: Fleet
+      power: e
+    - province: edi
+      type: Fleet
+      power: e
+    # France
+    - province: par
+      type: Army
+      power: f
+    - province: mar
+      type: Army
+      power: f
+    - province: bre
+      type: Fleet
+      power: f
+    # Germany
+    - province: ber
+      type: Army
+      power: g
+    - province: mun
+      type: Army
+      power: g
+    - province: kie
+      type: Fleet
+      power: g
+    # Italy
+    - province: rom
+      type: Army
+      power: i
+    - province: ven
+      type: Army
+      power: i
+    - province: nap
+      type: Fleet
+      power: i
+    # Russia
+    - province: mos
+      type: Army
+      power: r
+    - province: war
+      type: Army
+      power: r
+    - province: stp_sc
+      type: Fleet
+      power: r
+    - province: sev
+      type: Fleet
+      power: r
+    # Turky
+    - province: con
+      type: Army
+      power: t
+    - province: smy
+      type: Army
+      power: t
+    - province: ank
+      type: Fleet
+      power: t
+
+development:
+  <<: *defaults
+
+test:
+  <<: *defaults
+
+production:
+  <<: *defaults

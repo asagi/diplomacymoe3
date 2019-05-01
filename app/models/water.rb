@@ -1,0 +1,2 @@
+class Water < Province
+end

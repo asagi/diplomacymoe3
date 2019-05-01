@@ -1,0 +1,2 @@
+class Coastal < Province
+end

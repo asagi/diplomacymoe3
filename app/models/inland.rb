@@ -1,0 +1,2 @@
+class Inland < Province
+end
