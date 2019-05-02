@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe OrderMenuGenerateService, type: :service do
+RSpec.describe ListPossibleOrdersService, type: :service do
   describe '#call' do
     context "Diagram 1:" do
       before :example do
@@ -10,7 +10,7 @@ RSpec.describe OrderMenuGenerateService, type: :service do
         @unit = @turn.units.create(type: Army.to_s, power: Power::F, phase: @table.phase, province: 'par')
       end
 
-      let(:ordermenu) { OrderMenuGenerateService.call(power: @power, unit: @unit) }
+      let(:ordermenu) { ListPossibleOrdersService.call(power: @power, unit: @unit) }
 
       example "par の陸軍はその場を維持できる" do
         sample = HoldOrder.new(power: @power, unit: @unit).to_s
@@ -47,7 +47,7 @@ RSpec.describe OrderMenuGenerateService, type: :service do
         @unit = @turn.units.create(type: Fleet.to_s, power: Power::E, phase: @table.phase, province: 'eng')
       end
 
-      let(:ordermenu) { OrderMenuGenerateService.call(power: @power, unit: @unit) }
+      let(:ordermenu) { ListPossibleOrdersService.call(power: @power, unit: @unit) }
 
       example "eng の海軍はその場を維持できる" do
         sample = HoldOrder.new(power: @power, unit: @unit).to_s
@@ -100,7 +100,7 @@ RSpec.describe OrderMenuGenerateService, type: :service do
         @unit = @turn.units.create(type: Fleet.to_s, power: Power::I, phase: @table.phase, province: 'rom')
       end
 
-      let(:ordermenu) { OrderMenuGenerateService.call(power: @power, unit: @unit) }
+      let(:ordermenu) { ListPossibleOrdersService.call(power: @power, unit: @unit) }
 
       example "rom の海軍はその場を維持できる" do
         sample = HoldOrder.new(power: @power, unit: @unit).to_s
@@ -142,8 +142,8 @@ RSpec.describe OrderMenuGenerateService, type: :service do
         @unit_r = @turn.units.create(type: Army.to_s, power: Power::R, phase: @table.phase, province: 'war')
       end
 
-      let(:ordermenu_g) { OrderMenuGenerateService.call(power: @power_g, unit: @unit_g) }
-      let(:ordermenu_r) { OrderMenuGenerateService.call(power: @power_r, unit: @unit_r) }
+      let(:ordermenu_g) { ListPossibleOrdersService.call(power: @power_g, unit: @unit_g) }
+      let(:ordermenu_r) { ListPossibleOrdersService.call(power: @power_r, unit: @unit_r) }
 
       example "ber の陸軍は sil に移動できる" do
         expect(ordermenu_g.any?{|o| o.dest == 'sil'}).to be true
@@ -162,10 +162,10 @@ RSpec.describe OrderMenuGenerateService, type: :service do
         @unit_f_mar = @turn.units.create(type: Army.to_s, power: Power::F, phase: @table.phase, province: 'mar')
         @unit_f_gas = @turn.units.create(type: Army.to_s, power: Power::F, phase: @table.phase, province: 'gas')
         @unit_f_gas = @turn.units.create(type: Army.to_s, power: Power::F, phase: @table.phase, province: 'gas')
-        @turn.orders << OrderMenuGenerateService.call(power: @power_f, unit: @unit_f_mar).detect{|o| o.dest == 'bur'}
+        @turn.orders << ListPossibleOrdersService.call(power: @power_f, unit: @unit_f_mar).detect{|o| o.dest == 'bur'}
       end
 
-      let(:ordermenu_f) { OrderMenuGenerateService.call(power: @power_f, unit: @unit_f_gas) }
+      let(:ordermenu_f) { ListPossibleOrdersService.call(power: @power_f, unit: @unit_f_gas) }
 
       example "gas 陸軍は A mar-bur を支援できる" do
         expect(ordermenu_f.any?{|o| o.target == 'f-a-mar-bur'}).to be true
@@ -179,10 +179,10 @@ RSpec.describe OrderMenuGenerateService, type: :service do
         @turn = @table.turns.create(number: @table.turn)
         @unit_e_lon = @turn.units.create(type: Army.to_s, power: Power::E, phase: @table.phase, province: 'lon')
         @unit_e_nth = @turn.units.create(type: Fleet.to_s, power: Power::E, phase: @table.phase, province: 'nth')
-        @turn.orders << OrderMenuGenerateService.call(power: @power_e, unit: @unit_e_lon).detect{|o| o.dest == 'nwy'}
+        @turn.orders << ListPossibleOrdersService.call(power: @power_e, unit: @unit_e_lon).detect{|o| o.dest == 'nwy'}
       end
 
-      let(:ordermenu) { OrderMenuGenerateService.call(power: @power_e, unit: @unit) }
+      let(:ordermenu) { ListPossibleOrdersService.call(power: @power_e, unit: @unit) }
 
       example "lon 陸軍は nwy への移動（海路）を選択できる" do
         @unit = @unit_e_lon
@@ -226,10 +226,10 @@ RSpec.describe OrderMenuGenerateService, type: :service do
         @unit_f_tys = @turn.units.create(type: Fleet.to_s, power: Power::F, phase: @table.phase, province: 'tys')
         @unit_i_ion = @turn.units.create(type: Fleet.to_s, power: Power::I, phase: @table.phase, province: 'ion')
         @unit_i_tun = @turn.units.create(type: Fleet.to_s, power: Power::I, phase: @table.phase, province: 'tun')
-        @turn.orders << OrderMenuGenerateService.call(power: @power_f, unit: @unit_f_spa).detect{|o| o.dest == 'nap'}
+        @turn.orders << ListPossibleOrdersService.call(power: @power_f, unit: @unit_f_spa).detect{|o| o.dest == 'nap'}
       end
 
-      let(:ordermenu) { OrderMenuGenerateService.call(power: @power_f, unit: @unit) }
+      let(:ordermenu) { ListPossibleOrdersService.call(power: @power_f, unit: @unit) }
 
       example "spa 陸軍は nap への移動（海路）を選択できる" do
         @unit = @unit_f_spa

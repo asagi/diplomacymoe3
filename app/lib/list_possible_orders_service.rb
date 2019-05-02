@@ -1,4 +1,4 @@
-class OrderMenuGenerateService
+class ListPossibleOrdersService
   def self.call(power:, unit:)
     self.new(power: power, unit: unit).call
   end
@@ -49,7 +49,7 @@ class OrderMenuGenerateService
     result = []
     return result unless @unit.army?
     return result unless Master.provinces[@unit.province]['type'] == Coastal.to_s
-    ReachableCostalsSearchService.call(unit: @unit).each do |code|
+    SearchReachableCoastalsService.call(unit: @unit).each do |code|
       result << MoveOrder.new(power: @power, unit: @unit, dest: code)
     end
     result
@@ -77,7 +77,7 @@ class OrderMenuGenerateService
     result = []
     return [] unless Master.provinces[@unit.province]['type'] == Water.to_s
     @orders.where(type: MoveOrder.to_s).each do |o|
-      coastals = ReachableCostalsSearchService.call(unit: @unit)
+      coastals = SearchReachableCoastalsService.call(unit: @unit)
       next unless coastals.include?(o.unit.province)
       next unless coastals.include?(o.dest)
       result << ConvoyOrder.new(power: @power, unit: @unit, target: o.to_key)

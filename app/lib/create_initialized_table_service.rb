@@ -1,4 +1,4 @@
-class TableGenerateService
+class CreateInitializedTableService
   def self.call
     self.new.call
   end

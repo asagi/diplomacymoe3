@@ -1,8 +1,8 @@
 require 'rails_helper'
 
-RSpec.describe TableGenerateService, type: :service do
+RSpec.describe CreateInitializedTableService, type: :service do
   describe '#call' do
-    let(:table) { TableGenerateService.call }
+    let(:table) { CreateInitializedTableService.call }
 
     describe '国' do
       example "7 国 +1 (管理人) が生成されている" do

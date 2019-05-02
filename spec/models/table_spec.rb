@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe Table, type: :model do
   before :example do
-    @table = TableGenerateService.call
+    @table = CreateInitializedTableService.call
   end
 
 

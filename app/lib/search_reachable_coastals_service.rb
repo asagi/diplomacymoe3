@@ -1,4 +1,4 @@
-class ReachableCostalsSearchService
+class SearchReachableCoastalsService
   def self.call(unit:, fleets: nil)
     self.new(unit: unit, fleets: fleets).call
   end
