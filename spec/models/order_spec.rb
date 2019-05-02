@@ -12,14 +12,14 @@ RSpec.describe Order, type: :model do
 
       example "ドイツの ber 陸軍への sil への移動命令" do
         @unit_g = @turn.units.create(type: Army.to_s, power: Power::G, phase: @table.phase, province: 'ber')
-        @turn.orders << OrderMenuGenerateService.call(power: @power_g, unit: @unit_g).detect{|o| o.dest == 'sil'}
+        @turn.orders << ListPossibleOrdersService.call(power: @power_g, unit: @unit_g).detect{|o| o.dest == 'sil'}
         expected_key = 'g-a-ber-sil'
         expect(@turn.orders.find_by(unit: @unit_g).to_key).to eq expected_key
       end
 
       example "ロシアの war 陸軍への維持命令" do
         @unit_r = @turn.units.create(type: Army.to_s, power: Power::R, phase: @table.phase, province: 'war')
-        @turn.orders << OrderMenuGenerateService.call(power: @power_r, unit: @unit_r).detect{|o| o.hold?}
+        @turn.orders << ListPossibleOrdersService.call(power: @power_r, unit: @unit_r).detect{|o| o.hold?}
         expected_key = 'r-a-war'
         expect(@turn.orders.find_by(unit: @unit_r).to_key).to eq expected_key
       end
@@ -31,12 +31,12 @@ RSpec.describe Order, type: :model do
         @power_f = @table.powers.create(symbol: Power::F)
         @turn = @table.turns.create(number: @table.turn)
         @unit_f_mar = @turn.units.create(type: Army.to_s, power: Power::F, phase: @table.phase, province: 'mar')
-        @turn.orders << OrderMenuGenerateService.call(power: @power_f, unit: @unit_f_mar).detect{|o| o.dest == 'bur'}
+        @turn.orders << ListPossibleOrdersService.call(power: @power_f, unit: @unit_f_mar).detect{|o| o.dest == 'bur'}
       end
 
       example "フランスの gas 陸軍への A mar-bur への支援命令" do
         @unit_f_gas = @turn.units.create(type: Army.to_s, power: Power::F, phase: @table.phase, province: 'gas')
-        @turn.orders << OrderMenuGenerateService.call(power: @power_f, unit: @unit_f_gas).detect{|o| o.target == 'f-a-mar-bur'}
+        @turn.orders << ListPossibleOrdersService.call(power: @power_f, unit: @unit_f_gas).detect{|o| o.target == 'f-a-mar-bur'}
         expected_key = 'f-a-gas'
         expect(@turn.orders.find_by(unit: @unit_f_gas).to_key).to eq expected_key
       end
@@ -50,9 +50,9 @@ RSpec.describe Order, type: :model do
         @unit_f_spa = @turn.units.create(type: Fleet.to_s, power: Power::F, phase: @table.phase, province: 'spa_nc')
         @unit_f_bul = @turn.units.create(type: Fleet.to_s, power: Power::F, phase: @table.phase, province: 'bul_ec')
         @unit_f_con = @turn.units.create(type: Fleet.to_s, power: Power::F, phase: @table.phase, province: 'con')
-        @turn.orders << OrderMenuGenerateService.call(power: @power_f, unit: @unit_f_spa).detect{|o| o.hold?}
-        @turn.orders << OrderMenuGenerateService.call(power: @power_f, unit: @unit_f_bul).detect{|o| o.dest == 'bla'}
-        @turn.orders << OrderMenuGenerateService.call(power: @power_f, unit: @unit_f_con).detect{|o| o.support? && o.target == 'f-f-bul_ec-bla'}
+        @turn.orders << ListPossibleOrdersService.call(power: @power_f, unit: @unit_f_spa).detect{|o| o.hold?}
+        @turn.orders << ListPossibleOrdersService.call(power: @power_f, unit: @unit_f_bul).detect{|o| o.dest == 'bla'}
+        @turn.orders << ListPossibleOrdersService.call(power: @power_f, unit: @unit_f_con).detect{|o| o.support? && o.target == 'f-f-bul_ec-bla'}
       end
 
       example "spa(nc) 海軍の維持命令" do

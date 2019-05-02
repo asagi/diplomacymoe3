@@ -1,4 +1,4 @@
-class OrderResoluteService
+class ResoluteOrdersService
   def self.call(orders:)
     self.new(orders: orders).call
   end
@@ -116,7 +116,7 @@ class OrderResoluteService
       convoys = @orders.select{|o| o.convoy? && o.target == enemy.to_key}
       convoys = convoys.select{|c| c != attack_target}
       fleets = convoys.map{|c| c.unit}
-      coastals = ReachableCostalsSearchService.call(unit: enemy.unit, fleets: fleets)
+      coastals = SearchReachableCoastalsService.call(unit: enemy.unit, fleets: fleets)
       s.status = Order::CUT if coastals.include?(enemy.dest)
     end
   end
@@ -144,7 +144,7 @@ class OrderResoluteService
       convoys = unsloved_convoy_orders
       next if convoys.empty?
       fleets = convoys.map{|c| c.unit}
-      coastals = ReachableCostalsSearchService.call(unit: m.unit, fleets: fleets)
+      coastals = SearchReachableCoastalsService.call(unit: m.unit, fleets: fleets)
       if coastals.include?(m.dest)
         # 経路成立
         convoys.each{|c| c.apply}
@@ -205,7 +205,7 @@ class OrderResoluteService
       convoys = @orders.select{|o| o.convoy? && o.applied? && o.target == m.to_key}
       next if convoys.empty?
       fleets = convoys.map{|c| c.unit}
-      coastals = ReachableCostalsSearchService.call(unit: m.unit, fleets: fleets)
+      coastals = SearchReachableCoastalsService.call(unit: m.unit, fleets: fleets)
       m.fail unless coastals.include?(m.dest)
     end
   end
@@ -319,7 +319,7 @@ class OrderResoluteService
   def sea_route_effective?(move:)
     convoys = applied_convoy_orders.select{|c| c.target == move.to_key}
     fleets = convoys.map{|c| c.unit}
-    coastals = ReachableCostalsSearchService.call(unit: move.unit, fleets: fleets)
+    coastals = SearchReachableCoastalsService.call(unit: move.unit, fleets: fleets)
     coastals.include?(move.dest)
   end
 
