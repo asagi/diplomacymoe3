@@ -158,10 +158,11 @@ RSpec.describe ListPossibleOrdersService, type: :service do
       before :example do
         @table = Table.create(turn: 1, phase: Const.phases.spr_1st)
         @power_f = @table.powers.create(symbol: Power::F)
+        @power_g = @table.powers.create(symbol: Power::G)
         @turn = @table.turns.create(number: @table.turn)
         @unit_f_mar = @turn.units.create(type: Army.to_s, power: Power::F, phase: @table.phase, province: 'mar')
         @unit_f_gas = @turn.units.create(type: Army.to_s, power: Power::F, phase: @table.phase, province: 'gas')
-        @unit_f_gas = @turn.units.create(type: Army.to_s, power: Power::F, phase: @table.phase, province: 'gas')
+        @unit_g_bur = @turn.units.create(type: Army.to_s, power: Power::G, phase: @table.phase, province: 'bur')
         @turn.orders << ListPossibleOrdersService.call(power: @power_f, unit: @unit_f_mar).detect{|o| o.dest == 'bur'}
       end
 
