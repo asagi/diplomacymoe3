@@ -4,13 +4,15 @@ RSpec.describe ListPossibleOrdersService, type: :service do
   describe '#call' do
     context "Diagram 1:" do
       before :example do
-        @table = Table.create(turn: 1, phase: Const.phases.spr_1st)
-        @power = @table.powers.create(symbol: Power::F)
+        @table = Table.create(turn: 0, phase: Const.phases.fal_3rd)
         @turn = @table.turns.create(number: @table.turn)
         @unit = @turn.units.create(type: Army.to_s, power: Power::F, phase: @table.phase, province: 'par')
+        @table = @table.proceed
+        @turn = @table.turns.find_by(number: @table.turn)
+        @power = @table.powers.create(symbol: Power::F)
       end
 
-      let(:ordermenu) { ListPossibleOrdersService.call(power: @power, unit: @unit) }
+      let(:ordermenu) { ListPossibleOrdersService.call(turn: @turn, power: @power, unit: @unit) }
 
       example "par の陸軍はその場を維持できる" do
         sample = HoldOrder.new(power: @power, unit: @unit).to_s
@@ -41,13 +43,15 @@ RSpec.describe ListPossibleOrdersService, type: :service do
 
     context "Diagram 2:" do
       before :example do
-        @table = Table.create(turn: 1, phase: Const.phases.spr_1st)
-        @power = @table.powers.create(symbol: Power::E)
+        @table = Table.create(turn: 0, phase: Const.phases.fal_3rd)
         @turn = @table.turns.create(number: @table.turn)
         @unit = @turn.units.create(type: Fleet.to_s, power: Power::E, phase: @table.phase, province: 'eng')
+        @table = @table.proceed
+        @turn = @table.turns.find_by(number: @table.turn)
+        @power = @table.powers.create(symbol: Power::E)
       end
 
-      let(:ordermenu) { ListPossibleOrdersService.call(power: @power, unit: @unit) }
+      let(:ordermenu) { ListPossibleOrdersService.call(turn: @turn, power: @power, unit: @unit) }
 
       example "eng の海軍はその場を維持できる" do
         sample = HoldOrder.new(power: @power, unit: @unit).to_s
@@ -94,13 +98,16 @@ RSpec.describe ListPossibleOrdersService, type: :service do
 
     context "Diagram 3:" do
       before :example do
-        @table = Table.create(turn: 1, phase: Const.phases.spr_1st)
-        @power = @table.powers.create(symbol: Power::I)
+        @table = Table.create(turn: 0, phase: Const.phases.fal_3rd)
         @turn = @table.turns.create(number: @table.turn)
         @unit = @turn.units.create(type: Fleet.to_s, power: Power::I, phase: @table.phase, province: 'rom')
+        @table = @table.proceed
+        @turn = @table.turns.find_by(number: @table.turn)
+        @power = @table.powers.create(symbol: Power::E)
+        @power = @table.powers.create(symbol: Power::I)
       end
 
-      let(:ordermenu) { ListPossibleOrdersService.call(power: @power, unit: @unit) }
+      let(:ordermenu) { ListPossibleOrdersService.call(turn: @turn, power: @power, unit: @unit) }
 
       example "rom の海軍はその場を維持できる" do
         sample = HoldOrder.new(power: @power, unit: @unit).to_s
@@ -134,16 +141,18 @@ RSpec.describe ListPossibleOrdersService, type: :service do
 
     context "Diagram 4:" do
       before :example do
-        @table = Table.create(turn: 1, phase: Const.phases.spr_1st)
-        @power_g = @table.powers.create(symbol: Power::G)
-        @power_r = @table.powers.create(symbol: Power::R)
+        @table = Table.create(turn: 0, phase: Const.phases.fal_3rd)
         @turn = @table.turns.create(number: @table.turn)
         @unit_g = @turn.units.create(type: Army.to_s, power: Power::G, phase: @table.phase, province: 'ber')
         @unit_r = @turn.units.create(type: Army.to_s, power: Power::R, phase: @table.phase, province: 'war')
+        @table = @table.proceed
+        @turn = @table.turns.find_by(number: @table.turn)
+        @power_g = @table.powers.create(symbol: Power::G)
+        @power_r = @table.powers.create(symbol: Power::R)
       end
 
-      let(:ordermenu_g) { ListPossibleOrdersService.call(power: @power_g, unit: @unit_g) }
-      let(:ordermenu_r) { ListPossibleOrdersService.call(power: @power_r, unit: @unit_r) }
+      let(:ordermenu_g) { ListPossibleOrdersService.call(turn: @turn, power: @power_g, unit: @unit_g) }
+      let(:ordermenu_r) { ListPossibleOrdersService.call(turn: @turn, power: @power_r, unit: @unit_r) }
 
       example "ber の陸軍は sil に移動できる" do
         expect(ordermenu_g.any?{|o| o.dest == 'sil'}).to be true
@@ -156,17 +165,19 @@ RSpec.describe ListPossibleOrdersService, type: :service do
 
     context 'Diagram 8:' do
       before :example do
-        @table = Table.create(turn: 1, phase: Const.phases.spr_1st)
-        @power_f = @table.powers.create(symbol: Power::F)
-        @power_g = @table.powers.create(symbol: Power::G)
+        @table = Table.create(turn: 0, phase: Const.phases.fal_3rd)
         @turn = @table.turns.create(number: @table.turn)
         @unit_f_mar = @turn.units.create(type: Army.to_s, power: Power::F, phase: @table.phase, province: 'mar')
         @unit_f_gas = @turn.units.create(type: Army.to_s, power: Power::F, phase: @table.phase, province: 'gas')
         @unit_g_bur = @turn.units.create(type: Army.to_s, power: Power::G, phase: @table.phase, province: 'bur')
-        @turn.orders << ListPossibleOrdersService.call(power: @power_f, unit: @unit_f_mar).detect{|o| o.dest == 'bur'}
+        @table = @table.proceed
+        @turn = @table.turns.find_by(number: @table.turn)
+        @power_f = @table.powers.create(symbol: Power::F)
+        @power_g = @table.powers.create(symbol: Power::G)
+        @turn.orders << ListPossibleOrdersService.call(turn: @turn, power: @power_f, unit: @unit_f_mar).detect{|o| o.dest == 'bur'}
       end
 
-      let(:ordermenu_f) { ListPossibleOrdersService.call(power: @power_f, unit: @unit_f_gas) }
+      let(:ordermenu_f) { ListPossibleOrdersService.call(turn: @turn, power: @power_f, unit: @unit_f_gas) }
 
       example "gas 陸軍は A mar-bur を支援できる" do
         expect(ordermenu_f.any?{|o| o.target == 'f-a-mar-bur'}).to be true
@@ -175,15 +186,17 @@ RSpec.describe ListPossibleOrdersService, type: :service do
 
     context 'Diagram 19:' do
       before :example do
-        @table = Table.create(turn: 1, phase: Const.phases.spr_1st)
-        @power_e = @table.powers.create(symbol: Power::E)
+        @table = Table.create(turn: 0, phase: Const.phases.fal_3rd)
         @turn = @table.turns.create(number: @table.turn)
         @unit_e_lon = @turn.units.create(type: Army.to_s, power: Power::E, phase: @table.phase, province: 'lon')
         @unit_e_nth = @turn.units.create(type: Fleet.to_s, power: Power::E, phase: @table.phase, province: 'nth')
-        @turn.orders << ListPossibleOrdersService.call(power: @power_e, unit: @unit_e_lon).detect{|o| o.dest == 'nwy'}
+        @table = @table.proceed
+        @turn = @table.turns.find_by(number: @table.turn)
+        @power_e = @table.powers.create(symbol: Power::E)
+        @turn.orders << ListPossibleOrdersService.call(turn: @turn, power: @power_e, unit: @unit_e_lon).detect{|o| o.dest == 'nwy'}
       end
 
-      let(:ordermenu) { ListPossibleOrdersService.call(power: @power_e, unit: @unit) }
+      let(:ordermenu) { ListPossibleOrdersService.call(turn: @turn, power: @power_e, unit: @unit) }
 
       example "lon 陸軍は nwy への移動（海路）を選択できる" do
         @unit = @unit_e_lon
@@ -218,19 +231,21 @@ RSpec.describe ListPossibleOrdersService, type: :service do
 
     context "Diagram 21:" do
       before :example do
-        @table = Table.create(turn: 1, phase: Const.phases.spr_1st)
-        @power_f = @table.powers.create(symbol: Power::F)
-        @power_i = @table.powers.create(symbol: Power::I)
+        @table = Table.create(turn: 0, phase: Const.phases.fal_3rd)
         @turn = @table.turns.create(number: @table.turn)
         @unit_f_spa = @turn.units.create(type: Army.to_s, power: Power::F, phase: @table.phase, province: 'spa')
         @unit_f_lyo = @turn.units.create(type: Fleet.to_s, power: Power::F, phase: @table.phase, province: 'lyo')
         @unit_f_tys = @turn.units.create(type: Fleet.to_s, power: Power::F, phase: @table.phase, province: 'tys')
         @unit_i_ion = @turn.units.create(type: Fleet.to_s, power: Power::I, phase: @table.phase, province: 'ion')
         @unit_i_tun = @turn.units.create(type: Fleet.to_s, power: Power::I, phase: @table.phase, province: 'tun')
-        @turn.orders << ListPossibleOrdersService.call(power: @power_f, unit: @unit_f_spa).detect{|o| o.dest == 'nap'}
+        @table = @table.proceed
+        @turn = @table.turns.find_by(number: @table.turn)
+        @power_f = @table.powers.create(symbol: Power::F)
+        @power_i = @table.powers.create(symbol: Power::I)
+        @turn.orders << ListPossibleOrdersService.call(turn: @turn, power: @power_f, unit: @unit_f_spa).detect{|o| o.dest == 'nap'}
       end
 
-      let(:ordermenu) { ListPossibleOrdersService.call(power: @power_f, unit: @unit) }
+      let(:ordermenu) { ListPossibleOrdersService.call(turn: @turn, power: @power_f, unit: @unit) }
 
       example "spa 陸軍は nap への移動（海路）を選択できる" do
         @unit = @unit_f_spa
