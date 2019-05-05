@@ -67,6 +67,26 @@ class Order < ApplicationRecord
   end
 
 
+  def retreat?
+    false
+  end
+
+
+  def disband?
+    false
+  end
+
+
+  def gain?
+    false
+  end
+
+
+  def lose?
+    false
+  end
+
+
   def unsloved?
     self.status == UNSLOVED
   end
