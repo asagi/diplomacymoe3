@@ -20,6 +20,7 @@ class Turn < ApplicationRecord
 
   end
 
+
   private
   def set_phase(order)
     order.phase = table.phase

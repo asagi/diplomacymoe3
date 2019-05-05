@@ -1,10 +1,11 @@
 class ListPossibleOrdersService
-  def self.call(power:, unit:)
-    self.new(power: power, unit: unit).call
+  def self.call(turn:, power:, unit:)
+    self.new(turn: turn, power: power, unit: unit).call
   end
 
 
-  def initialize(power:, unit:)
+  def initialize(turn:, power:, unit:)
+    @turn = turn
     @power = power
     @unit = unit
     @dests = []
@@ -12,7 +13,7 @@ class ListPossibleOrdersService
 
 
   def call
-    @orders = @unit.turn.orders.where(phase: @unit.phase)
+    @orders = @turn.orders
 
     # HoldOrder
     holds = gen_hold_order_menu
