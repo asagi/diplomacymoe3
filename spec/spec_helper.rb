@@ -93,4 +93,6 @@ RSpec.configure do |config|
   # as the one that triggered the failure.
   Kernel.srand config.seed
 =end
+  require 'active_support/testing/time_helpers'
+  config.include ActiveSupport::Testing::TimeHelpers
 end

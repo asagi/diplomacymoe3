@@ -1,6 +1,15 @@
 class Table < ApplicationRecord
   has_many :turns
   has_many :powers
+  belongs_to :regulation, optional: true
+
+  after_initialize do
+    next unless self.regulation
+    self.extend self.regulation.face_type_module
+    self.extend self.regulation.period_rule_module
+    self.extend self.regulation.duration_module
+  end
+
 
   def initialize(options = {})
     options = {turn: 0, phase: 0} unless options

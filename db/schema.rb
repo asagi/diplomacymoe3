@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_04_28_151120) do
+ActiveRecord::Schema.define(version: 2019_05_05_023754) do
 
   create_table "maps", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.datetime "created_at", null: false
@@ -69,11 +69,27 @@ ActiveRecord::Schema.define(version: 2019_04_28_151120) do
     t.index ["turn_id"], name: "index_provinces_on_turn_id"
   end
 
+  create_table "regulations", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.integer "face_type"
+    t.integer "period_rule"
+    t.integer "duration"
+    t.string "keyword"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.date "due_date"
+    t.string "start_time"
+    t.boolean "stand_by"
+  end
+
   create_table "tables", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "turn"
     t.integer "phase"
+    t.bigint "regulation_id"
+    t.datetime "period"
+    t.datetime "last_nego_period"
+    t.index ["regulation_id"], name: "index_tables_on_regulation_id"
   end
 
   create_table "turns", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
@@ -95,6 +111,18 @@ ActiveRecord::Schema.define(version: 2019_04_28_151120) do
     t.index ["turn_id"], name: "index_units_on_turn_id"
   end
 
+  create_table "users", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.string "name"
+    t.string "email"
+    t.string "password_digest"
+    t.string "token"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["email"], name: "index_users_on_email", unique: true
+    t.index ["name"], name: "index_users_on_name", unique: true
+    t.index ["token"], name: "index_users_on_token", unique: true
+  end
+
   add_foreign_key "maps", "turns"
   add_foreign_key "orders", "powers"
   add_foreign_key "orders", "turns"
@@ -102,6 +130,7 @@ ActiveRecord::Schema.define(version: 2019_04_28_151120) do
   add_foreign_key "powers", "players"
   add_foreign_key "powers", "tables"
   add_foreign_key "provinces", "turns"
+  add_foreign_key "tables", "regulations"
   add_foreign_key "turns", "tables"
   add_foreign_key "units", "turns"
 end
