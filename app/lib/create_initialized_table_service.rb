@@ -23,12 +23,13 @@ class CreateInitializedTableService
   private
   def setup_powers(table)
     # 国
-    Master.powers.each do |symbol, data|
+    Initial.powers.each do |symbol, data|
       params = {}
       params['symbol'] = symbol
       params['name'] = data['name']
+      params['jname'] = data['jname']
       params['genitive'] = data['genitive']
-      table.powers.build(data)
+      table.powers.build(params)
     end
     table
   end
@@ -38,7 +39,7 @@ class CreateInitializedTableService
     # 開幕ターン
     turn = table.turns.build
 
-    Master.provinces.each do |code, province|
+    Map.provinces.each do |code, province|
       next unless province['owner']
       params = {}
       params['code'] = code
@@ -49,10 +50,16 @@ class CreateInitializedTableService
       turn.provinces.build(params)
     end
 
-    Master.units.each do |unit|
-      params = unit
-      params['phase'] = table.phase
-      turn.units.build(params)
+    Initial.powers.each do |power, data|
+      next unless data['units']
+      data['units'].each do |unit|
+        params = {}
+        params['power'] = power
+        params['province'] = unit['prov']
+        params['type'] = unit['type']
+        params['phase'] = table.phase
+        turn.units.build(params)
+      end
     end
     table
   end

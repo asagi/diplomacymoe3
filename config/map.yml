@@ -1,38 +1,5 @@
 # use gem 'settingslogic'
 defaults: &defaults
-  powers:
-    a:
-      name: Austria
-      genitive: Austrian
-      jname: オーストリア
-    e:
-      name: England
-      genitive: English
-      jname: イギリス
-    f:
-      name: France
-      genitive: French
-      jname: フランス
-    g:
-      name: Germany
-      genitive: German
-      jname: ドイツ
-    i:
-      name: Italy
-      genitive: Italian
-      jname: イタリア
-    r:
-      name: Russia
-      genitive: Russian
-      jname: ロシア
-    t:
-      name: Turky
-      genitive: Turkish
-      jname: トルコ
-    x:
-      name: Master
-      jname: 管理人
-
   provinces:
     adr:
      type: Water
@@ -442,7 +409,7 @@ defaults: &defaults
      jname: ヨークシャー
      owner: e
 
-  adjacent_provinces:
+  adjacents:
     adr:
       apu:
         army: false
@@ -1889,81 +1856,6 @@ defaults: &defaults
       lvp:
         army: true
         fleet: false
-
-  units:
-    # Austria
-    - province: vie
-      type: Army
-      power: a
-    - province: bud
-      type: Army
-      power: a
-    - province: tri
-      type: Fleet
-      power: a
-    # England
-    - province: lvp
-      type: Army
-      power: e
-    - province: lon
-      type: Fleet
-      power: e
-    - province: edi
-      type: Fleet
-      power: e
-    # France
-    - province: par
-      type: Army
-      power: f
-    - province: mar
-      type: Army
-      power: f
-    - province: bre
-      type: Fleet
-      power: f
-    # Germany
-    - province: ber
-      type: Army
-      power: g
-    - province: mun
-      type: Army
-      power: g
-    - province: kie
-      type: Fleet
-      power: g
-    # Italy
-    - province: rom
-      type: Army
-      power: i
-    - province: ven
-      type: Army
-      power: i
-    - province: nap
-      type: Fleet
-      power: i
-    # Russia
-    - province: mos
-      type: Army
-      power: r
-    - province: war
-      type: Army
-      power: r
-    - province: stp_sc
-      type: Fleet
-      power: r
-    - province: sev
-      type: Fleet
-      power: r
-    # Turky
-    - province: con
-      type: Army
-      power: t
-    - province: smy
-      type: Army
-      power: t
-    - province: ank
-      type: Fleet
-      power: t
 
 development:
   <<: *defaults

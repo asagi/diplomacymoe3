@@ -1,0 +1,94 @@
+# use gem 'settingslogic'
+defaults: &defaults
+  powers:
+    a:
+      name: Austria
+      genitive: Austrian
+      jname: オーストリア
+      units:
+      - province: vie
+        type: Army
+      - province: bud
+        type: Army
+      - province: tri
+        type: Fleet
+    e:
+      name: England
+      genitive: English
+      jname: イギリス
+      units:
+      - province: lvp
+        type: Army
+      - province: lon
+        type: Fleet
+      - province: edi
+        type: Fleet
+    f:
+      name: France
+      genitive: French
+      jname: フランス
+      units:
+      - province: par
+        type: Army
+      - province: mar
+        type: Army
+      - province: bre
+        type: Fleet
+    g:
+      name: Germany
+      genitive: German
+      jname: ドイツ
+      units:
+      - province: ber
+        type: Army
+      - province: mun
+        type: Army
+      - province: kie
+        type: Fleet
+    i:
+      name: Italy
+      genitive: Italian
+      jname: イタリア
+      units:
+      - province: rom
+        type: Army
+      - province: ven
+        type: Army
+      - province: nap
+        type: Fleet
+    r:
+      name: Russia
+      genitive: Russian
+      jname: ロシア
+      units:
+      - province: mos
+        type: Army
+      - province: war
+        type: Army
+      - province: stp_sc
+        type: Fleet
+      - province: sev
+        type: Fleet
+    t:
+      name: Turky
+      genitive: Turkish
+      jname: トルコ
+      units:
+      - province: con
+        type: Army
+      - province: smy
+        type: Army
+      - province: ank
+        type: Fleet
+    x:
+      name: Master
+      jname: 管理人
+
+development:
+  <<: *defaults
+
+test:
+  <<: *defaults
+
+production:
+  <<: *defaults

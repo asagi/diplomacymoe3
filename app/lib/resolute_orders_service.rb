@@ -90,7 +90,7 @@ class ResoluteOrdersService
       end
 
       # 遠隔攻撃？
-      if Master.adjacent_provinces[s.unit.province].detect{|code, data| code == enemy.unit.province}
+      if Map.adjacents[s.unit.province].detect{|code, data| code == enemy.unit.province}
         # 違った
         s.status = Order::CUT
         next
@@ -157,9 +157,9 @@ class ResoluteOrdersService
     # 輸送経路不成立の輸送対象移動命令のリジェクト
     unsloved_move_orders.each do |m|
       next unless m.unit.army?
-      next unless Master.provinces[m.unit.province]['type'] == Coastal.to_s
-      if Master.adjacent_provinces[m.unit.province][m.dest]
-        next if Master.adjacent_provinces[m.unit.province][m.dest][m.unit.type.downcase]
+      next unless Map.provinces[m.unit.province]['type'] == Coastal.to_s
+      if Map.adjacents[m.unit.province][m.dest]
+        next if Map.adjacents[m.unit.province][m.dest][m.unit.type.downcase]
       end
       next if sea_route_effective?(move: m)
       m.reject

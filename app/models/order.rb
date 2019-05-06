@@ -157,7 +157,7 @@ class Order < ApplicationRecord
   def formated_target
     keys = self.target.split('-')
     target = ""
-    target += Master.powers[keys[0]].genitive + " " if keys[0] != power.symbol
+    target += Powers[keys[0]]['genitive'] + " " if keys[0] != power.symbol
     target += keys[1].upcase
     target += " " + keys[2]
     target += "-" + keys[3] if keys[3]
