@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_05_05_070713) do
+ActiveRecord::Schema.define(version: 2019_05_10_073507) do
 
   create_table "maps", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.datetime "created_at", null: false
@@ -37,10 +37,12 @@ ActiveRecord::Schema.define(version: 2019_05_05_070713) do
   end
 
   create_table "players", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
-    t.string "email"
-    t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "table_id"
+    t.bigint "user_id"
+    t.index ["table_id"], name: "index_players_on_table_id"
+    t.index ["user_id"], name: "index_players_on_user_id"
   end
 
   create_table "powers", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
@@ -114,20 +116,26 @@ ActiveRecord::Schema.define(version: 2019_05_05_070713) do
 
   create_table "users", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "name"
-    t.string "email"
-    t.string "password_digest"
-    t.string "token"
+    t.string "token", collation: "utf8_bin"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["email"], name: "index_users_on_email", unique: true
+    t.string "uid"
+    t.string "provider"
+    t.string "image_url"
+    t.string "nickname"
+    t.string "url"
+    t.boolean "admin", default: false
     t.index ["name"], name: "index_users_on_name", unique: true
     t.index ["token"], name: "index_users_on_token", unique: true
+    t.index ["uid"], name: "index_users_on_uid", unique: true
   end
 
   add_foreign_key "maps", "turns"
   add_foreign_key "orders", "powers"
   add_foreign_key "orders", "turns"
   add_foreign_key "orders", "units"
+  add_foreign_key "players", "tables"
+  add_foreign_key "players", "users"
   add_foreign_key "powers", "players"
   add_foreign_key "powers", "tables"
   add_foreign_key "provinces", "turns"
