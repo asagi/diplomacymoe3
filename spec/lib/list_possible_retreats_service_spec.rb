@@ -7,10 +7,11 @@ RSpec.describe ListPossibleRetreatsService, type: :service do
         @table = Table.create(turn: 1, phase: Const.phases.spr_1st)
         @power_f = @table.powers.create(symbol: Power::F)
         @power_g = @table.powers.create(symbol: Power::G)
+        override_proceed(table: @table)
         @turn = @table.turns.create(number: @table.turn)
-        @unit_f_bur = @turn.units.create(type: Army.to_s, power: Power::F, phase: @table.phase, province: 'bur')
-        @unit_f_gas = @turn.units.create(type: Army.to_s, power: Power::F, phase: @table.phase, province: 'gas')
-        @unit_g_bur = @turn.units.create(type: Army.to_s, power: Power::G, phase: @table.phase, province: 'bur', keepout: 'mar')
+        @unit_f_bur = @turn.units.create(type: Army.to_s, power: @power_f, phase: @table.phase, province: 'bur')
+        @unit_f_gas = @turn.units.create(type: Army.to_s, power: @power_f, phase: @table.phase, province: 'gas')
+        @unit_g_bur = @turn.units.create(type: Army.to_s, power: @power_g, phase: @table.phase, province: 'bur', keepout: 'mar')
         @table = @table.proceed
         @turn = @table.turns.find_by(number: @table.turn)
         @standoff = []
@@ -58,16 +59,17 @@ RSpec.describe ListPossibleRetreatsService, type: :service do
     context "Diagram 12:" do
       before :example do
         @table = Table.create(turn: 1, phase: Const.phases.spr_1st)
+        override_proceed(table: @table)
         @power_a = @table.powers.create(symbol: Power::A)
         @power_g = @table.powers.create(symbol: Power::G)
         @power_r = @table.powers.create(symbol: Power::R)
         @turn = @table.turns.create(number: @table.turn)
-        @turn.units.create(type: Army.to_s, power: Power::A, phase: @table.phase, province: 'mun')
-        @turn.units.create(type: Army.to_s, power: Power::A, phase: @table.phase, province: 'tyr')
-        @turn.units.create(type: Army.to_s, power: Power::G, phase: @table.phase, province: 'ber')
-        @turn.units.create(type: Army.to_s, power: Power::R, phase: @table.phase, province: 'war')
-        @turn.units.create(type: Army.to_s, power: Power::R, phase: @table.phase, province: 'pru')
-        @dislodged_unit = @turn.units.create(type: Army.to_s, power: Power::G, phase: @table.phase, province: 'mun', keepout: 'boh')
+        @turn.units.create(type: Army.to_s, power: @power_a, phase: @table.phase, province: 'mun')
+        @turn.units.create(type: Army.to_s, power: @power_a, phase: @table.phase, province: 'tyr')
+        @turn.units.create(type: Army.to_s, power: @power_g, phase: @table.phase, province: 'ber')
+        @turn.units.create(type: Army.to_s, power: @power_r, phase: @table.phase, province: 'war')
+        @turn.units.create(type: Army.to_s, power: @power_r, phase: @table.phase, province: 'pru')
+        @dislodged_unit = @turn.units.create(type: Army.to_s, power: @power_g, phase: @table.phase, province: 'mun', keepout: 'boh')
         @table = @table.proceed
         @turn = @table.turns.find_by(number: @table.turn)
         @standoff = [ 'sil' ]
@@ -115,13 +117,14 @@ RSpec.describe ListPossibleRetreatsService, type: :service do
     context "Diagram 13:" do
       before :example do
         @table = Table.create(turn: 1, phase: Const.phases.spr_1st)
+        override_proceed(table: @table)
         @power_t = @table.powers.create(symbol: Power::T)
         @power_r = @table.powers.create(symbol: Power::R)
         @turn = @table.turns.create(number: @table.turn)
-        @turn.units.create(type: Army.to_s, power: Power::R, phase: @table.phase, province: 'rum')
-        @turn.units.create(type: Army.to_s, power: Power::R, phase: @table.phase, province: 'ser')
-        @turn.units.create(type: Army.to_s, power: Power::R, phase: @table.phase, province: 'bul')
-        @dislodged_unit = @turn.units.create(type: Army.to_s, power: Power::T, phase: @table.phase, province: 'bul', keepout: 'rum')
+        @turn.units.create(type: Army.to_s, power: @power_r, phase: @table.phase, province: 'rum')
+        @turn.units.create(type: Army.to_s, power: @power_r, phase: @table.phase, province: 'ser')
+        @turn.units.create(type: Army.to_s, power: @power_r, phase: @table.phase, province: 'bul')
+        @dislodged_unit = @turn.units.create(type: Army.to_s, power: @power_t, phase: @table.phase, province: 'bul', keepout: 'rum')
         @table = @table.proceed
         @turn = @table.turns.find_by(number: @table.turn)
         @standoff = [ 'sil' ]
@@ -157,15 +160,16 @@ RSpec.describe ListPossibleRetreatsService, type: :service do
     context "Diagram 14:" do
       before :example do
         @table = Table.create(turn: 1, phase: Const.phases.spr_1st)
+        override_proceed(table: @table)
         @power_t = @table.powers.create(symbol: Power::T)
         @power_r = @table.powers.create(symbol: Power::R)
         @turn = @table.turns.create(number: @table.turn)
-        @turn.units.create(type: Fleet.to_s, power: Power::T, phase: @table.phase, province: 'bla')
-        @turn.units.create(type: Army.to_s, power: Power::R, phase: @table.phase, province: 'rum')
-        @turn.units.create(type: Army.to_s, power: Power::R, phase: @table.phase, province: 'gre')
-        @turn.units.create(type: Army.to_s, power: Power::R, phase: @table.phase, province: 'ser')
-        @turn.units.create(type: Army.to_s, power: Power::R, phase: @table.phase, province: 'bul')
-        @dislodged_unit = @turn.units.create(type: Army.to_s, power: Power::T, phase: @table.phase, province: 'bul', keepout: 'rum')
+        @turn.units.create(type: Fleet.to_s, power: @power_t, phase: @table.phase, province: 'bla')
+        @turn.units.create(type: Army.to_s, power: @power_r, phase: @table.phase, province: 'rum')
+        @turn.units.create(type: Army.to_s, power: @power_r, phase: @table.phase, province: 'gre')
+        @turn.units.create(type: Army.to_s, power: @power_r, phase: @table.phase, province: 'ser')
+        @turn.units.create(type: Army.to_s, power: @power_r, phase: @table.phase, province: 'bul')
+        @dislodged_unit = @turn.units.create(type: Army.to_s, power: @power_t, phase: @table.phase, province: 'bul', keepout: 'rum')
         @table = @table.proceed
         @turn = @table.turns.find_by(number: @table.turn)
         @standoff = []
@@ -201,12 +205,13 @@ RSpec.describe ListPossibleRetreatsService, type: :service do
     context "Diagram 16:" do
       before :example do
         @table = Table.create(turn: 1, phase: Const.phases.spr_1st)
+        override_proceed(table: @table)
         @power_g = @table.powers.create(symbol: Power::G)
         @power_r = @table.powers.create(symbol: Power::R)
         @turn = @table.turns.create(number: @table.turn)
-        @turn.units.create(type: Army.to_s, power: Power::G, phase: @table.phase, province: 'pru')
-        @turn.units.create(type: Army.to_s, power: Power::G, phase: @table.phase, province: 'sil')
-        @dislodged_unit = @turn.units.create(type: Army.to_s, power: Power::R, phase: @table.phase, province: 'war', keepout: 'pru')
+        @turn.units.create(type: Army.to_s, power: @power_g, phase: @table.phase, province: 'pru')
+        @turn.units.create(type: Army.to_s, power: @power_g, phase: @table.phase, province: 'sil')
+        @dislodged_unit = @turn.units.create(type: Army.to_s, power: @power_r, phase: @table.phase, province: 'war', keepout: 'pru')
         @table = @table.proceed
         @turn = @table.turns.find_by(number: @table.turn)
         @standoff = []
@@ -250,14 +255,15 @@ RSpec.describe ListPossibleRetreatsService, type: :service do
     context "Diagram 17:" do
       before :example do
         @table = Table.create(turn: 1, phase: Const.phases.spr_1st)
+        override_proceed(table: @table)
         @power_g = @table.powers.create(symbol: Power::G)
         @power_r = @table.powers.create(symbol: Power::R)
         @turn = @table.turns.create(number: @table.turn)
-        @turn.units.create(type: Fleet.to_s, power: Power::G, phase: @table.phase, province: 'ber')
-        @turn.units.create(type: Army.to_s, power: Power::R, phase: @table.phase, province: 'sil')
-        @turn.units.create(type: Army.to_s, power: Power::R, phase: @table.phase, province: 'war')
-        @turn.units.create(type: Fleet.to_s, power: Power::R, phase: @table.phase, province: 'bal')
-        @dislodged_unit = @turn.units.create(type: Army.to_s, power: Power::G, phase: @table.phase, province: 'sil', keepout: 'pru')
+        @turn.units.create(type: Fleet.to_s, power: @power_g, phase: @table.phase, province: 'ber')
+        @turn.units.create(type: Army.to_s, power: @power_r, phase: @table.phase, province: 'sil')
+        @turn.units.create(type: Army.to_s, power: @power_r, phase: @table.phase, province: 'war')
+        @turn.units.create(type: Fleet.to_s, power: @power_r, phase: @table.phase, province: 'bal')
+        @dislodged_unit = @turn.units.create(type: Army.to_s, power: @power_g, phase: @table.phase, province: 'sil', keepout: 'pru')
         @table = @table.proceed
         @turn = @table.turns.find_by(number: @table.turn)
         @standoff = []
@@ -301,15 +307,16 @@ RSpec.describe ListPossibleRetreatsService, type: :service do
     context "Diagram 18:" do
       before :example do
         @table = Table.create(turn: 0, phase: Const.phases.fal_3rd)
+        override_proceed(table: @table)
         @power_g = @table.powers.create(symbol: Power::G)
         @power_r = @table.powers.create(symbol: Power::R)
         @turn = @table.turns.create(number: @table.turn)
-        @turn.units.create(type: Army.to_s, power: Power::G, phase: @table.phase, province: 'ber')
-        @turn.units.create(type: Army.to_s, power: Power::R, phase: @table.phase, province: 'pru')
-        @turn.units.create(type: Army.to_s, power: Power::R, phase: @table.phase, province: 'sil')
-        @turn.units.create(type: Army.to_s, power: Power::R, phase: @table.phase, province: 'mun')
-        @turn.units.create(type: Army.to_s, power: Power::R, phase: @table.phase, province: 'tyr')
-        @dislodged_unit = @turn.units.create(type: Army.to_s, power: Power::G, phase: @table.phase, province: 'mun', keepout: 'boh')
+        @turn.units.create(type: Army.to_s, power: @power_g, phase: @table.phase, province: 'ber')
+        @turn.units.create(type: Army.to_s, power: @power_r, phase: @table.phase, province: 'pru')
+        @turn.units.create(type: Army.to_s, power: @power_r, phase: @table.phase, province: 'sil')
+        @turn.units.create(type: Army.to_s, power: @power_r, phase: @table.phase, province: 'mun')
+        @turn.units.create(type: Army.to_s, power: @power_r, phase: @table.phase, province: 'tyr')
+        @dislodged_unit = @turn.units.create(type: Army.to_s, power: @power_g, phase: @table.phase, province: 'mun', keepout: 'boh')
         @table = @table.proceed
         @turn = @table.turns.find_by(number: @table.turn)
         @standoff = []
@@ -357,14 +364,15 @@ RSpec.describe ListPossibleRetreatsService, type: :service do
     context "Diagram 21:" do
       before :example do
         @table = Table.create(turn: 0, phase: Const.phases.fal_3rd)
+        override_proceed(table: @table)
         @power_f = @table.powers.create(symbol: Power::F)
         @power_i = @table.powers.create(symbol: Power::I)
         @turn = @table.turns.create(number: @table.turn)
-        @turn.units.create(type: Army.to_s, power: Power::F, phase: @table.phase, province: 'spa')
-        @turn.units.create(type: Fleet.to_s, power: Power::F, phase: @table.phase, province: 'lyo')
-        @turn.units.create(type: Fleet.to_s, power: Power::I, phase: @table.phase, province: 'tys')
-        @turn.units.create(type: Fleet.to_s, power: Power::I, phase: @table.phase, province: 'tun')
-        @dislodged_unit = @turn.units.create(type: Fleet.to_s, power: Power::F, phase: @table.phase, province: 'tys', keepout: 'ion')
+        @turn.units.create(type: Army.to_s, power: @power_f, phase: @table.phase, province: 'spa')
+        @turn.units.create(type: Fleet.to_s, power: @power_f, phase: @table.phase, province: 'lyo')
+        @turn.units.create(type: Fleet.to_s, power: @power_i, phase: @table.phase, province: 'tys')
+        @turn.units.create(type: Fleet.to_s, power: @power_i, phase: @table.phase, province: 'tun')
+        @dislodged_unit = @turn.units.create(type: Fleet.to_s, power: @power_f, phase: @table.phase, province: 'tys', keepout: 'ion')
         @table = @table.proceed
         @turn = @table.turns.find_by(number: @table.turn)
         @standoff = []
@@ -412,14 +420,15 @@ RSpec.describe ListPossibleRetreatsService, type: :service do
     context "Diagram 29:" do
       before :context do
         @table = Table.create(turn: 0, phase: Const.phases.fal_3rd)
+        override_proceed(table: @table)
         @power_e = @table.powers.create(symbol: Power::E)
         @power_f = @table.powers.create(symbol: Power::F)
         @turn = @table.turns.create(number: @table.turn)
-        @turn.units.create(type: Army.to_s, power: Power::E, phase: @table.phase, province: 'bel')
-        @turn.units.create(type: Fleet.to_s, power: Power::E, phase: @table.phase, province: 'nth')
-        @turn.units.create(type: Fleet.to_s, power: Power::F, phase: @table.phase, province: 'eng')
-        @turn.units.create(type: Fleet.to_s, power: Power::F, phase: @table.phase, province: 'iri')
-        @dislodged_unit = @turn.units.create(type: Fleet.to_s, power: Power::E, phase: @table.phase, province: 'eng', keepout: 'bre')
+        @turn.units.create(type: Army.to_s, power: @power_e, phase: @table.phase, province: 'bel')
+        @turn.units.create(type: Fleet.to_s, power: @power_e, phase: @table.phase, province: 'nth')
+        @turn.units.create(type: Fleet.to_s, power: @power_f, phase: @table.phase, province: 'eng')
+        @turn.units.create(type: Fleet.to_s, power: @power_f, phase: @table.phase, province: 'iri')
+        @dislodged_unit = @turn.units.create(type: Fleet.to_s, power: @power_e, phase: @table.phase, province: 'eng', keepout: 'bre')
         @table = @table.proceed
         @turn = @table.turns.find_by(number: @table.turn)
         @standoff = []
@@ -471,13 +480,14 @@ RSpec.describe ListPossibleRetreatsService, type: :service do
     context "Diagram 30:" do
       before :context do
         @table = Table.create(turn: 0, phase: Const.phases.fal_3rd)
+        override_proceed(table: @table)
         @power_f = @table.powers.create(symbol: Power::F)
         @power_i = @table.powers.create(symbol: Power::I)
         @turn = @table.turns.create(number: @table.turn)
-        @turn.units.create(type: Army.to_s, power: Power::F, phase: @table.phase, province: 'tun')
-        @turn.units.create(type: Fleet.to_s, power: Power::I, phase: @table.phase, province: 'tys')
-        @turn.units.create(type: Fleet.to_s, power: Power::I, phase: @table.phase, province: 'nap')
-        @dislodged_unit = @turn.units.create(type: Fleet.to_s, power: Power::F, phase: @table.phase, province: 'tys', keepout: 'ion')
+        @turn.units.create(type: Army.to_s, power: @power_f, phase: @table.phase, province: 'tun')
+        @turn.units.create(type: Fleet.to_s, power: @power_i, phase: @table.phase, province: 'tys')
+        @turn.units.create(type: Fleet.to_s, power: @power_i, phase: @table.phase, province: 'nap')
+        @dislodged_unit = @turn.units.create(type: Fleet.to_s, power: @power_f, phase: @table.phase, province: 'tys', keepout: 'ion')
         @table = @table.proceed
         @turn = @table.turns.find_by(number: @table.turn)
         @standoff = []
@@ -525,15 +535,16 @@ RSpec.describe ListPossibleRetreatsService, type: :service do
     context "Diagram 32:" do
       before :context do
         @table = Table.create(turn: 0, phase: Const.phases.fal_3rd)
+        override_proceed(table: @table)
         @power_f = @table.powers.create(symbol: Power::F)
         @power_i = @table.powers.create(symbol: Power::I)
         @turn = @table.turns.create(number: @table.turn)
-        @turn.units.create(type: Army.to_s, power: Power::F, phase: @table.phase, province: 'nap')
-        @turn.units.create(type: Fleet.to_s, power: Power::F, phase: @table.phase, province: 'tys')
-        @turn.units.create(type: Fleet.to_s, power: Power::F, phase: @table.phase, province: 'ion')
-        @turn.units.create(type: Army.to_s, power: Power::F, phase: @table.phase, province: 'apu')
-        @turn.units.create(type: Fleet.to_s, power: Power::I, phase: @table.phase, province: 'rom')
-        @dislodged_unit = @turn.units.create(type: Fleet.to_s, power: Power::I, phase: @table.phase, province: 'nap', keepout: 'tun')
+        @turn.units.create(type: Army.to_s, power: @power_f, phase: @table.phase, province: 'nap')
+        @turn.units.create(type: Fleet.to_s, power: @power_f, phase: @table.phase, province: 'tys')
+        @turn.units.create(type: Fleet.to_s, power: @power_f, phase: @table.phase, province: 'ion')
+        @turn.units.create(type: Army.to_s, power: @power_f, phase: @table.phase, province: 'apu')
+        @turn.units.create(type: Fleet.to_s, power: @power_i, phase: @table.phase, province: 'rom')
+        @dislodged_unit = @turn.units.create(type: Fleet.to_s, power: @power_i, phase: @table.phase, province: 'nap', keepout: 'tun')
         @table = @table.proceed
         @turn = @table.turns.find_by(number: @table.turn)
         @standoff = []

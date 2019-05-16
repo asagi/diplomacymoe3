@@ -1,5 +1,6 @@
 # use gem 'settingslogic'
 defaults: &defaults
+  solo_line: 18
   turns:
     initial: 0
   phases:

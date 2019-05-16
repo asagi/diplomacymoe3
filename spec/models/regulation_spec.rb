@@ -1,8 +1,11 @@
 require 'rails_helper'
 
 RSpec.describe Regulation, type: :model do
+  before :context do
+    @user = User.find_or_create_by(uid: '12345')
+  end
 
-  let(:table) { CreateInitializedTableService.call(regulation: @regulation) }
+  let(:table) { CreateInitializedTableService.call(user: @user, regulation: @regulation) }
 
   describe '#create' do
     context "table への各レギュレーションモジュールの extend テスト" do

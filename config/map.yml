@@ -18,6 +18,9 @@ defaults: &defaults
      name: Ankara
      jname: アンカラ
      supplycenter: true
+     build:
+       army: true
+       fleet: true
      owner: t
     apu:
      type: Coastal
@@ -47,6 +50,9 @@ defaults: &defaults
      name: Berlin
      jname: ベルリン
      supplycenter: true
+     build:
+       army: true
+       fleet: true
      owner: g
     bla:
      type: Water
@@ -66,12 +72,18 @@ defaults: &defaults
      name: Brest
      jname: ブレスト
      supplycenter: true
+     build:
+       army: true
+       fleet: true
      owner: f
     bud:
      type: Inland
      name: Budapest
      jname: ブダペスト
      supplycenter: true
+     build:
+       army: true
+       fleet: false
      owner: a
     bul:
      type: Coastal
@@ -103,6 +115,9 @@ defaults: &defaults
      name: Constantinople
      jname: コンスタンティノープル
      supplycenter: true
+     build:
+       army: true
+       fleet: true
      owner: t
     den:
      type: Coastal
@@ -118,6 +133,9 @@ defaults: &defaults
      name: Edinburgh
      jname: エディンバラ
      supplycenter: true
+     build:
+       army: true
+       fleet: true
      owner: e
     eng:
      type: Water
@@ -165,12 +183,18 @@ defaults: &defaults
      name: Kiel
      jname: キール
      supplycenter: true
+     build:
+       army: true
+       fleet: true
      owner: g
     lon:
      type: Coastal
      name: London
      jname: ロンドン
      supplycenter: true
+     build:
+       army: true
+       fleet: true
      owner: e
     lvn:
      type: Coastal
@@ -182,6 +206,9 @@ defaults: &defaults
      name: Liverpool
      jname: リヴァプール
      supplycenter: true
+     build:
+       army: true
+       fleet: true
      owner: e
     lyo:
      type: Water
@@ -196,18 +223,27 @@ defaults: &defaults
      name: Marseilles
      jname: マルセイユ
      supplycenter: true
+     build:
+       army: true
+       fleet: true
      owner: f
     mos:
      type: Inland
      name: Moscow
      jname: モスクワ
      supplycenter: true
+     build:
+       army: true
+       fleet: false
      owner: r
     mun:
      type: Inland
      name: Munich
      jname: ミュンヘン
      supplycenter: true
+     build:
+       army: true
+       fleet: false
      owner: g
     naf:
      type: Coastal
@@ -222,6 +258,9 @@ defaults: &defaults
      name: Naples
      jname: ナポリ
      supplycenter: true
+     build:
+       army: true
+       fleet: true
      owner: i
     nth:
      type: Water
@@ -241,6 +280,9 @@ defaults: &defaults
      name: Paris
      jname: パリ
      supplycenter: true
+     build:
+       army: true
+       fleet: false
      owner: f
     pic:
      type: Coastal
@@ -267,6 +309,9 @@ defaults: &defaults
      name: Rome
      jname: ローマ
      supplycenter: true
+     build:
+       army: true
+       fleet: true
      owner: i
     ruh:
      type: Inland
@@ -288,6 +333,9 @@ defaults: &defaults
      name: Sevastopol
      jname: セヴァストポリ
      supplycenter: true
+     build:
+       army: true
+       fleet: true
      owner: r
     sil:
      type: Inland
@@ -303,6 +351,9 @@ defaults: &defaults
      name: Smyrna
      jname: スミルナ
      supplycenter: true
+     build:
+       army: true
+       fleet: true
      owner: t
     spa:
      type: Coastal
@@ -324,18 +375,27 @@ defaults: &defaults
      name: St. Petersburg
      jname: サンクトペテルブルク
      supplycenter: true
+     build:
+       army: true
+       fleet: false
      owner: r
     stp_nc:
      type: Coastal
      name: St. Petersburg(NC)
      jname: サンクトペテルブルク(NC)
      supplycenter: false
+     build:
+       army: false
+       fleet: true
      owner: r
     stp_sc:
      type: Coastal
      name: St. Petersburg(SC)
      jname: サンクトペテルブルク(SC)
      supplycenter: false
+     build:
+       army: false
+       fleet: true
      owner: r
     swe:
      type: Coastal
@@ -351,6 +411,9 @@ defaults: &defaults
      name: Trieste
      jname: トリエステ
      supplycenter: true
+     build:
+       army: true
+       fleet: true
      owner: a
     tun:
      type: Coastal
@@ -381,12 +444,18 @@ defaults: &defaults
      name: Venice
      jname: ヴェネツィア
      supplycenter: true
+     build:
+       army: true
+       fleet: true
      owner: i
     vie:
      type: Inland
      name: Vienna
      jname: ウィーン
      supplycenter: true
+     build:
+       army: true
+       fleet: false
      owner: a
     wal:
      type: Coastal
@@ -398,6 +467,9 @@ defaults: &defaults
      name: Warsaw
      jname: ワルシャワ
      supplycenter: true
+     build:
+       army: true
+       fleet: false
      owner: r
     wes:
      type: Water

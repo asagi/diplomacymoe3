@@ -25,29 +25,73 @@ RSpec.describe Table, type: :model do
       example "初期値" do
         expect(@table.turn).to eq 1
         expect(@table.phase).to eq Const.phases.spr_1st
-        expect(@table.powers.empty?).to eq true
-        expect(@table.regulation).to be @regulation
+        expect(@table.powers.empty?).to be true
+        expect(@table.regulation).to eq @regulation
       end
     end
   end
 
 
-  context "CreateInitializedTableService.call で生成" do
-    before :example do
-      @table = CreateInitializedTableService.call
+  describe "#full?" do
+    let(:table) { CreateInitializedTableService.call(user: @user) }
+
+    context "参加者が 7 人に達していない場合" do
+      before :context do
+        create(:master)
+        @user = create(:user)
+      end
+
+      example "fase を返す" do
+        expect(table.full?).to be false
+      end
     end
 
+    context "参加者が 7 人に達している場合" do
+      before :context do
+        @user = create(:user)
+        @table = CreateInitializedTableService.call(user: @user)
+        (1..6).each{ @table = @table.add_player(user: create(:user)) }
+      end
 
-    describe '#proceed' do
+      example "true を返す" do
+        expect(@table.full?).to be true
+      end
+    end
+
+    context "参加者が 7 人に達しているが離脱者が出ている場合" do
+      before :context do
+        @user = create(:user)
+      end
+
+      example "fase を返す"
+    end
+  end
+
+
+  describe '#proceed' do
+    context "CreateInitializedTableService.call で生成" do
+      before :context do
+        @user = create(:user)
+        @table = CreateInitializedTableService.call(user: @user)
+        override_proceed(table: @table)
+      end
+
       example "フェイズを進行させる" do
         @table = @table.proceed
         expect(@table.turn).to eq 1
         expect(@table.phase).to eq Const.phases.spr_1st
       end
     end
+  end
 
+  describe '#order_targets' do
+    context "CreateInitializedTableService.call で生成" do
+      before :context do
+        @user = create(:user)
+        @table = CreateInitializedTableService.call(user: @user)
+        override_proceed(table: @table)
+      end
 
-    describe '#order_targets' do
       let(:targets) { @table.order_targets }
 
       context "開幕ターンの場合" do

@@ -24,7 +24,12 @@ class Regulation < ApplicationRecord
         case next_phase
         when Const.phases.spr_1st, Const.phases.fal_1st
           # 外交フェイズ
-          result = self.last_nego_period + self.negotiation_time
+          if self.last_nego_period
+            result = self.last_nego_period + self.negotiation_time
+          else
+            result = self.period + self.negotiation_time
+          end
+          self.last_nego_period = self.period
           return result.strftime("%Y-%m-%d %H:%M")
         else
           # 処理フェイズ

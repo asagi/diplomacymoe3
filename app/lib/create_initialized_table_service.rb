@@ -1,11 +1,12 @@
 class CreateInitializedTableService
-  def self.call(regulation: nil)
+  def self.call(user:, regulation: nil)
     regulation = Regulation.create unless regulation
-    self.new(regulation: regulation).call
+    self.new(user: user, regulation: regulation).call
   end
 
 
-  def initialize(regulation:)
+  def initialize(user:, regulation:)
+    @user = user
     @regulation = regulation
   end
 
@@ -14,6 +15,7 @@ class CreateInitializedTableService
     table = Table.create(turn: Const.turns.initial, phase: Const.phases.final, regulation: @regulation)
     table = setup_powers(table)
     table = setup_initial_turn(table)
+    table = setup_initial_players(table)
     table.period = @regulation.first_period if @regulation
     table.save!
     table
@@ -31,6 +33,7 @@ class CreateInitializedTableService
       params['genitive'] = data['genitive']
       table.powers.build(params)
     end
+    table.save!
     table
   end
 
@@ -42,7 +45,7 @@ class CreateInitializedTableService
     Map.provinces.each do |code, province|
       next unless province['owner']
       params = {}
-      params['code'] = code
+      params['code'] = code[0,3]
       params['type'] = province['type']
       params['name'] = province['name']
       params['supplycenter'] = !!province['supplycenter']
@@ -54,13 +57,22 @@ class CreateInitializedTableService
       next unless data['units']
       data['units'].each do |unit|
         params = {}
-        params['power'] = power
-        params['province'] = unit['prov']
+        params['power'] = table.powers.find_by(symbol: power)
+        params['province'] = unit['province']
         params['type'] = unit['type']
         params['phase'] = table.phase
         turn.units.build(params)
       end
     end
+    table.save!
+    table
+  end
+
+
+  def setup_initial_players(table)
+    table = table.add_master
+    table = table.add_player(user: @user)
+    table.save!
     table
   end
 end

@@ -15,6 +15,11 @@ class Map < Settingslogic
   end
 
 
+  def self.home_sc_codes(power:)
+    provinces.select{|n,p| p['supplycenter']}.select{|n,p| p['owner'] == power}.keys
+  end
+
+
   private
   def self.calc_distance(from:, to:, distances:, depth: 0)
     return if (distances[to] || max_provinces) < depth

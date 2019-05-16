@@ -5,9 +5,10 @@ RSpec.describe ResoluteRetreatsService, type: :service do
     context "解隊" do
       before :example do
         @table = Table.create(turn: 1, phase: Const.phases.spr_1st)
+        override_proceed(table: @table)
         @power_g = @table.powers.create(symbol: Power::G)
         @turn = @table.turns.create(number: @table.turn)
-        @unit = @turn.units.create(type: Army.to_s, power: Power::G, phase: @table.phase, province: 'bur', keepout: 'mar')
+        @unit = @turn.units.create(type: Army.to_s, power: @power_g, phase: @table.phase, province: 'bur', keepout: 'mar')
         @table = @table.proceed
         @turn = @table.turns.find_by(number: @table.turn)
         @standoff = []
@@ -24,9 +25,10 @@ RSpec.describe ResoluteRetreatsService, type: :service do
     context "撤退成功" do
       before :example do
         @table = Table.create(turn: 1, phase: Const.phases.spr_1st)
+        override_proceed(table: @table)
         @power_g = @table.powers.create(symbol: Power::G)
         @turn = @table.turns.create(number: @table.turn)
-        @unit = @turn.units.create(type: Army.to_s, power: Power::G, phase: @table.phase, province: 'bur', keepout: 'mar')
+        @unit = @turn.units.create(type: Army.to_s, power: @power_g, phase: @table.phase, province: 'bur', keepout: 'mar')
         @table = @table.proceed
         @turn = @table.turns.find_by(number: @table.turn)
         @standoff = []
@@ -43,11 +45,12 @@ RSpec.describe ResoluteRetreatsService, type: :service do
     context "撤退の競合" do
       before :example do
         @table = Table.create(turn: 1, phase: Const.phases.spr_1st)
+        override_proceed(table: @table)
         @power_f = @table.powers.create(symbol: Power::F)
         @power_g = @table.powers.create(symbol: Power::G)
         @turn = @table.turns.create(number: @table.turn)
-        @unit_f = @turn.units.create(type: Army.to_s, power: Power::F, phase: @table.phase, province: 'gas', keepout: 'bre')
-        @unit_g = @turn.units.create(type: Army.to_s, power: Power::G, phase: @table.phase, province: 'bur', keepout: 'mar')
+        @unit_f = @turn.units.create(type: Army.to_s, power: @power_f, phase: @table.phase, province: 'gas', keepout: 'bre')
+        @unit_g = @turn.units.create(type: Army.to_s, power: @power_g, phase: @table.phase, province: 'bur', keepout: 'mar')
         @table = @table.proceed
         @turn = @table.turns.find_by(number: @table.turn)
         @standoff = []
