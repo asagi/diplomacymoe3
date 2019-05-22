@@ -24,7 +24,8 @@ class SessionsController < ApplicationController
 
 
   def failure
-    #raise CustomError::Unauthorized
-    redirect_to request.env['omniauth.params']['redirect']
+    p request.fullpath
+    p request.env['omniauth.params']
+    #redirect_to request.env['omniauth.params']['origin']
   end
 end
