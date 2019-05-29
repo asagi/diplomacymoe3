@@ -48,6 +48,7 @@ class CreateInitializedTableService
       params['code'] = code[0,3]
       params['type'] = province['type']
       params['name'] = province['name']
+      params['jname'] = province['jname']
       params['supplycenter'] = !!province['supplycenter']
       params['power'] = province['owner']
       turn.provinces.build(params)

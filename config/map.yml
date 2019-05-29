@@ -387,7 +387,6 @@ defaults: &defaults
      build:
        army: false
        fleet: true
-     owner: r
     stp_sc:
      type: Coastal
      name: St. Petersburg(SC)
@@ -396,7 +395,6 @@ defaults: &defaults
      build:
        army: false
        fleet: true
-     owner: r
     swe:
      type: Coastal
      name: Sweden
@@ -406,6 +404,7 @@ defaults: &defaults
      type: Coastal
      name: Syria
      jname: シリア
+     owner: t
     tri:
      type: Coastal
      name: Trieste

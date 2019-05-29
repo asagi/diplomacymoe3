@@ -10,4 +10,12 @@ class Unit < ApplicationRecord
   def fleet?
     false
   end
+
+  def owner
+    self.power.symbol
+  end
+
+  def kind
+    self.type.to_s[0].downcase
+  end
 end
