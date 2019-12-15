@@ -4,6 +4,7 @@ class ApplicationController < ActionController::API
   module CustomError
     class BadRequest < StandardError; end
     class Unauthorized < StandardError; end
+    class Forbidden < StandardError; end
   end
 
   rescue_from StandardError, with: :render_500
@@ -14,6 +15,7 @@ class ApplicationController < ActionController::API
 
   rescue_from CustomError::BadRequest, with: :render_400
   rescue_from CustomError::Unauthorized, with: :render_401
+  rescue_from CustomError::Forbidden, with: :render_403
 
   def render_400(e)
     render_error(e, 400)
@@ -23,11 +25,15 @@ class ApplicationController < ActionController::API
     render_error(e, 401)
   end
 
-  def render_404
+  def render_403(e)
+    render_error(e, 403)
+  end
+
+  def render_404(e)
     render_error(e, 404)
   end
 
-  def render_409
+  def render_409(e)
     render_error(e, 409)
   end
 
@@ -42,7 +48,11 @@ class ApplicationController < ActionController::API
   protected
 
   def authenticate
-    authenticate_or_request_with_http_token do |token, options|
+    raise CustomError::Forbidden.new unless authenticate_token
+  end
+
+  def authenticate_token
+    authenticate_with_http_token do |token, options|
       @auth_user = User.find_by(token: token)
     end
   end

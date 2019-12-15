@@ -4,7 +4,6 @@ class UsersController < ApplicationController
   before_action :authenticate, only: [:show]
 
   def show
-    p @auth_user
     render json: @auth_user
   end
 
