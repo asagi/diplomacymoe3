@@ -1,13 +1,13 @@
-require 'rails_helper'
+require "rails_helper"
 
 RSpec.describe CreateInitializedTableService, type: :service do
-  describe '#call' do
+  describe "#call" do
     let(:table) { CreateInitializedTableService.call(user: @user) }
     let(:units) { turn_0.units.where(phase: table.phase).where(power: @power) }
 
     before :context do
-      @master = User.find_or_create_by(uid: ENV['MASTER_USER_01'], admin: true)
-      @user = User.find_or_create_by(uid: '12345')
+      @master = User.find_or_create_by(uid: ENV["MASTER_USER_01"], admin: true)
+      @user = User.find_or_create_by(uid: "12345")
     end
 
     describe "国" do
@@ -21,7 +21,7 @@ RSpec.describe CreateInitializedTableService, type: :service do
         expect(table.players.size).to eq 2
         master = table.players.find_by(user_id: @master.id)
         expect(master).not_to be_nil
-        expect(master.power.symbol).to eq 'x'
+        expect(master.power.symbol).to eq "x"
         expect(table.players.find_by(user_id: @user.id)).not_to be_nil
       end
     end

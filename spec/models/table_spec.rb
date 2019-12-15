@@ -1,4 +1,4 @@
-require 'rails_helper'
+require "rails_helper"
 
 RSpec.describe Table, type: :model do
   describe "#create" do
@@ -15,7 +15,6 @@ RSpec.describe Table, type: :model do
       end
     end
 
-
     context "Regulation 指定" do
       before :context do
         @regulation = Regulation.create
@@ -30,7 +29,6 @@ RSpec.describe Table, type: :model do
       end
     end
   end
-
 
   describe "#full?" do
     let(:table) { CreateInitializedTableService.call(user: @user) }
@@ -50,25 +48,16 @@ RSpec.describe Table, type: :model do
       before :context do
         @user = create(:user)
         @table = CreateInitializedTableService.call(user: @user)
-        (1..6).each{ @table = @table.add_player(user: create(:user)) }
+        (1..6).each { @table = @table.add_player(user: create(:user)) }
       end
 
       example "true を返す" do
         expect(@table.full?).to be true
       end
     end
-
-    context "参加者が 7 人に達しているが離脱者が出ている場合" do
-      before :context do
-        @user = create(:user)
-      end
-
-      example "fase を返す"
-    end
   end
 
-
-  describe '#proceed' do
+  describe "#proceed" do
     context "CreateInitializedTableService.call で生成" do
       before :context do
         @user = create(:user)
@@ -84,7 +73,7 @@ RSpec.describe Table, type: :model do
     end
   end
 
-  describe '#order_targets' do
+  describe "#order_targets" do
     context "CreateInitializedTableService.call で生成" do
       before :context do
         @user = create(:user)
@@ -99,7 +88,6 @@ RSpec.describe Table, type: :model do
           expect(targets.empty?).to be true
         end
       end
-
 
       context "第一ターンの場合" do
         example "初期配置のユニットが対象となる" do

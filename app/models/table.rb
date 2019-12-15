@@ -12,23 +12,20 @@ class Table < ApplicationRecord
   CLOSED = 5
 
   STATUS_NAME = {}
-  STATUS_NAME[LOBBY] = 'LOBBY'
-  STATUS_NAME[DISCARDED] = 'DISCARDED'
-  STATUS_NAME[STARTED] = 'STARTED'
-  STATUS_NAME[DRAW] = 'DRAW'
-  STATUS_NAME[SOLO] = 'SOLO'
-  STATUS_NAME[CLOSED] = 'CLOSED'
-
+  STATUS_NAME[LOBBY] = "LOBBY"
+  STATUS_NAME[DISCARDED] = "DISCARDED"
+  STATUS_NAME[STARTED] = "STARTED"
+  STATUS_NAME[DRAW] = "DRAW"
+  STATUS_NAME[SOLO] = "SOLO"
+  STATUS_NAME[CLOSED] = "CLOSED"
 
   def self.status_text(code:)
     STATUS_NAME[code]
   end
 
-
   def status_text
     self.class.status_text(code: self.status)
   end
-
 
   after_initialize do
     next unless self.regulation
@@ -38,46 +35,39 @@ class Table < ApplicationRecord
     self.status ||= LOBBY
   end
 
-
   def initialize(options = {})
-    options = {turn: 0, phase: 0} unless options
+    options = { turn: 0, phase: 0 } unless options
     options[:turn] ||= 0
     options[:phase] ||= 0
     super
   end
 
-
   def full?
     # 管理人を除いて 7 人
     case self.status
     when LOBBY
-      self.players.joins(:user).where(users:{admin: false}).size == 7
+      self.players.joins(:user).where(users: { admin: false }).size == 7
     end
   end
 
-
   def add_master
-    master = User.find_by(uid: ENV['MASTER_USER_01'])
-    self.players.create(user: master, power: self.powers.find_by(symbol: 'x'))
+    master = User.find_by(uid: ENV["MASTER_USER_01"])
+    self.players.create(user: master, power: self.powers.find_by(symbol: "x"))
     self
   end
-
 
   def add_player(user:)
     self.players.create(user: user)
     self
   end
 
-
   def current_turn
     self.turns.find_by(number: self.turn)
   end
 
-
   def last_turn
     self.turns.find_by(number: self.turn - 1)
   end
-
 
   def last_phase_units
     case self.phase
@@ -94,7 +84,6 @@ class Table < ApplicationRecord
       current_turn.units.where(phase: Const.phases.fal_2nd)
     end
   end
-
 
   def proceed
     case self.phase
@@ -117,12 +106,10 @@ class Table < ApplicationRecord
     self
   end
 
-
   def discard
     self.status = DISCARDED
     self
   end
-
 
   def start
     self.proceed
@@ -130,7 +117,6 @@ class Table < ApplicationRecord
     self.status = STARTED
     self
   end
-
 
   def draw
     turn = turns.find_by(number: self.turn).next
@@ -142,7 +128,6 @@ class Table < ApplicationRecord
     self
   end
 
-
   def solo
     turn = turns.find_by(number: self.turn).next
     turns << turn
@@ -153,7 +138,6 @@ class Table < ApplicationRecord
     self
   end
 
-
   def close
     self.proceed
     self.phase = Const.phases.spr_1st
@@ -161,7 +145,6 @@ class Table < ApplicationRecord
     self.status = CLOSED
     self
   end
-
 
   def order_targets
     return Unit.none if self.turn == Const.turns.initial

@@ -36,11 +36,11 @@ class ApplicationController < ActionController::API
   end
 
   def render_error(e, status)
-    render json: {"error": e}, status: status
+    render json: { "error": e }, status: status
   end
 
-
   protected
+
   def authenticate
     authenticate_or_request_with_http_token do |token, options|
       @auth_user = User.find_by(token: token)

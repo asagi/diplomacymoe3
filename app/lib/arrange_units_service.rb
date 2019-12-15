@@ -3,11 +3,9 @@ class ArrangeUnitsService
     self.new(table: table).call
   end
 
-
   def initialize(table:)
     @table = table
   end
-
 
   def call
     turn = @table.current_turn
@@ -21,7 +19,6 @@ class ArrangeUnitsService
         unit.phase = @table.phase
         turn.units << unit
       end
-
     when Const.phases.fal_3rd
       # 前フェイズの全てのユニットを複製
       @table.last_phase_units.each do |lpu|
@@ -83,7 +80,6 @@ class ArrangeUnitsService
           end
           next
         end
-
       when Const.phases.spr_2nd, Const.phases.fal_2nd
         # 成功した撤退命令
         if order.retreat? && order.succeeded?
@@ -100,7 +96,6 @@ class ArrangeUnitsService
         if order.disband?
           # N/A
         end
-
       when Const.phases.fal_3rd
       end
     end

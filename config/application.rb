@@ -1,4 +1,4 @@
-require_relative 'boot'
+require_relative "boot"
 
 require "rails"
 # Pick the frameworks you want:
@@ -33,10 +33,10 @@ module Diplomacymoe
     config.api_only = true
 
     # Timezone
-    config.time_zone = 'Tokyo'
+    config.time_zone = "Tokyo"
 
     # OmniAuth
-    config.session_store :cookie_store, key: '_interslice_session'
+    config.session_store :cookie_store, key: "_interslice_session"
     config.middleware.use ActionDispatch::Cookies # Required for all session management
     config.middleware.use ActionDispatch::Session::CookieStore, config.session_options
   end

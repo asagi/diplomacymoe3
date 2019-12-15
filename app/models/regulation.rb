@@ -13,7 +13,6 @@ class Regulation < ApplicationRecord
     end
   end
 
-
   module PeriodRule
     # next_period は更新時刻以降に呼ばれるものとする
 
@@ -54,7 +53,6 @@ class Regulation < ApplicationRecord
     end
   end
 
-
   module Duration
     module Short
       def negotiation_time; 60 * 60 end
@@ -67,7 +65,6 @@ class Regulation < ApplicationRecord
     end
   end
 
-
   def initialize(options = {})
     options = {} unless options
     options[:face_type] ||= Const.regulation.face_type.girl
@@ -75,7 +72,6 @@ class Regulation < ApplicationRecord
     options[:duration] ||= Const.regulation.duration.standard
     super
   end
-
 
   def face_type_module
     if self.face_type == Const.regulation.face_type.girl
@@ -85,7 +81,6 @@ class Regulation < ApplicationRecord
     end
   end
 
-
   def period_rule_module
     if self.period_rule == Const.regulation.period_rule.fixed
       PeriodRule::Fixed
@@ -93,7 +88,6 @@ class Regulation < ApplicationRecord
       PeriodRule::Flexible
     end
   end
-
 
   def duration_module
     if self.duration == Const.regulation.duration.standard
@@ -103,8 +97,7 @@ class Regulation < ApplicationRecord
     end
   end
 
-
   def first_period
-    "%s %s"%[self.due_date, self.start_time]
+    "%s %s" % [self.due_date, self.start_time]
   end
 end

@@ -3,14 +3,12 @@ class ListPossibleOrdersService
     self.new(turn: turn, power: power, unit: unit).call
   end
 
-
   def initialize(turn:, power:, unit:)
     @turn = turn
     @power = power
     @unit = unit
     @dests = []
   end
-
 
   def call
     @orders = @turn.orders
@@ -26,14 +24,12 @@ class ListPossibleOrdersService
     # ConvoyOrder
     convs = gen_conv_order_menu
 
-    [ holds, moves, movcs, supps, convs ].reduce([], :concat)
+    [holds, moves, movcs, supps, convs].reduce([], :concat)
   end
-
 
   def gen_hold_order_menu
-    [ HoldOrder.new(power: @power, unit: @unit) ]
+    [HoldOrder.new(power: @power, unit: @unit)]
   end
-
 
   def gen_move_order_menu
     result = []
@@ -45,27 +41,25 @@ class ListPossibleOrdersService
     result
   end
 
-
   def gen_movc_order_menu
     result = []
     return result unless @unit.army?
-    return result unless Map.provinces[@unit.province]['type'] == Coastal.to_s
+    return result unless Map.provinces[@unit.province]["type"] == Coastal.to_s
     SearchReachableCoastalsService.call(unit: @unit).each do |code|
       result << MoveOrder.new(power: @power, unit: @unit, dest: code)
     end
     result
   end
 
-
   def gen_supp_order_menu
     result = []
     @orders.each do |o|
-      if !o.move? && @dests.map{|d| d[0,3]}.include?(o.unit.province[0,3])
+      if !o.move? && @dests.map { |d| d[0, 3] }.include?(o.unit.province[0, 3])
         result << SupportOrder.new(power: @power, unit: @unit, target: o.to_key)
         next
       end
 
-      if o.move? && @dests.map{|d| d[0,3]}.include?(o.dest[0,3])
+      if o.move? && @dests.map { |d| d[0, 3] }.include?(o.dest[0, 3])
         result << SupportOrder.new(power: @power, unit: @unit, target: o.to_key)
         next
       end
@@ -73,10 +67,9 @@ class ListPossibleOrdersService
     result
   end
 
-
   def gen_conv_order_menu
     result = []
-    return [] unless Map.provinces[@unit.province]['type'] == Water.to_s
+    return [] unless Map.provinces[@unit.province]["type"] == Water.to_s
     @orders.where(type: MoveOrder.to_s).each do |o|
       coastals = SearchReachableCoastalsService.call(unit: @unit)
       next unless coastals.include?(o.unit.province)

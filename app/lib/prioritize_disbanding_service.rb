@@ -3,12 +3,10 @@ class PrioritizeDisbandingService
     self.new(table: table, power: power).call
   end
 
-
   def initialize(table:, power:)
     @table = table
     @power = power
   end
-
 
   def call
     result = []
@@ -21,21 +19,21 @@ class PrioritizeDisbandingService
       home_sc.each do |sc|
         distance = Map.distance(from: sc, to: unit.province)
         utype = unit.type
-        pname = Map.provinces[unit.province]['name']
-        unit_distances << [ distance, utype, pname, unit.province ]
+        pname = Map.provinces[unit.province]["name"]
+        unit_distances << [distance, utype, pname, unit.province]
       end
-      unit_distances.sort!{|a,b| a[0]<=>b[0]}
+      unit_distances.sort! { |a, b| a[0] <=> b[0] }
       result << unit_distances.first
     end
 
     # ユニット駐留地域名アルファベット順
-    result.sort!{|a,b| a[2]<=>b[2]}
+    result.sort! { |a, b| a[2] <=> b[2] }
     # 海軍優先
-    result.sort!{|a,b| b[1]<=>a[1]}
+    result.sort! { |a, b| b[1] <=> a[1] }
     # 本国の一番近い補給都市への距離が遠い順
-    result.sort!{|a,b| b[0]<=>a[0]}
+    result.sort! { |a, b| b[0] <=> a[0] }
 
-    result = result.map{|x| x[3]}
+    result = result.map { |x| x[3] }
     result.uniq!
     result
   end

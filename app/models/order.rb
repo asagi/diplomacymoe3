@@ -14,28 +14,25 @@ class Order < ApplicationRecord
   CUT = 6
 
   STATUS_NAME = {}
-  STATUS_NAME[UNSLOVED] = 'UNSLOVED'
-  STATUS_NAME[FAILED] = 'FAILED'
-  STATUS_NAME[SUCCEEDED] = 'SUCCEEDED'
-  STATUS_NAME[APPLIED] = 'APPLIED'
-  STATUS_NAME[DISLODGED] = 'DISLODGED'
-  STATUS_NAME[REJECTED] = 'REJECTED'
-  STATUS_NAME[CUT] = 'CUT'
+  STATUS_NAME[UNSLOVED] = "UNSLOVED"
+  STATUS_NAME[FAILED] = "FAILED"
+  STATUS_NAME[SUCCEEDED] = "SUCCEEDED"
+  STATUS_NAME[APPLIED] = "APPLIED"
+  STATUS_NAME[DISLODGED] = "DISLODGED"
+  STATUS_NAME[REJECTED] = "REJECTED"
+  STATUS_NAME[CUT] = "CUT"
 
   after_initialize do
     self.status ||= UNSLOVED
   end
 
-
   def self.status_text(code:)
     STATUS_NAME[code]
   end
 
-
   def status_text
     self.class.status_text(code: self.status)
   end
-
 
   def to_key
     keys = []
@@ -43,74 +40,60 @@ class Order < ApplicationRecord
     keys << unit_kind.downcase
     keys << unit.province
     keys << self.dest if self.dest
-    keys.join('-')
+    keys.join("-")
   end
-
 
   def hold?
     false
   end
 
-
   def move?
     false
   end
-
 
   def support?
     false
   end
 
-
   def convoy?
     false
   end
-
 
   def retreat?
     false
   end
 
-
   def disband?
     false
   end
-
 
   def gain?
     false
   end
 
-
   def lose?
     false
   end
-
 
   def unsloved?
     self.status == UNSLOVED
   end
 
-
   def succeed
     self.status = SUCCEEDED
   end
-
 
   def succeeded?
     self.status == SUCCEEDED
   end
 
-
   def apply
     self.status = APPLIED
   end
 
-
   def applied?
     self.status == APPLIED
   end
-
 
   def fail
     self.status = FAILED
@@ -121,43 +104,37 @@ class Order < ApplicationRecord
     self.status == FAILED
   end
 
-
   def dislodge(against:)
     self.status = DISLODGED
-    self.keepout = against.unit.province[0,3]
+    self.keepout = against.unit.province[0, 3]
   end
-
 
   def dislodged?
     self.status == DISLODGED
   end
 
-
   def reject
     self.status = REJECTED
   end
-
 
   def rejected?
     self.status == REJECTED
   end
 
-
   def cut?
     self.status == CUT
   end
 
-
   private
+
   def unit_kind
     self.unit.type[0]
   end
 
-
   def formated_target
-    keys = self.target.split('-')
+    keys = self.target.split("-")
     target = ""
-    target += Powers[keys[0]]['genitive'] + " " if keys[0] != power.symbol
+    target += Powers[keys[0]]["genitive"] + " " if keys[0] != power.symbol
     target += keys[1].upcase
     target += " " + keys[2]
     target += "-" + keys[3] if keys[3]

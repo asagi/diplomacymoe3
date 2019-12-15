@@ -3,23 +3,21 @@ class ResoluteRetreatsService
     self.new(orders: orders).call
   end
 
-
   def initialize(orders:)
     @orders = orders.to_a
   end
 
-
   def call
     # 解隊命令解決
-    @orders.select{|o| o.disband?}.map{|d| d.succeed}
+    @orders.select { |o| o.disband? }.map { |d| d.succeed }
 
     # 撤退命令解決
-    dests = @orders.select{|o| o.retreat?}.map{|r| r.dest}.uniq
+    dests = @orders.select { |o| o.retreat? }.map { |r| r.dest }.uniq
     dests.each do |dest|
-      retreats = @orders.select{|o| o.retreat? && o.dest == dest}
+      retreats = @orders.select { |o| o.retreat? && o.dest == dest }
       if retreats.size > 1
         # 撤退先競合のため解隊
-        retreats.map{|r| r.fail}
+        retreats.map { |r| r.fail }
         next
       end
 

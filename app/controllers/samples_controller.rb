@@ -39,13 +39,14 @@ class SamplesController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_sample
-      @sample = Sample.find(params[:id])
-    end
 
-    # Only allow a trusted parameter "white list" through.
-    def sample_params
-      params.require(:sample).permit(:name)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_sample
+    @sample = Sample.find(params[:id])
+  end
+
+  # Only allow a trusted parameter "white list" through.
+  def sample_params
+    params.require(:sample).permit(:name)
+  end
 end

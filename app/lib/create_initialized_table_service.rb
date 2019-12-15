@@ -4,12 +4,10 @@ class CreateInitializedTableService
     self.new(user: user, regulation: regulation).call
   end
 
-
   def initialize(user:, regulation:)
     @user = user
     @regulation = regulation
   end
-
 
   def call
     table = Table.create(turn: Const.turns.initial, phase: Const.phases.final, regulation: @regulation)
@@ -21,54 +19,52 @@ class CreateInitializedTableService
     table
   end
 
-
   private
+
   def setup_powers(table)
     # 国
     Initial.powers.each do |symbol, data|
       params = {}
-      params['symbol'] = symbol
-      params['name'] = data['name']
-      params['jname'] = data['jname']
-      params['genitive'] = data['genitive']
+      params["symbol"] = symbol
+      params["name"] = data["name"]
+      params["jname"] = data["jname"]
+      params["genitive"] = data["genitive"]
       table.powers.build(params)
     end
     table.save!
     table
   end
 
-
   def setup_initial_turn(table)
     # 開幕ターン
     turn = table.turns.build
 
     Map.provinces.each do |code, province|
-      next unless province['owner']
+      next unless province["owner"]
       params = {}
-      params['code'] = code[0,3]
-      params['type'] = province['type']
-      params['name'] = province['name']
-      params['jname'] = province['jname']
-      params['supplycenter'] = !!province['supplycenter']
-      params['power'] = province['owner']
+      params["code"] = code[0, 3]
+      params["type"] = province["type"]
+      params["name"] = province["name"]
+      params["jname"] = province["jname"]
+      params["supplycenter"] = !!province["supplycenter"]
+      params["power"] = province["owner"]
       turn.provinces.build(params)
     end
 
     Initial.powers.each do |power, data|
-      next unless data['units']
-      data['units'].each do |unit|
+      next unless data["units"]
+      data["units"].each do |unit|
         params = {}
-        params['power'] = table.powers.find_by(symbol: power)
-        params['province'] = unit['province']
-        params['type'] = unit['type']
-        params['phase'] = table.phase
+        params["power"] = table.powers.find_by(symbol: power)
+        params["province"] = unit["province"]
+        params["type"] = unit["type"]
+        params["phase"] = table.phase
         turn.units.build(params)
       end
     end
     table.save!
     table
   end
-
 
   def setup_initial_players(table)
     table = table.add_master

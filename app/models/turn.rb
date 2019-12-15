@@ -5,11 +5,10 @@ class Turn < ApplicationRecord
   has_many :orders, before_add: :set_phase
 
   def initialize(options = {})
-    options = {number: table.number} unless options
+    options = { number: table.number } unless options
     options[:number] ||= Const.turns.initial
     super
   end
-
 
   def next
     table.turns.build(number: self.number + 1)
@@ -20,8 +19,8 @@ class Turn < ApplicationRecord
 
   end
 
-
   private
+
   def set_phase(order)
     order.phase = table.phase
   end
