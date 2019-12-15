@@ -5,7 +5,7 @@ RSpec.describe CreateInitializedTableService, type: :service do
     let(:table) { CreateInitializedTableService.call(user: @user) }
     let(:units) { turn_0.units.where(phase: table.phase).where(power: @power) }
 
-    before :context do
+    before :example do
       @master = User.find_or_create_by(uid: ENV["MASTER_USER_01"], admin: true)
       @user = User.find_or_create_by(uid: "12345")
     end

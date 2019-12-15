@@ -2,7 +2,7 @@ require "rails_helper"
 
 RSpec.describe "tables", type: :request do
   describe "GET /tables" do
-    before :context do
+    before :example do
       get tables_path
       @json = JSON.parse(response.body)
     end
@@ -14,7 +14,7 @@ RSpec.describe "tables", type: :request do
   end
 
   describe "POST /tables" do
-    before :context do
+    before :example do
       @master = User.find_or_create_by(uid: ENV["MASTER_USER_01"], admin: true)
       @user = User.create
       headers = {}

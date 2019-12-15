@@ -1,15 +1,12 @@
 require "rails_helper"
 
 RSpec.describe PrioritizeDisbandingService, type: :service do
-  before :context do
-    @master = create(:master)
-  end
-
   describe "#call" do
     let(:result) { PrioritizeDisbandingService.call(table: @table, power: @power) }
 
     context "初期配置のオーストリア軍について判定" do
-      before :context do
+      before :example do
+        create(:master)
         user = create(:user)
         regulation = Regulation.create
         regulation.due_date = "2019-05-12"
@@ -27,7 +24,8 @@ RSpec.describe PrioritizeDisbandingService, type: :service do
     end
 
     context "初期配置の全軍をイギリス軍にして判定" do
-      before :context do
+      before :example do
+        create(:master)
         user = create(:user)
         regulation = Regulation.create
         regulation.due_date = "2019-05-12"

@@ -1,15 +1,12 @@
 require "rails_helper"
 
 RSpec.describe ProceedPhaseService, type: :service do
-  before :context do
-    @master = create(:master)
-  end
-
   describe "#call" do
     let(:table) { ProceedPhaseService.call(table: @table) }
 
     context "ロビーから廃卓へ（初回更新時に人数不足）" do
-      before :context do
+      before :example do
+        create(:master)
         user = create(:user)
         regulation = Regulation.create
         regulation.due_date = "2019-05-12"
@@ -32,6 +29,7 @@ RSpec.describe ProceedPhaseService, type: :service do
 
     context "ロビーから開始へ（初回更新時に７人登録）" do
       before :example do
+        create(:master)
         user = create(:user)
         regulation = Regulation.create
         regulation.due_date = "2019-05-12"
@@ -56,6 +54,7 @@ RSpec.describe ProceedPhaseService, type: :service do
 
     context "春外交から秋外交へ" do
       before :example do
+        create(:master)
         user = create(:user)
         regulation = Regulation.create
         regulation.due_date = "2019-05-12"
@@ -122,6 +121,7 @@ RSpec.describe ProceedPhaseService, type: :service do
 
     context "春外交から春撤退へ" do
       before :example do
+        create(:master)
         user = create(:user)
         # 卓作成
         regulation = Regulation.create
@@ -170,6 +170,7 @@ RSpec.describe ProceedPhaseService, type: :service do
 
     context "秋撤退から制覇終了へ" do
       before :example do
+        create(:master)
         user = create(:user)
         # 卓作成
         regulation = Regulation.create
@@ -209,6 +210,7 @@ RSpec.describe ProceedPhaseService, type: :service do
 
     context "秋撤退から翌春外交へ" do
       before :example do
+        create(:master)
         user = create(:user)
         # 卓作成
         regulation = Regulation.create
@@ -250,6 +252,7 @@ RSpec.describe ProceedPhaseService, type: :service do
 
     context "秋撤退から秋調整へ：増設可能" do
       before :example do
+        create(:master)
         user = create(:user)
         # 卓作成
         regulation = Regulation.create

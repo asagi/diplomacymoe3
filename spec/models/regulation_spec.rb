@@ -1,7 +1,8 @@
 require "rails_helper"
 
 RSpec.describe Regulation, type: :model do
-  before :context do
+  before :example do
+    create(:master)
     @user = User.find_or_create_by(uid: "12345")
   end
 
@@ -10,7 +11,7 @@ RSpec.describe Regulation, type: :model do
   describe "#create" do
     context "table への各レギュレーションモジュールの extend テスト" do
       context "初期値デフォルト" do
-        before :context do
+        before :example do
           @regulation = Regulation.create
         end
 
@@ -28,7 +29,7 @@ RSpec.describe Regulation, type: :model do
       end
 
       context "初期値を明示的に指定" do
-        before :context do
+        before :example do
           options = {}
           options[:face_type] = Const.regulation.face_type.girl
           options[:period_rule] = Const.regulation.period_rule.fixed
@@ -50,7 +51,7 @@ RSpec.describe Regulation, type: :model do
       end
 
       context "デフォルト値とは逆の初期値を指定" do
-        before :context do
+        before :example do
           options = {}
           options[:face_type] = Const.regulation.face_type.flag
           options[:period_rule] = Const.regulation.period_rule.flexible
@@ -77,7 +78,7 @@ RSpec.describe Regulation, type: :model do
     context "中期卓" do
       context "固定制" do
         context "処理フェイズが日付を跨がない場合" do
-          before :context do
+          before :example do
             options = {}
             options[:period_rule] = Const.regulation.period_rule.fixed
             options[:duration] = Const.regulation.duration.standard
@@ -169,7 +170,7 @@ RSpec.describe Regulation, type: :model do
         end
 
         context "処理フェイズが日付を跨ぐ場合" do
-          before :context do
+          before :example do
             options = {}
             options[:period_rule] = Const.regulation.period_rule.fixed
             options[:duration] = Const.regulation.duration.standard
@@ -253,7 +254,7 @@ RSpec.describe Regulation, type: :model do
       end
 
       context "変動制" do
-        before :context do
+        before :example do
           options = {}
           options[:period_rule] = Const.regulation.period_rule.flexible
           options[:duration] = Const.regulation.duration.standard
@@ -302,7 +303,7 @@ RSpec.describe Regulation, type: :model do
     context "短期卓" do
       context "固定制" do
         context "処理フェイズが日付を跨がない場合" do
-          before :context do
+          before :example do
             options = {}
             options[:period_rule] = Const.regulation.period_rule.fixed
             options[:duration] = Const.regulation.duration.short
@@ -389,7 +390,7 @@ RSpec.describe Regulation, type: :model do
         end
 
         context "処理フェイズが日付を跨ぐ場合" do
-          before :context do
+          before :example do
             options = {}
             options[:period_rule] = Const.regulation.period_rule.fixed
             options[:duration] = Const.regulation.duration.short
@@ -482,7 +483,7 @@ RSpec.describe Regulation, type: :model do
       end
 
       context "変動制" do
-        before :context do
+        before :example do
           options = {}
           options[:period_rule] = Const.regulation.period_rule.flexible
           options[:duration] = Const.regulation.duration.short

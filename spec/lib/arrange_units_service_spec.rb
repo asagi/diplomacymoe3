@@ -4,7 +4,7 @@ RSpec.describe ArrangeUnitsService, type: :service do
   describe "#call" do
     context "外交フェイズ" do
       context "維持" do
-        before :context do
+        before :example do
           @table = Table.create(turn: 0, phase: Const.phases.fal_3rd)
           @power_g = @table.powers.create(symbol: Power::G)
           @turn = @table.turns.create(number: @table.turn)
@@ -27,7 +27,7 @@ RSpec.describe ArrangeUnitsService, type: :service do
       end
 
       context "移動" do
-        before :context do
+        before :example do
           @table = Table.create(turn: 0, phase: Const.phases.fal_3rd)
           @power_g = @table.powers.create(symbol: Power::G)
           @turn = @table.turns.create(number: @table.turn)
@@ -55,7 +55,7 @@ RSpec.describe ArrangeUnitsService, type: :service do
       end
 
       context "支援" do
-        before :context do
+        before :example do
           @table = Table.create(turn: 0, phase: Const.phases.fal_3rd)
           @power_g = @table.powers.create(symbol: Power::G)
           @turn = @table.turns.create(number: @table.turn)
@@ -91,7 +91,7 @@ RSpec.describe ArrangeUnitsService, type: :service do
       end
 
       context "輸送" do
-        before :context do
+        before :example do
           @table = Table.create(turn: 0, phase: Const.phases.fal_3rd)
           @power_e = @table.powers.create(symbol: Power::E)
           @turn = @table.turns.create(number: @table.turn)

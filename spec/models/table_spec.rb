@@ -3,7 +3,7 @@ require "rails_helper"
 RSpec.describe Table, type: :model do
   describe "#create" do
     context "Regulation 省略" do
-      before :context do
+      before :example do
         @table = Table.create(turn: 1, phase: Const.phases.spr_1st)
       end
 
@@ -16,7 +16,7 @@ RSpec.describe Table, type: :model do
     end
 
     context "Regulation 指定" do
-      before :context do
+      before :example do
         @regulation = Regulation.create
         @table = Table.create(turn: 1, phase: Const.phases.spr_1st, regulation: @regulation)
       end
@@ -34,7 +34,7 @@ RSpec.describe Table, type: :model do
     let(:table) { CreateInitializedTableService.call(user: @user) }
 
     context "参加者が 7 人に達していない場合" do
-      before :context do
+      before :example do
         create(:master)
         @user = create(:user)
       end
@@ -45,7 +45,8 @@ RSpec.describe Table, type: :model do
     end
 
     context "参加者が 7 人に達している場合" do
-      before :context do
+      before :example do
+        create(:master)
         @user = create(:user)
         @table = CreateInitializedTableService.call(user: @user)
         (1..6).each { @table = @table.add_player(user: create(:user)) }
@@ -59,7 +60,8 @@ RSpec.describe Table, type: :model do
 
   describe "#proceed" do
     context "CreateInitializedTableService.call で生成" do
-      before :context do
+      before :example do
+        create(:master)
         @user = create(:user)
         @table = CreateInitializedTableService.call(user: @user)
         override_proceed(table: @table)
@@ -75,7 +77,8 @@ RSpec.describe Table, type: :model do
 
   describe "#order_targets" do
     context "CreateInitializedTableService.call で生成" do
-      before :context do
+      before :example do
+        create(:master)
         @user = create(:user)
         @table = CreateInitializedTableService.call(user: @user)
         override_proceed(table: @table)

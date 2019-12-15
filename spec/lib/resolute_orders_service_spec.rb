@@ -876,7 +876,7 @@ RSpec.describe ResoluteOrdersService, type: :service do
     end
 
     context "Diagram 25:" do
-      before :context do
+      before :example do
         @table = Table.create(turn: 0, phase: Const.phases.fal_3rd)
         override_proceed(table: @table)
         @power_a = @table.powers.create(symbol: Power::A)
@@ -921,7 +921,7 @@ RSpec.describe ResoluteOrdersService, type: :service do
     end
 
     context "Diagram 26:" do
-      before :context do
+      before :example do
         @table = Table.create(turn: 0, phase: Const.phases.fal_3rd)
         override_proceed(table: @table)
         @power_e = @table.powers.create(symbol: Power::E)
@@ -971,7 +971,7 @@ RSpec.describe ResoluteOrdersService, type: :service do
     end
 
     context "Diagram 27:" do
-      before :context do
+      before :example do
         @table = Table.create(turn: 0, phase: Const.phases.fal_3rd)
         override_proceed(table: @table)
         @power_a = @table.powers.create(symbol: Power::A)
@@ -1003,7 +1003,7 @@ RSpec.describe ResoluteOrdersService, type: :service do
     end
 
     context "Diagram 28:" do
-      before :context do
+      before :example do
         @table = Table.create(turn: 0, phase: Const.phases.fal_3rd)
         override_proceed(table: @table)
         @power_e = @table.powers.create(symbol: Power::E)
@@ -1041,7 +1041,7 @@ RSpec.describe ResoluteOrdersService, type: :service do
     end
 
     context "Diagram 29:" do
-      before :context do
+      before :example do
         @table = Table.create(turn: 0, phase: Const.phases.fal_3rd)
         override_proceed(table: @table)
         @power_e = @table.powers.create(symbol: Power::E)
@@ -1089,7 +1089,7 @@ RSpec.describe ResoluteOrdersService, type: :service do
     end
 
     context "Diagram 30:" do
-      before :context do
+      before :example do
         @table = Table.create(turn: 0, phase: Const.phases.fal_3rd)
         override_proceed(table: @table)
         @power_f = @table.powers.create(symbol: Power::F)
@@ -1127,7 +1127,7 @@ RSpec.describe ResoluteOrdersService, type: :service do
     end
 
     context "Diagram 31:" do
-      before :context do
+      before :example do
         @table = Table.create(turn: 0, phase: Const.phases.fal_3rd)
         override_proceed(table: @table)
         @power_f = @table.powers.create(symbol: Power::F)
@@ -1171,7 +1171,7 @@ RSpec.describe ResoluteOrdersService, type: :service do
     end
 
     context "Diagram 32:" do
-      before :context do
+      before :example do
         @table = Table.create(turn: 0, phase: Const.phases.fal_3rd)
         override_proceed(table: @table)
         @power_f = @table.powers.create(symbol: Power::F)
