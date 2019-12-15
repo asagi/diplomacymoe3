@@ -15,8 +15,8 @@ RSpec.describe "tables", type: :request do
 
   describe "POST /tables" do
     before :example do
-      @master = User.find_or_create_by(uid: ENV["MASTER_USER_01"], admin: true)
-      @user = User.create
+      create(:master)
+      @user = create(:user)
       headers = {}
       headers[:HTTP_AUTHORIZATION] = "Bearer %s" % [@user.token]
       headers[:CONTENT_TYPE] = "application/json"

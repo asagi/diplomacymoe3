@@ -1,5 +1,5 @@
 class TablesController < ApplicationController
-   def index
+  def index
     @tables = Table.all
     render json: @tables
   end

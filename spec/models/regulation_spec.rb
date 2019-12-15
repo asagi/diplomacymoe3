@@ -3,7 +3,7 @@ require "rails_helper"
 RSpec.describe Regulation, type: :model do
   before :example do
     create(:master)
-    @user = User.find_or_create_by(uid: "12345")
+    @user = create(:user)
   end
 
   let(:table) { CreateInitializedTableService.call(user: @user, regulation: @regulation) }
