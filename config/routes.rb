@@ -7,5 +7,5 @@ Rails.application.routes.draw do
   get "/logout", to: "sessions#destroy"
 
   get "/tables", to: "tables#index"
-  post "/tables", to: "tables#create"
+  post "/tables", to: "regulations#create"
 end
