@@ -1,6 +1,12 @@
 require "rails_helper"
 
 RSpec.describe "tables", type: :request do
+  before :example do
+    create(:master)
+  end
+
+  let(:user) { create(:user) }
+
   describe "GET /tables" do
     before :example do
       get tables_path
@@ -10,15 +16,14 @@ RSpec.describe "tables", type: :request do
     example "200 が返ってくる" do
       expect(response).to be_successful
       expect(response.status).to eq 200
+      expect(@json.size).to eq 0
     end
   end
 
   describe "POST /tables" do
     before :example do
-      create(:master)
-      @user = create(:user)
       headers = {}
-      headers[:HTTP_AUTHORIZATION] = "Bearer %s" % [@user.token]
+      headers[:HTTP_AUTHORIZATION] = "Bearer %s" % [user.token]
       headers[:CONTENT_TYPE] = "application/json"
       params = {}
       params[:face_type] = Const.regulation.face_type.girl
