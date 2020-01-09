@@ -3,12 +3,10 @@ class Regulation < ApplicationRecord
 
   module FaceType
     module Girl
-      # TODO
       def face_type; "girl" end
     end
 
     module Flag
-      # TODO
       def face_type; "flag" end
     end
   end
@@ -17,6 +15,8 @@ class Regulation < ApplicationRecord
     # next_period は更新時刻以降に呼ばれるものとする
 
     module Fixed
+      def period_rule; "fixed" end
+
       def next_period(next_phase:)
         now = Time.zone.now
 
@@ -38,6 +38,8 @@ class Regulation < ApplicationRecord
     end
 
     module Flexible
+      def period_rule; "flexible" end
+
       def next_period(next_phase:)
         now = Time.zone.now
 
@@ -55,11 +57,15 @@ class Regulation < ApplicationRecord
 
   module Duration
     module Short
+      def duration; "short" end
+
       def negotiation_time; 60 * 60 end
       def cleanup_time; 60 * 15 end
     end
 
     module Standard
+      def duration; "standard" end
+
       def negotiation_time; 60 * 60 * 24 end
       def cleanup_time; 60 * 30 end
     end
