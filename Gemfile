@@ -50,6 +50,11 @@ group :development, :test do
   gem "database_rewinder"
 end
 
+# unicorn
+group :production do
+  gem "unicorn", "~>5.4.0"
+end
+
 # dotenv
 gem "dotenv-rails"
 
