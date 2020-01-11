@@ -1,5 +1,5 @@
 class SessionsController < ApplicationController
-  before_action :authenticate, only: [:destroy]
+  before_action :authenticate, only: [:refresh, :destroy]
 
   def login
     raise CustomError::BadRequest unless params[:provider]
@@ -12,6 +12,12 @@ class SessionsController < ApplicationController
     token = user.token
     url = request.env["omniauth.params"]["redirect"]
     redirect_to "#{url}?token=#{token}"
+  end
+
+  def refresh
+    @auth_user.regenerate_token
+    @auth_user.save!
+    render json: { token: @auth_user.token }
   end
 
   def destroy
