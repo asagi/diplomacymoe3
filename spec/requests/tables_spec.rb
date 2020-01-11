@@ -74,39 +74,18 @@ RSpec.describe "tables", type: :request do
         JSON
 
         post tables_path, params: params_json, headers: headers
-        @json = JSON.parse(response.body)
       end
 
       example "API が正常に終了する" do
         expect(response).to be_successful
       end
 
-      example "200 が返ってくる" do
-        expect(response.status).to eq 200
+      example "201 が返ってくる" do
+        expect(response.status).to eq 201
       end
 
-      example "作成された卓の ID が null ではないこと" do
-        expect(@json["id"]).not_to be_nil
-      end
-
-      example "レスポンスの ID の卓が 存在すること" do
-        expect(table).not_to be_nil
-      end
-
-      example "作成された卓のフェイスタイプが娘であること" do
-        expect(table.face_type).to eq "girl"
-      end
-
-      example "作成された卓の更新期限が固定であること" do
-        expect(table.period_rule).to eq "fixed"
-      end
-
-      example "作成された卓の外交周期が標準であること" do
-        expect(table.duration).to eq "standard"
-      end
-
-      example "作成された卓の初回更新日時が '2020-01-09 1:00' であること" do
-        expect(table.regulation.first_period).to eq "2020-01-09 1:00"
+      example "Location ヘッダが設定されている" do
+        expect(response.headers['Location']).not_to be_nil
       end
     end
   end

@@ -17,9 +17,9 @@ RSpec.describe ProceedPhaseService, type: :service do
         @table = CreateInitializedTableService.call(user: user, regulation: regulation)
       end
 
-      example "更新前の卓のステータスが LOBBY であること" do
+      example "更新前の卓のステータスが CREATED であること" do
         travel_to("2019-05-12 06:50") do
-          expect(table.status_text).to eq Table.status_text(code: Table::LOBBY)
+          expect(table.status_text).to eq Table.status_text(code: Table::CREATED)
         end
       end
 

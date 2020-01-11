@@ -35,7 +35,7 @@ class ProceedPhaseService
       raise ActiveRecord::Rollback if @table.period > now
 
       case @table.status
-      when Table::LOBBY
+      when Table::CREATED
         # ロビー
         # TODO: 参加者が揃っていなければ終了
         unless @table.full?

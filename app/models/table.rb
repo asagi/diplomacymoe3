@@ -4,7 +4,7 @@ class Table < ApplicationRecord
   has_many :players
   belongs_to :regulation, optional: true
 
-  LOBBY = 0
+  CREATED = 0
   DISCARDED = 1
   READY = 2
   STARTED = 3
@@ -13,7 +13,7 @@ class Table < ApplicationRecord
   CLOSED = 6
 
   STATUS_NAME = {}
-  STATUS_NAME[LOBBY] = "LOBBY"
+  STATUS_NAME[CREATED] = "CREATED"
   STATUS_NAME[DISCARDED] = "DISCARDED"
   STATUS_NAME[READY] = "READY"
   STATUS_NAME[STARTED] = "STARTED"
@@ -34,7 +34,7 @@ class Table < ApplicationRecord
     self.extend self.regulation.face_type_module
     self.extend self.regulation.period_rule_module
     self.extend self.regulation.duration_module
-    self.status ||= LOBBY
+    self.status ||= CREATED
   end
 
   def initialize(options = {})
@@ -47,7 +47,7 @@ class Table < ApplicationRecord
   def full?
     # 管理人を除いて 7 人
     case self.status
-    when LOBBY
+    when CREATED
       self.players.joins(:user).where(users: { admin: false }).size == 7
     end
   end
