@@ -138,7 +138,7 @@ class ProceedPhaseService
             province = turn.provinces.find_by(code: unit.province[0, 3])
             unless province
               # 中立地域の占領
-              params = Map.provinces[unit.province[0, 3]]
+              params = GameMap.provinces[unit.province[0, 3]]
               params["code"] = unit.province[0, 3]
               province = turn.provinces.build(params)
             end
@@ -176,7 +176,7 @@ class ProceedPhaseService
             next if provinces.size == units.size
 
             if provinces.size > units.size
-              homes = Map.provinces.select { |p, v| v["supplycenter"] && v["owner"] == power.symbol }.keys
+              homes = GameMap.provinces.select { |p, v| v["supplycenter"] && v["owner"] == power.symbol }.keys
               homes.each do |province|
                 if units.where("province like ?", "#{province}%").size == 0
                   # ユニットより補給都市が多く本国補給都市に空きがある：増設可

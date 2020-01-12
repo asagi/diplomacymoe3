@@ -4,11 +4,9 @@ class TablesController < ApplicationController
                     :face_type,
                     :period_rule,
                     :duration,
+                    :juggling,
                     :due_date,
                     :start_time,
-                    :private,
-                    :keyword,
-                    :power,
                   ]
 
   before_action :authenticate, only: [:create]
@@ -26,11 +24,21 @@ class TablesController < ApplicationController
   def create
     @regulation = Regulation.create(regulation_params)
     @table = CreateInitializedTableService.call(user: @auth_user, regulation: @regulation)
-    head :created, location: table_path(@table)
+    response.headers["Location"] = table_path(@table)
+    render status: :created, json: { id: @table.id }
   end
 
   def regulation_params
-    params.require(:regulation).permit(:face_type, :period_rule, :duration, :keyword, :due_date, :start_time)
+    params.require(:regulation)
+      .permit(
+        :face_type,
+        :period_rule,
+        :duration,
+        :juggling,
+        :keyword,
+        :due_date,
+        :start_time
+      )
   end
 
   private

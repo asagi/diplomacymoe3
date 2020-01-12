@@ -1,4 +1,4 @@
-class MapInit < Settingslogic
+class GameMap < Settingslogic
   source Rails.root.join("config", "map.yml")
   namespace Rails.env
 

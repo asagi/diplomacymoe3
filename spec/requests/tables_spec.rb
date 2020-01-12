@@ -57,22 +57,20 @@ RSpec.describe "tables", type: :request do
 
   describe "POST /tables" do
     context "娘/固定/標準/2020-01-09/1:00/鍵なし/おまかせ" do
-      let (:table) { Table.find(@json["id"]) }
       before :example do
         params_json = <<-'JSON'
-  {
-    "face_type": "1",
-    "period_rule": "1",
-    "duration": "2",
-    "juggling": "1",
-    "private": false,
-    "keyword": "",
-    "due_date": "2020-01-09",
-    "start_time": "1:00",
-    "power": ""
-  }
+{
+  "face_type": "1",
+  "period_rule": "1",
+  "duration": "2",
+  "juggling": "1",
+  "private": false,
+  "keyword": "",
+  "due_date": "2020-01-09",
+  "start_time": "1:00",
+  "power": ""
+}
         JSON
-
         post tables_path, params: params_json, headers: headers
       end
 
@@ -86,6 +84,11 @@ RSpec.describe "tables", type: :request do
 
       example "Location ヘッダが設定されている" do
         expect(response.headers['Location']).not_to be_nil
+      end
+
+      example "レスポンスに ID が含まれている" do
+        json = JSON.parse(response.body)
+        expect(json['id']).to be > 0
       end
     end
   end

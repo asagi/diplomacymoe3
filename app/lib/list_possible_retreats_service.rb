@@ -27,7 +27,7 @@ class ListPossibleRetreatsService
 
   def gen_retreat_order_menu
     result = []
-    Map.adjacents[@unit.province].each do |code, data|
+    GameMap.adjacents[@unit.province].each do |code, data|
       next unless data[@unit.type.downcase]
       next if @standoff.include?(code[0, 3])
       next if @occupied_areas.include?(code[0, 3])

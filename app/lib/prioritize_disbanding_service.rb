@@ -15,11 +15,11 @@ class PrioritizeDisbandingService
     units = @table.last_phase_units.where(power: @power)
     units.each do |unit|
       unit_distances = []
-      home_sc = Map.home_sc_codes(power: @power.symbol)
+      home_sc = GameMap.home_sc_codes(power: @power.symbol)
       home_sc.each do |sc|
-        distance = Map.distance(from: sc, to: unit.province)
+        distance = GameMap.distance(from: sc, to: unit.province)
         utype = unit.type
-        pname = Map.provinces[unit.province]["name"]
+        pname = GameMap.provinces[unit.province]["name"]
         unit_distances << [distance, utype, pname, unit.province]
       end
       unit_distances.sort! { |a, b| a[0] <=> b[0] }

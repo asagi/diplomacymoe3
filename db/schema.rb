@@ -10,7 +10,8 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_05_12_135122) do
+ActiveRecord::Schema.define(version: 2020_01_12_131004) do
+
   create_table "maps", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -81,7 +82,7 @@ ActiveRecord::Schema.define(version: 2019_05_12_135122) do
     t.datetime "updated_at", null: false
     t.date "due_date"
     t.string "start_time"
-    t.boolean "stand_by"
+    t.integer "juggling"
   end
 
   create_table "tables", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
