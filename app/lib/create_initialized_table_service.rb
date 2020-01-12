@@ -39,7 +39,7 @@ class CreateInitializedTableService
     # 開幕ターン
     turn = table.turns.build
 
-    GameMap.provinces.each do |code, province|
+    MapUtil.provinces.each do |code, province|
       next unless province["owner"]
       params = {}
       params["code"] = code[0, 3]

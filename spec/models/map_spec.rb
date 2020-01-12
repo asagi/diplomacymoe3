@@ -1,5 +1,5 @@
 require "rails_helper"
 
-RSpec.describe GameMap, type: :model do
+RSpec.describe MapUtil, type: :model do
   #pending "add some examples to (or delete) #{__FILE__}"
 end

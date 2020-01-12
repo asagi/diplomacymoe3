@@ -10,14 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_01_12_131004) do
-
-  create_table "maps", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.bigint "turn_id"
-    t.index ["turn_id"], name: "index_maps_on_turn_id"
-  end
+ActiveRecord::Schema.define(version: 2020_01_12_140824) do
 
   create_table "orders", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.bigint "turn_id"
@@ -134,7 +127,6 @@ ActiveRecord::Schema.define(version: 2020_01_12_131004) do
     t.index ["uid"], name: "index_users_on_uid", unique: true
   end
 
-  add_foreign_key "maps", "turns"
   add_foreign_key "orders", "powers"
   add_foreign_key "orders", "turns"
   add_foreign_key "orders", "units"

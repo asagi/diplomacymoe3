@@ -33,7 +33,7 @@ class ListPossibleOrdersService
 
   def gen_move_order_menu
     result = []
-    GameMap.adjacents[@unit.province].each do |code, data|
+    MapUtil.adjacents[@unit.province].each do |code, data|
       next unless data[@unit.type.downcase]
       result << MoveOrder.new(power: @power, unit: @unit, dest: code)
       @dests << code
@@ -44,7 +44,7 @@ class ListPossibleOrdersService
   def gen_movc_order_menu
     result = []
     return result unless @unit.army?
-    return result unless GameMap.provinces[@unit.province]["type"] == Coastal.to_s
+    return result unless MapUtil.provinces[@unit.province]["type"] == Coastal.to_s
     SearchReachableCoastalsService.call(unit: @unit).each do |code|
       result << MoveOrder.new(power: @power, unit: @unit, dest: code)
     end
@@ -69,7 +69,7 @@ class ListPossibleOrdersService
 
   def gen_conv_order_menu
     result = []
-    return [] unless GameMap.provinces[@unit.province]["type"] == Water.to_s
+    return [] unless MapUtil.provinces[@unit.province]["type"] == Water.to_s
     @orders.where(type: MoveOrder.to_s).each do |o|
       coastals = SearchReachableCoastalsService.call(unit: @unit)
       next unless coastals.include?(o.unit.province)
