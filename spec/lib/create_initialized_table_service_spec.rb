@@ -5,7 +5,7 @@ RSpec.describe CreateInitializedTableService, type: :service do
     @master = create(:master)
   end
 
-  let(:master) { table.players.find_by(user_id: @master.id) }
+  let(:master) { table.players.find_by(power: table.powers.find_by(symbol: 'x')) }
   let(:user) { create(:user) }
   let(:table) { CreateInitializedTableService.call(owner: { user: user, desired_power: "" }) }
   let(:turn_0) { table.turns.last }

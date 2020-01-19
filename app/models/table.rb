@@ -53,8 +53,7 @@ class Table < ApplicationRecord
   end
 
   def add_master
-    master = User.find_by(uid: ENV["MASTER_USER_01"])
-    self.players.create(user: master, power: self.powers.find_by(symbol: "x"))
+    self.players.create(user: nil, power: self.powers.find_by(symbol: "x"))
     self
   end
 
