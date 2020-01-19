@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_01_12_140824) do
+ActiveRecord::Schema.define(version: 2020_01_19_061856) do
 
   create_table "orders", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.bigint "turn_id"
@@ -35,6 +35,7 @@ ActiveRecord::Schema.define(version: 2020_01_12_140824) do
     t.bigint "table_id"
     t.bigint "user_id"
     t.bigint "power_id"
+    t.string "desired_power"
     t.index ["power_id"], name: "index_players_on_power_id"
     t.index ["table_id"], name: "index_players_on_table_id"
     t.index ["user_id"], name: "index_players_on_user_id"
@@ -47,9 +48,7 @@ ActiveRecord::Schema.define(version: 2020_01_12_140824) do
     t.string "symbol"
     t.string "name"
     t.string "genitive"
-    t.bigint "player_id"
     t.string "jname"
-    t.index ["player_id"], name: "index_powers_on_player_id"
     t.index ["table_id"], name: "index_powers_on_table_id"
   end
 
@@ -133,7 +132,6 @@ ActiveRecord::Schema.define(version: 2020_01_12_140824) do
   add_foreign_key "players", "powers"
   add_foreign_key "players", "tables"
   add_foreign_key "players", "users"
-  add_foreign_key "powers", "players"
   add_foreign_key "powers", "tables"
   add_foreign_key "provinces", "turns"
   add_foreign_key "tables", "regulations"
