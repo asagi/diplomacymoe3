@@ -14,7 +14,7 @@ RSpec.describe PrioritizeDisbandingService, type: :service do
         regulation = Regulation.create
         regulation.due_date = "2019-05-12"
         regulation.start_time = "07:00"
-        @table = CreateInitializedTableService.call(user: user, regulation: regulation)
+        @table = CreateInitializedTableService.call(owner: { user: user, desired_power: "" }, regulation: regulation)
         @table = @table.start
         @power = @table.powers.find_by(symbol: "a")
       end
@@ -31,7 +31,7 @@ RSpec.describe PrioritizeDisbandingService, type: :service do
         regulation = Regulation.create
         regulation.due_date = "2019-05-12"
         regulation.start_time = "07:00"
-        @table = CreateInitializedTableService.call(user: user, regulation: regulation)
+        @table = CreateInitializedTableService.call(owner: { user: user, desired_power: "" }, regulation: regulation)
         @table = @table.start
         @power = @table.powers.find_by(symbol: "e")
         @table.last_phase_units.map { |u| u.power = @power; u.save! }

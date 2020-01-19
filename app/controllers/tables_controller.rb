@@ -22,8 +22,12 @@ class TablesController < ApplicationController
   end
 
   def create
+    @owner = {
+      user: @auth_user,
+      desired_power: "",
+    }
     @regulation = Regulation.create(regulation_params)
-    @table = CreateInitializedTableService.call(user: @auth_user, regulation: @regulation)
+    @table = CreateInitializedTableService.call(owner: @owner, regulation: @regulation)
     response.headers["Location"] = table_path(@table)
     render status: :created, json: { id: @table.id }
   end

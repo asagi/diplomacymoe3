@@ -1,11 +1,12 @@
 class CreateInitializedTableService
-  def self.call(user:, regulation: nil)
+  def self.call(owner:, regulation: nil)
     regulation = Regulation.create unless regulation
-    self.new(user: user, regulation: regulation).call
+    self.new(owner: owner, regulation: regulation).call
   end
 
-  def initialize(user:, regulation:)
-    @user = user
+  def initialize(owner:, regulation:)
+    @owner = owner[:user]
+    @owner_desired_power = owner["desired_power"]
     @regulation = regulation
   end
 
@@ -68,7 +69,7 @@ class CreateInitializedTableService
 
   def setup_initial_players(table)
     table = table.add_master
-    table = table.add_player(user: @user)
+    table = table.add_player(user: @owner, desired_power: @owner_desired_power)
     table.save!
     table
   end

@@ -83,12 +83,12 @@ RSpec.describe "tables", type: :request do
       end
 
       example "Location ヘッダが設定されている" do
-        expect(response.headers['Location']).not_to be_nil
+        expect(response.headers["Location"]).not_to be_nil
       end
 
       example "レスポンスに ID が含まれている" do
         json = JSON.parse(response.body)
-        expect(json['id']).to be > 0
+        expect(json["id"]).to be > 0
       end
     end
   end

@@ -3,10 +3,10 @@ require "rails_helper"
 RSpec.describe Regulation, type: :model do
   before :example do
     create(:master)
-    @user = create(:user)
+    @owner = { user: create(:user), desired_power: "" }
   end
 
-  let(:table) { CreateInitializedTableService.call(user: @user, regulation: @regulation) }
+  let(:table) { CreateInitializedTableService.call(owner: @owner, regulation: @regulation) }
 
   describe "#create" do
     context "table への各レギュレーションモジュールの extend テスト" do

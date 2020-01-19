@@ -6,7 +6,7 @@ RSpec.describe Table, type: :model do
   end
 
   let(:user) { create(:user) }
-  let(:table) { CreateInitializedTableService.call(user: user) }
+  let(:table) { CreateInitializedTableService.call(owner: { user: user, desired_power: "" }) }
 
   describe "#create" do
     context "Regulation 省略" do
