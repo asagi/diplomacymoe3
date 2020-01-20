@@ -10,7 +10,8 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_01_19_061856) do
+ActiveRecord::Schema.define(version: 2020_01_20_014653) do
+
   create_table "orders", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.bigint "turn_id"
     t.bigint "power_id"
@@ -74,6 +75,7 @@ ActiveRecord::Schema.define(version: 2020_01_19_061856) do
     t.date "due_date"
     t.string "start_time"
     t.integer "juggling"
+    t.boolean "private", default: false
   end
 
   create_table "tables", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|

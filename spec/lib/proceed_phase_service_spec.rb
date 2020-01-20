@@ -14,7 +14,7 @@ RSpec.describe ProceedPhaseService, type: :service do
         regulation = Regulation.create
         regulation.due_date = "2019-05-12"
         regulation.start_time = "07:00"
-        @table = CreateInitializedTableService.call(owner: { user: user, desired_power: "" }, regulation: regulation)
+        @table = CreateInitializedTableService.call(owner: { user: user }, regulation: regulation)
       end
 
       example "更新前の卓のステータスが CREATED であること" do
@@ -35,7 +35,7 @@ RSpec.describe ProceedPhaseService, type: :service do
         regulation = Regulation.create
         regulation.due_date = "2019-05-12"
         regulation.start_time = "07:00"
-        @table = CreateInitializedTableService.call(owner: { user: user, desired_power: "" }, regulation: regulation)
+        @table = CreateInitializedTableService.call(owner: { user: user }, regulation: regulation)
         (1..6).each { @table = @table.add_player(user: create(:user)) }
       end
 
@@ -58,7 +58,7 @@ RSpec.describe ProceedPhaseService, type: :service do
         regulation = Regulation.create
         regulation.due_date = "2019-05-12"
         regulation.start_time = "07:00"
-        @table = CreateInitializedTableService.call(owner: { user: user, desired_power: "" }, regulation: regulation)
+        @table = CreateInitializedTableService.call(owner: { user: user }, regulation: regulation)
         @table = @table.start
         @table.period = "2019-05-12 07:00"
         # 仮想命令登録
@@ -124,7 +124,7 @@ RSpec.describe ProceedPhaseService, type: :service do
         regulation = Regulation.create
         regulation.due_date = "2019-05-12"
         regulation.start_time = "07:00"
-        @table = CreateInitializedTableService.call(owner: { user: user, desired_power: "" }, regulation: regulation)
+        @table = CreateInitializedTableService.call(owner: { user: user }, regulation: regulation)
         # 1901 年春外交フェイズに進む
         @table = @table.start
         # F lon が敗退したことにする
@@ -171,7 +171,7 @@ RSpec.describe ProceedPhaseService, type: :service do
         regulation = Regulation.create
         regulation.due_date = "2019-05-12"
         regulation.start_time = "07:00"
-        @table = CreateInitializedTableService.call(owner: { user: user, desired_power: "" }, regulation: regulation)
+        @table = CreateInitializedTableService.call(owner: { user: user }, regulation: regulation)
         # 1901 年春外交フェイズに進む
         @table = @table.start
         # 1901 年秋撤退フェイズに進む
@@ -209,7 +209,7 @@ RSpec.describe ProceedPhaseService, type: :service do
         regulation = Regulation.create
         regulation.due_date = "2019-05-12"
         regulation.start_time = "07:00"
-        @table = CreateInitializedTableService.call(owner: { user: user, desired_power: "" }, regulation: regulation)
+        @table = CreateInitializedTableService.call(owner: { user: user }, regulation: regulation)
         # 1901 年春外交フェイズに進む
         @table = @table.start
         # 1901 年秋撤退フェイズに進む
@@ -249,7 +249,7 @@ RSpec.describe ProceedPhaseService, type: :service do
         regulation = Regulation.create
         regulation.due_date = "2019-05-12"
         regulation.start_time = "07:00"
-        @table = CreateInitializedTableService.call(owner: { user: user, desired_power: "" }, regulation: regulation)
+        @table = CreateInitializedTableService.call(owner: { user: user }, regulation: regulation)
         # 1901 年春外交フェイズに進む
         @table = @table.start
         # 1901 年秋撤退フェイズに進む

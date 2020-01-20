@@ -3,7 +3,7 @@ require "rails_helper"
 RSpec.describe Regulation, type: :model do
   before :example do
     create(:master)
-    @owner = { user: create(:user), desired_power: "" }
+    @owner = { user: create(:user) }
   end
 
   let(:table) { CreateInitializedTableService.call(owner: @owner, regulation: @regulation) }

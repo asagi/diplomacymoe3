@@ -7,7 +7,7 @@ RSpec.describe CreateInitializedTableService, type: :service do
 
   let(:master) { table.players.find_by(power: table.powers.find_by(symbol: 'x')) }
   let(:user) { create(:user) }
-  let(:table) { CreateInitializedTableService.call(owner: { user: user, desired_power: "" }) }
+  let(:table) { CreateInitializedTableService.call(owner: { user: user }) }
   let(:turn_0) { table.turns.last }
   let(:units) { turn_0.units.where(phase: table.phase).where(power: @power) }
   let(:provinces) { turn_0.provinces }

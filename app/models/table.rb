@@ -57,7 +57,7 @@ class Table < ApplicationRecord
     self
   end
 
-  def add_player(user:, desired_power: nil)
+  def add_player(user:, desired_power: "")
     self.players.create(user: user, desired_power: desired_power)
     self
   end

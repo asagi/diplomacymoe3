@@ -68,7 +68,7 @@ RSpec.describe "tables", type: :request do
   "keyword": "",
   "due_date": "2020-01-09",
   "start_time": "1:00",
-  "power": ""
+  "desired_power": ""
 }
         JSON
         post tables_path, params: params_json, headers: headers
