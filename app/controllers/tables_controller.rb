@@ -30,7 +30,7 @@ class TablesController < ApplicationController
       response.headers["Location"] = table_path(@table)
       render status: :created, json: { id: @table.id }
     else
-      raise CustomError::BadRequest, JSON.generate(errors: create_table.errors.messages)
+      raise CustomError::BadRequest, create_table.errors.messages.to_json
     end
   end
 

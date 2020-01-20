@@ -42,16 +42,16 @@ class ApplicationController < ActionController::API
   end
 
   def render_error(e, status)
-    render json: { "error": e }, status: status
+    render json: { errors: JSON.parse(e.message) }, status: status
   end
 
   protected
 
   def authenticate
-    raise CustomError::Forbidden.new unless authenticate_token
+    raise CustomError::Forbidden.new unless authenticate_user
   end
 
-  def authenticate_token
+  def authenticate_user
     authenticate_with_http_token do |token, options|
       @auth_user = User.find_by(token: token)
     end
