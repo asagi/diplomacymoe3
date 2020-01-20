@@ -21,6 +21,8 @@ class Table < ApplicationRecord
   STATUS_NAME[SOLO] = "SOLO"
   STATUS_NAME[CLOSED] = "CLOSED"
 
+  class NoPlaceAvailableError < StandardError; end
+
   def self.status_text(code:)
     STATUS_NAME[code]
   end
@@ -58,8 +60,11 @@ class Table < ApplicationRecord
   end
 
   def add_player(user:, desired_power: "")
-    self.players.create(user: user, desired_power: desired_power)
-    self
+    self.with_lock do
+      raise NoPlaceAvailableError if self.full?
+      self.players.create(user: user, desired_power: desired_power)
+      self
+    end
   end
 
   def current_turn

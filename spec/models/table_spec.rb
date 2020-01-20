@@ -37,6 +37,22 @@ RSpec.describe Table, type: :model do
     end
   end
 
+  describe "#add_player" do
+    context "8 人目の参加者が登録しようとした場合" do
+      before :example do
+        (1..6).each { table.add_player(user: create(:user)) }
+      end
+
+      example "例外を返す" do
+        expect {
+          expect {
+            table.add_player(user: create(:user))
+          }.to raise_error(described_class::NoPlaceAvailableError)
+        }.to_not change(table.players, :size).from(7 + 1)
+      end
+    end
+  end
+
   describe "#full?" do
     context "参加者が 7 人に達していない場合" do
       example "fase を返す" do

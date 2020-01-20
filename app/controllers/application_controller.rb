@@ -5,6 +5,7 @@ class ApplicationController < ActionController::API
     class BadRequest < StandardError; end
     class Unauthorized < StandardError; end
     class Forbidden < StandardError; end
+    class Conflict < StandardError; end
   end
 
   rescue_from StandardError, with: :render_500
@@ -16,6 +17,7 @@ class ApplicationController < ActionController::API
   rescue_from CustomError::BadRequest, with: :render_400
   rescue_from CustomError::Unauthorized, with: :render_401
   rescue_from CustomError::Forbidden, with: :render_403
+  rescue_from CustomError::Conflict, with: :render_409
 
   def render_400(e)
     render_error(e, 400)
