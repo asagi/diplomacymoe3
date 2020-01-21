@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Order < ApplicationRecord
   belongs_to :turn
   belongs_to :power
@@ -13,14 +15,15 @@ class Order < ApplicationRecord
   REJECTED = 5
   CUT = 6
 
-  STATUS_NAME = {}
-  STATUS_NAME[UNSLOVED] = "UNSLOVED"
-  STATUS_NAME[FAILED] = "FAILED"
-  STATUS_NAME[SUCCEEDED] = "SUCCEEDED"
-  STATUS_NAME[APPLIED] = "APPLIED"
-  STATUS_NAME[DISLODGED] = "DISLODGED"
-  STATUS_NAME[REJECTED] = "REJECTED"
-  STATUS_NAME[CUT] = "CUT"
+  STATUS_NAME = {
+    UNSLOVED: 'UNSLOVED',
+    FAILED: 'FAILED',
+    SUCCEEDED: 'SUCCEEDED',
+    APPLIED: 'APPLIED',
+    DISLODGED: 'DISLODGED',
+    REJECTED: 'REJECTED',
+    CUT: 'CUT'
+  }.freeze
 
   after_initialize do
     self.status ||= UNSLOVED
@@ -39,8 +42,8 @@ class Order < ApplicationRecord
     keys << power.symbol
     keys << unit_kind.downcase
     keys << unit.province
-    keys << self.dest if self.dest
-    keys.join("-")
+    keys << dest if dest
+    keys.join('-')
   end
 
   def hold?
@@ -128,16 +131,16 @@ class Order < ApplicationRecord
   private
 
   def unit_kind
-    self.unit.type[0]
+    unit.type[0]
   end
 
   def formated_target
-    keys = self.target.split("-")
-    target = ""
-    target += Powers[keys[0]]["genitive"] + " " if keys[0] != power.symbol
+    keys = target.split('-')
+    target = ''
+    target += Powers[keys[0]]['genitive'] + ' ' if keys[0] != power.symbol
     target += keys[1].upcase
-    target += " " + keys[2]
-    target += "-" + keys[3] if keys[3]
+    target += ' ' + keys[2]
+    target += '-' + keys[3] if keys[3]
     target
   end
 end

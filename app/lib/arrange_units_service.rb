@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 class ArrangeUnitsService
   def self.call(table:)
-    self.new(table: table).call
+    new(table: table).call
   end
 
   def initialize(table:)

@@ -1,13 +1,19 @@
+# frozen_string_literal: true
+
 class Regulation < ApplicationRecord
   has_one :table
 
   module FaceType
     module Girl
-      def face_type; "girl" end
+      def face_type
+        'girl'
+      end
     end
 
     module Flag
-      def face_type; "flag" end
+      def face_type
+        'flag'
+      end
     end
   end
 
@@ -15,7 +21,9 @@ class Regulation < ApplicationRecord
     # next_period は更新時刻以降に呼ばれるものとする
 
     module Fixed
-      def period_rule; "fixed" end
+      def period_rule
+        'fixed'
+      end
 
       def next_period(next_phase:)
         now = Time.zone.now
@@ -23,22 +31,24 @@ class Regulation < ApplicationRecord
         case next_phase
         when Const.phases.spr_1st, Const.phases.fal_1st
           # 外交フェイズ
-          if self.last_nego_period
-            result = self.last_nego_period + self.negotiation_time
-          else
-            result = self.period + self.negotiation_time
-          end
-          self.last_nego_period = self.period
-          return result.strftime("%Y-%m-%d %H:%M")
+          result = if last_nego_period
+                     last_nego_period + negotiation_time
+                   else
+                     period + negotiation_time
+                   end
+          self.last_nego_period = period
+          result.strftime('%Y-%m-%d %H:%M')
         else
           # 処理フェイズ
-          return (now + self.cleanup_time).strftime("%Y-%m-%d %H:%M")
+          (now + cleanup_time).strftime('%Y-%m-%d %H:%M')
         end
       end
     end
 
     module Flexible
-      def period_rule; "flexible" end
+      def period_rule
+        'flexible'
+      end
 
       def next_period(next_phase:)
         now = Time.zone.now
@@ -46,10 +56,10 @@ class Regulation < ApplicationRecord
         case next_phase
         when Const.phases.spr_1st, Const.phases.fal_1st
           # 外交フェイズ
-          return (now + self.negotiation_time).strftime("%Y-%m-%d %H:%M")
+          (now + negotiation_time).strftime('%Y-%m-%d %H:%M')
         else
           # 処理フェイズ
-          return (now + self.cleanup_time).strftime("%Y-%m-%d %H:%M")
+          (now + cleanup_time).strftime('%Y-%m-%d %H:%M')
         end
       end
     end
@@ -57,22 +67,36 @@ class Regulation < ApplicationRecord
 
   module Duration
     module Short
-      def duration; "short" end
+      def duration
+        'short'
+      end
 
-      def negotiation_time; 60 * 60 end
-      def cleanup_time; 60 * 15 end
+      def negotiation_time
+        60 * 60
+      end
+
+      def cleanup_time
+        60 * 15
+      end
     end
 
     module Standard
-      def duration; "standard" end
+      def duration
+        'standard'
+      end
 
-      def negotiation_time; 60 * 60 * 24 end
-      def cleanup_time; 60 * 30 end
+      def negotiation_time
+        60 * 60 * 24
+      end
+
+      def cleanup_time
+        60 * 30
+      end
     end
   end
 
   def initialize(options = {})
-    options = {} unless options
+    options ||= {}
     options[:face_type] ||= Const.regulation.face_type.girl
     options[:period_rule] ||= Const.regulation.period_rule.fixed
     options[:duration] ||= Const.regulation.duration.standard
@@ -80,7 +104,7 @@ class Regulation < ApplicationRecord
   end
 
   def face_type_module
-    if self.face_type == Const.regulation.face_type.girl
+    if face_type == Const.regulation.face_type.girl
       FaceType::Girl
     else
       FaceType::Flag
@@ -88,7 +112,7 @@ class Regulation < ApplicationRecord
   end
 
   def period_rule_module
-    if self.period_rule == Const.regulation.period_rule.fixed
+    if period_rule == Const.regulation.period_rule.fixed
       PeriodRule::Fixed
     else
       PeriodRule::Flexible
@@ -96,7 +120,7 @@ class Regulation < ApplicationRecord
   end
 
   def duration_module
-    if self.duration == Const.regulation.duration.standard
+    if duration == Const.regulation.duration.standard
       Duration::Standard
     else
       Duration::Short
@@ -104,6 +128,6 @@ class Regulation < ApplicationRecord
   end
 
   def first_period
-    "%s %s" % [self.due_date, self.start_time]
+    format('%s %s', due_date, start_time)
   end
 end

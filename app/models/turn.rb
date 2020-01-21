@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Turn < ApplicationRecord
   belongs_to :table
   has_many :provinces
@@ -5,18 +7,17 @@ class Turn < ApplicationRecord
   has_many :orders, before_add: :set_phase
 
   def initialize(options = {})
-    options = { number: table.number } unless options
+    options ||= { number: table.number }
     options[:number] ||= Const.turns.initial
     super
   end
 
   def next
-    table.turns.build(number: self.number + 1)
+    table.turns.build(number: number + 1)
 
     # 地域情報を引き継ぎ
 
     # ユニット情報を引き継ぎ
-
   end
 
   private

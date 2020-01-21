@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 class ListPossibleOrdersService
   def self.call(turn:, power:, unit:)
-    self.new(turn: turn, power: power, unit: unit).call
+    new(turn: turn, power: power, unit: unit).call
   end
 
   def initialize(turn:, power:, unit:)
@@ -35,6 +37,7 @@ class ListPossibleOrdersService
     result = []
     MapUtil.adjacents[@unit.province].each do |code, data|
       next unless data[@unit.type.downcase]
+
       result << MoveOrder.new(power: @power, unit: @unit, dest: code)
       @dests << code
     end
@@ -44,7 +47,10 @@ class ListPossibleOrdersService
   def gen_movc_order_menu
     result = []
     return result unless @unit.army?
-    return result unless MapUtil.provinces[@unit.province]["type"] == Coastal.to_s
+    unless MapUtil.provinces[@unit.province]['type'] == Coastal.to_s
+      return result
+    end
+
     SearchReachableCoastalsService.call(unit: @unit).each do |code|
       result << MoveOrder.new(power: @power, unit: @unit, dest: code)
     end
@@ -69,11 +75,13 @@ class ListPossibleOrdersService
 
   def gen_conv_order_menu
     result = []
-    return [] unless MapUtil.provinces[@unit.province]["type"] == Water.to_s
+    return [] unless MapUtil.provinces[@unit.province]['type'] == Water.to_s
+
     @orders.where(type: MoveOrder.to_s).each do |o|
       coastals = SearchReachableCoastalsService.call(unit: @unit)
       next unless coastals.include?(o.unit.province)
       next unless coastals.include?(o.dest)
+
       result << ConvoyOrder.new(power: @power, unit: @unit, target: o.to_key)
     end
     result

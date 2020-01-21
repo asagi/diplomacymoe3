@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ApplicationController < ActionController::API
   include ActionController::HttpAuthentication::Token::ControllerMethods
 
@@ -50,11 +52,11 @@ class ApplicationController < ActionController::API
   protected
 
   def authenticate
-    raise CustomError::Forbidden.new unless authenticate_user
+    raise CustomError::Forbidden unless authenticate_user
   end
 
   def authenticate_user
-    authenticate_with_http_token do |token, options|
+    authenticate_with_http_token do |token, _options|
       @auth_user = User.find_by(token: token)
     end
   end

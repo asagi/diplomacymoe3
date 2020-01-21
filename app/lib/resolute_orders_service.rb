@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 class ResoluteOrdersService
   def self.call(orders:)
-    self.new(orders: orders).call
+    new(orders: orders).call
   end
 
   def initialize(orders:)
@@ -39,7 +41,7 @@ class ResoluteOrdersService
     # 未処理維持命令成功判定
     resolute_hold_orders
 
-    return @orders, @standoff
+    [@orders, @standoff]
   end
 
   private
@@ -57,7 +59,9 @@ class ResoluteOrdersService
   def remove_unmatched_support_orders
     supports = unsloved_support_orders
     supports.each do |s|
-      s.status = Order::UNMATCHED unless @orders.detect { |o| o.to_key == s.target }
+      unless @orders.detect { |o| o.to_key == s.target }
+        s.status = Order::UNMATCHED
+      end
     end
   end
 
@@ -65,13 +69,14 @@ class ResoluteOrdersService
   def resolute_cutting_support_orders
     unsloved_support_orders.each do |s|
       moves = unsloved_move_orders.select { |m| s.unit.province == m.dest }
-      enemies = moves.select { |m| m.power != s.power }
+      enemies = moves.reject { |m| m.power == s.power }
       if enemies.size > 1
         s.status = Order::CUT
         next
       end
 
       next if enemies.empty?
+
       enemy = enemies[0]
 
       support_target = @orders.detect { |o| o.to_key == s.target }
@@ -86,13 +91,18 @@ class ResoluteOrdersService
       end
 
       # 遠隔攻撃？
-      if MapUtil.adjacents[s.unit.province].detect { |code, data| code == enemy.unit.province }
+      if MapUtil.adjacents[s.unit.province]
+                .detect do |code, _data|
+           code == enemy.unit.province
+         end
         # 違った
         s.status = Order::CUT
         next
       end
 
-      attack_target = @orders.detect { |o| o.unit.province == support_target.dest }
+      attack_target = @orders.detect do |o|
+        o.unit.province == support_target.dest
+      end
       unless attack_target
         s.status = Order::CUT
         next
@@ -110,9 +120,12 @@ class ResoluteOrdersService
 
       # 輸送経路判定処理
       convoys = @orders.select { |o| o.convoy? && o.target == enemy.to_key }
-      convoys = convoys.select { |c| c != attack_target }
-      fleets = convoys.map { |c| c.unit }
-      coastals = SearchReachableCoastalsService.call(unit: enemy.unit, fleets: fleets)
+      convoys = convoys.reject { |c| c == attack_target }
+      fleets = convoys.map(&:unit)
+      coastals = SearchReachableCoastalsService.call(
+        unit: enemy.unit,
+        fleets: fleets
+      )
       s.status = Order::CUT if coastals.include?(enemy.dest)
     end
   end
@@ -137,37 +150,49 @@ class ResoluteOrdersService
     unsloved_move_orders.each do |m|
       convoys = unsloved_convoy_orders
       next if convoys.empty?
-      fleets = convoys.map { |c| c.unit }
-      coastals = SearchReachableCoastalsService.call(unit: m.unit, fleets: fleets)
+
+      fleets = convoys.map(&:unit)
+      coastals = SearchReachableCoastalsService.call(
+        unit: m.unit,
+        fleets: fleets
+      )
       if coastals.include?(m.dest)
         # 経路成立
-        convoys.each { |c| c.apply }
+        convoys.each(&:apply)
       else
         # 経路不成立
-        convoys.each { |c| c.reject }
+        convoys.each(&:reject)
       end
     end
 
     # 輸送経路不成立の輸送対象移動命令のリジェクト
     unsloved_move_orders.each do |m|
       next unless m.unit.army?
-      next unless MapUtil.provinces[m.unit.province]["type"] == Coastal.to_s
+      next unless MapUtil.provinces[m.unit.province]['type'] == Coastal.to_s
+
       if MapUtil.adjacents[m.unit.province][m.dest]
         next if MapUtil.adjacents[m.unit.province][m.dest][m.unit.type.downcase]
       end
       next if sea_route_effective?(move: m)
+
       m.reject
     end
   end
 
   # 交換移動命令解決
   def resolute_switch_orders
-    dests = unsloved_move_orders.map { |m| m.dest }.uniq
+    dests = unsloved_move_orders.map(&:dest).uniq
     return if dests.empty?
 
     dests.each do |dest|
-      next unless move = unsloved_move_orders.detect { |m| m.dest == dest }
-      next unless against = unsloved_move_orders.detect { |m| m.unit.province == dest && m.dest == move.unit.province }
+      next unless move = unsloved_move_orders
+                  .detect { |m| m.dest == dest }
+      unless against = unsloved_move_orders
+             .detect do |m|
+               m.unit.province == dest && m.dest == move.unit.province
+             end
+        next
+      end
 
       next if sea_route_effective?(move: move)
       next if sea_route_effective?(move: against)
@@ -187,24 +212,30 @@ class ResoluteOrdersService
 
   # 輸送妨害の優先解決
   def resolute_disturb_convoy_orders
-    convoys = @orders.select { |o| o.convoy? }
+    convoys = @orders.select(&:convoy?)
     dests = convoys.map { |c| c.unit.province }
     dests.each do |dest|
       resolute_move_orders_core(dest: dest)
     end
 
     unsloved_move_orders.each do |m|
-      convoys = @orders.select { |o| o.convoy? && o.applied? && o.target == m.to_key }
+      convoys = @orders.select do |o|
+        o.convoy? && o.applied? && o.target == m.to_key
+      end
       next if convoys.empty?
-      fleets = convoys.map { |c| c.unit }
-      coastals = SearchReachableCoastalsService.call(unit: m.unit, fleets: fleets)
+
+      fleets = convoys.map(&:unit)
+      coastals = SearchReachableCoastalsService.call(
+        unit: m.unit,
+        fleets: fleets
+      )
       m.fail unless coastals.include?(m.dest)
     end
   end
 
   # 支援妨害の優先解決
   def resolute_disturb_support_orders
-    dests = @orders.select { |o| o.support? }.map { |s| s.unit.province }
+    dests = @orders.select(&:support?).map { |s| s.unit.province }
     return if dests.empty?
 
     dests.each do |dest|
@@ -216,7 +247,7 @@ class ResoluteOrdersService
   # その他移動命令解決
   def resolute_other_move_orders
     loop do
-      dests = unsloved_move_orders.map { |m| m.dest }.uniq
+      dests = unsloved_move_orders.map(&:dest).uniq
       break if dests.empty?
 
       dests.each do |dest|
@@ -229,16 +260,16 @@ class ResoluteOrdersService
   # 未処理維持命令成功判定
   def resolute_hold_orders
     holds = @orders.select { |o| o.hold? && o.unsloved? }
-    holds.each { |h| h.succeed }
+    holds.each(&:succeed)
   end
 
   def resolute_move_orders_core(dest:)
     moves = unsloved_move_orders.select { |m| m.dest == dest && m.unsloved? }
-    return if moves.size == 0
+    return if moves.empty?
 
     # 複数の衝突
     if moves.size > 1
-      support_level_list = moves.map { |m| m.support }
+      support_level_list = moves.map(&:support)
       max_support_level = support_level_list.max
       winner = nil
       if support_level_list.count(max_support_level) == 1
@@ -246,6 +277,7 @@ class ResoluteOrdersService
       end
       moves.map do |m|
         next if winner && m == winner
+
         m.fail
         against = rewind_move_order_to(province: m.unit.province)
         m.dislodge(against: against) if against
@@ -267,6 +299,7 @@ class ResoluteOrdersService
     # 移動先と同じ軍からの支援をリジェクト
     @orders.select { |o| o.support? && o.target == move.to_key }.each do |s|
       next unless s.power == hold.power
+
       s.reject
       move.support -= 1
     end
@@ -276,6 +309,7 @@ class ResoluteOrdersService
       move.fail
       @orders.select { |o| o.support? && o.target == move.to_key }.each do |s|
         next unless move.power == hold.power
+
         s.reject
       end
 
@@ -290,14 +324,18 @@ class ResoluteOrdersService
 
     # 撃退されたのが支援命令だった場合
     return unless hold.target
+
     target = @orders.detect { |o| o.to_key == hold.target }
     return unless target
     return unless hold.support?
+
     target.status = Order::UNSLOVED
     target.support -= 1
     return unless target.dest
+
     @orders.select { |o| o.move? && o.dest == target.dest }.each do |m|
       return if m == target
+
       m.status = Order::UNSLOVED
     end
   end
@@ -305,24 +343,28 @@ class ResoluteOrdersService
   # 海路有効判定
   def sea_route_effective?(move:)
     convoys = applied_convoy_orders.select { |c| c.target == move.to_key }
-    fleets = convoys.map { |c| c.unit }
-    coastals = SearchReachableCoastalsService.call(unit: move.unit, fleets: fleets)
+    fleets = convoys.map(&:unit)
+    coastals = SearchReachableCoastalsService.call(
+      unit: move.unit,
+      fleets: fleets
+    )
     coastals.include?(move.dest)
   end
 
   def rewind_move_order_to(province:)
     against_move = @orders.detect { |o| o.dest == province && o.succeeded? }
     return nil unless against_move
-    if against_move && against_move.support > 0
+
+    if against_move&.support&.positive?
       against_move.succeed
       return against_move
     end
     against_move.status = Order::UNSLOVED
-    return nil
+    nil
   end
 
   def hold_orders
-    holds = @orders.select { |o| !o.move? }
+    holds = @orders.reject(&:move?)
     holds += @orders.select { |o| o.move? && (o.failed? || o.dislodged?) }
     holds
   end

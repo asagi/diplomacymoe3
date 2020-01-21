@@ -1,0 +1,39 @@
+inherit_from: .rubocop_todo.yml
+
+# Offense count: 147
+# Configuration parameters: AllowedChars.
+Style/AsciiComments:
+  Enabled: false
+
+
+# Offense count: 2
+# Cop supports --auto-correct.
+# Configuration parameters: Strict.
+Style/NumericLiterals:
+  Enabled: false
+
+# Offense count: 90
+# Configuration parameters: CountComments, ExcludedMethods.
+# ExcludedMethods: refine
+Metrics/BlockLength:
+  Enabled: false
+
+# Offense count: 4
+# Configuration parameters: CountComments.
+Metrics/ClassLength:
+  Enabled: false
+
+# Offense count: 20
+# Configuration parameters: CountComments, ExcludedMethods.
+Metrics/MethodLength:
+  Enabled: false
+
+AllCops:
+  Exclude:
+    - 'Gemfile*'
+    - 'Rakefile'
+    - 'spec/rails_helper.rb'
+    - 'spec/spec_helper.rb'
+    - 'db/**/*'
+    - 'config/**/*'
+    - 'script/**/*'

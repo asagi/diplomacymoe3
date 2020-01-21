@@ -1,11 +1,24 @@
+# frozen_string_literal: true
+
 class CreateTableForm
   include ActiveModel::Model
 
-  attr_reader :owner, :desired_power
-  attr_reader :face_type, :period_rule, :duration, :juggling, :due_date, :start_time, :private, :keyword
+  attr_reader :owner
+  attr_reader :desired_power
+  attr_reader :face_type
+  attr_reader :period_rule
+  attr_reader :duration
+  attr_reader :juggling
+  attr_reader :due_date
+  attr_reader :start_time
+  attr_reader :private
+  attr_reader :keyword
+  attr_accessor :table
 
   validates :owner, presence: true
-  validates :desired_power, inclusion: { in: ["", "a", "e", "f", "g", "i", "r", "t"] }
+  validates :desired_power, inclusion: {
+    in: ['', 'a', 'e', 'f', 'g', 'i', 'r', 't']
+  }
   validates :face_type, presence: true
   validates :period_rule, presence: true
   validates :duration, presence: true
@@ -36,7 +49,7 @@ class CreateTableForm
 
     owner_params = {
       user: @owner,
-      desired_power: @desired_power,
+      desired_power: @desired_power
     }
     regulation_params = {
       face_type: @facetype,
@@ -46,20 +59,28 @@ class CreateTableForm
       due_date: @due_date,
       start_time: @start_time,
       private: @private,
-      keyword: @keyword,
+      keyword: @keyword
     }
     @regulation = Regulation.create(regulation_params)
-    CreateInitializedTableService.call(owner: owner_params, regulation: @regulation)
+    @table = CreateInitializedTableService.call(
+      owner: owner_params,
+      regulation: @regulation
+    )
+    true
   end
 
   private
 
   def check_start_datetime
     min_start_datetime = Time.zone.now + 1.hours
-    start_datetime = Time.zone.parse("%sT%s:00+09:00" % [@due_date, ("0" + @start_time)[-5..5]])
+    start_datetime = Time.zone.parse(
+      format(
+        '%sT%s:00+09:00',
+        @due_date,
+        ('0' + @start_time)[-5..5]
+      )
+    )
 
-    if min_start_datetime > start_datetime
-      errors.add(:start_time, "is invalid")
-    end
+    errors.add(:start_time, 'is invalid') if min_start_datetime > start_datetime
   end
 end

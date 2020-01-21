@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Table < ApplicationRecord
   has_many :turns
   has_many :powers
@@ -12,14 +14,15 @@ class Table < ApplicationRecord
   SOLO = 5
   CLOSED = 6
 
-  STATUS_NAME = {}
-  STATUS_NAME[CREATED] = "CREATED"
-  STATUS_NAME[DISCARDED] = "DISCARDED"
-  STATUS_NAME[READY] = "READY"
-  STATUS_NAME[STARTED] = "STARTED"
-  STATUS_NAME[DRAW] = "DRAW"
-  STATUS_NAME[SOLO] = "SOLO"
-  STATUS_NAME[CLOSED] = "CLOSED"
+  STATUS_NAME = {
+    CREATED: 'CREATED',
+    DISCARDED: 'DISCARDED',
+    READY: 'READY',
+    STARTED: 'STARTED',
+    DRAW: 'DRAW',
+    SOLO: 'SOLO',
+    CLOSED: 'CLOSED'
+  }.freeze
 
   class NoPlaceAvailableError < StandardError; end
 
@@ -28,19 +31,20 @@ class Table < ApplicationRecord
   end
 
   def status_text
-    self.class.status_text(code: self.status)
+    self.class.status_text(code: status)
   end
 
   after_initialize do
-    next unless self.regulation
-    self.extend self.regulation.face_type_module
-    self.extend self.regulation.period_rule_module
-    self.extend self.regulation.duration_module
+    next unless regulation
+
+    extend regulation.face_type_module
+    extend regulation.period_rule_module
+    extend regulation.duration_module
     self.status ||= CREATED
   end
 
   def initialize(options = {})
-    options = { turn: 0, phase: 0 } unless options
+    options ||= { turn: 0, phase: 0 }
     options[:turn] ||= 0
     options[:phase] ||= 0
     super
@@ -50,35 +54,36 @@ class Table < ApplicationRecord
     # 管理人を除いて 7 人
     case self.status
     when CREATED
-      self.players.joins(:user).where(users: { admin: false }).size == 7
+      players.joins(:user).where(users: { admin: false }).size == 7
     end
   end
 
   def add_master
-    self.players.create(user: nil, power: self.powers.find_by(symbol: "x"))
+    players.create(user: nil, power: powers.find_by(symbol: 'x'))
     self
   end
 
-  def add_player(user:, desired_power: "")
-    self.with_lock do
-      raise NoPlaceAvailableError if self.full?
-      self.players.create(user: user, desired_power: desired_power)
+  def add_player(user:, desired_power: '')
+    with_lock do
+      raise NoPlaceAvailableError if full?
+
+      players.create(user: user, desired_power: desired_power)
       self
     end
   end
 
   def current_turn
-    self.turns.find_by(number: self.turn)
+    turns.find_by(number: turn)
   end
 
   def last_turn
-    self.turns.find_by(number: self.turn - 1)
+    turns.find_by(number: turn - 1)
   end
 
   def last_phase_units
-    case self.phase
+    case phase
     when Const.phases.spr_1st
-      turn = self.turns.find_by(number: self.turn - 1)
+      turn = turns.find_by(number: self.turn - 1)
       turn.units.where(phase: Const.phases.fal_3rd)
     when Const.phases.spr_2nd
       current_turn.units.where(phase: Const.phases.spr_1st)
@@ -92,7 +97,7 @@ class Table < ApplicationRecord
   end
 
   def proceed
-    case self.phase
+    case phase
     when Const.phases.spr_1st
       self.phase = Const.phases.spr_2nd
     when Const.phases.spr_2nd
@@ -107,7 +112,7 @@ class Table < ApplicationRecord
       self.turn = turn.number
       self.phase = Const.phases.spr_1st
     end
-    self.period = self.next_period(next_phase: self.phase) if regulation
+    self.period = next_period(next_phase: phase) if regulation
     save!
     self
   end
@@ -118,8 +123,8 @@ class Table < ApplicationRecord
   end
 
   def start
-    self.proceed
-    self.period = self.next_period(next_phase: self.phase) if regulation
+    proceed
+    self.period = next_period(next_phase: phase) if regulation
     self.status = STARTED
     self
   end
@@ -129,7 +134,7 @@ class Table < ApplicationRecord
     turns << turn
     self.turn = turn.number
     self.phase = Const.phases.spr_1st
-    self.period = self.last_nego_period + (60 * 60 * 24)
+    self.period = last_nego_period + (60 * 60 * 24)
     self.status = DRAW
     self
   end
@@ -139,23 +144,24 @@ class Table < ApplicationRecord
     turns << turn
     self.turn = turn.number
     self.phase = Const.phases.spr_1st
-    self.period = self.last_nego_period + (60 * 60 * 24)
+    self.period = last_nego_period + (60 * 60 * 24)
     self.status = SOLO
     self
   end
 
   def close
-    self.proceed
+    proceed
     self.phase = Const.phases.spr_1st
-    self.period = self.next_period(next_phase: self.phase) if regulation
+    self.period = next_period(next_phase: phase) if regulation
     self.status = CLOSED
     self
   end
 
   def order_targets
-    return Unit.none if self.turn == Const.turns.initial
-    number = self.turn
-    number -= 1 if self.phase == Const.phases.spr_1st
+    return Unit.none if turn == Const.turns.initial
+
+    number = turn
+    number -= 1 if phase == Const.phases.spr_1st
     turn = turns.find_by(number: number)
     turn.units
   end

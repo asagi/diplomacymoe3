@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 class PrioritizeDisbandingService
   def self.call(table:, power:)
-    self.new(table: table, power: power).call
+    new(table: table, power: power).call
   end
 
   def initialize(table:, power:)
@@ -19,7 +21,7 @@ class PrioritizeDisbandingService
       home_sc.each do |sc|
         distance = MapUtil.distance(from: sc, to: unit.province)
         utype = unit.type
-        pname = MapUtil.provinces[unit.province]["name"]
+        pname = MapUtil.provinces[unit.province]['name']
         unit_distances << [distance, utype, pname, unit.province]
       end
       unit_distances.sort! { |a, b| a[0] <=> b[0] }

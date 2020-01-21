@@ -1,9 +1,11 @@
+# frozen_string_literal: true
+
 class DisbandOrder < Order
   def disband?
     true
   end
 
   def to_s
-    ("Disband %s %s" % [unit_kind, self.unit.province]).gsub(/_(..)/, '(\1)')
+    format('Disband %s %s', unit_kind, unit.province).gsub(/_(..)/, '(\1)')
   end
 end

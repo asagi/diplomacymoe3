@@ -1,5 +1,7 @@
+# frozen_string_literal: true
+
 class SamplesController < ApplicationController
-  before_action :set_sample, only: [:show, :update, :destroy]
+  before_action :set_sample, only: %i[show update destroy]
 
   # GET /samples
   def index

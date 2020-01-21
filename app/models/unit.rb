@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Unit < ApplicationRecord
   belongs_to :turn
   belongs_to :power
@@ -12,10 +14,10 @@ class Unit < ApplicationRecord
   end
 
   def owner
-    self.power.symbol
+    power.symbol
   end
 
   def kind
-    self.type.to_s[0].downcase
+    type.to_s[0].downcase
   end
 end

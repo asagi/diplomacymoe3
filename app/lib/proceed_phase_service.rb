@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 class ProceedPhaseService
   def self.call(table:)
-    self.new(table: table).call
+    new(table: table).call
   end
 
   def initialize(table:)
@@ -72,12 +74,14 @@ class ProceedPhaseService
 
           # 維持命令生成
           @table.last_phase_units.each do |unit|
-            next unless unit.orders.where(power: unit.power).size == 0
+            next unless unit.orders.where(power: unit.power).empty?
+
             params = {}
             params[:turn] = turn
             params[:unit] = unit
             params[:power] = unit.power
-            turn.orders << ListPossibleOrdersService.call(params).detect { |o| o.hold? }
+            turn.orders << ListPossibleOrdersService.call(params)
+                                                    .detect(&:hold?)
           end
 
           # 仮想命令削除
@@ -86,7 +90,9 @@ class ProceedPhaseService
           end
 
           # 行軍命令解決
-          result, keepout = ResoluteOrdersService.call(orders: turn.orders.where(phase: @table.phase))
+          result, keepout = ResoluteOrdersService.call(
+            orders: turn.orders.where(phase: @table.phase)
+          )
 
           # ユニット保存
           @table = ArrangeUnitsService.call(table: @table)
@@ -98,7 +104,7 @@ class ProceedPhaseService
 
           # 敗退ユニットがあれば更新処理終了
           units = @table.last_phase_units.where.not(keepout: nil)
-          if units.size > 0
+          unless units.empty?
             # 解散命令生成
             units.each do |unit|
               params = {}
@@ -106,7 +112,8 @@ class ProceedPhaseService
               params[:power] = unit.power
               params[:unit] = unit
               params[:standoff] = keepout
-              order = ListPossibleRetreatsService.call(params).detect { |o| o.disband? }
+              order = ListPossibleRetreatsService.call(params)
+                                                 .detect(&:disband?)
               turn.orders << order
             end
             break
@@ -139,7 +146,7 @@ class ProceedPhaseService
             unless province
               # 中立地域の占領
               params = MapUtil.provinces[unit.province[0, 3]]
-              params["code"] = unit.province[0, 3]
+              params['code'] = unit.province[0, 3]
               province = turn.provinces.build(params)
             end
             province.power = unit.power.symbol
@@ -149,7 +156,8 @@ class ProceedPhaseService
           # 滅亡処理
           supply_centers = turn.provinces.where(supplycenter: true)
           @table.powers.each do |power|
-            next if supply_centers.where(power: power.symbol).size > 0
+            next unless supply_centers.where(power: power.symbol).empty?
+
             # 滅亡した国の全ての領土を解放
             turn.provinces.where(power: power.symbol).delete_all
             # 滅亡した国の全てのユニットを撤去
@@ -167,22 +175,29 @@ class ProceedPhaseService
           to_gain = false
           to_lose = false
           @table.powers.each do |power|
-            next if power.symbol == "x"
-            provinces = turn.provinces.where(power: power.symbol).where(supplycenter: true)
+            next if power.symbol == 'x'
+
+            provinces = turn.provinces
+                            .where(power: power.symbol)
+                            .where(supplycenter: true)
             units = @table.last_phase_units.where(power: power)
             # 滅亡している：調整不要
-            next if provinces.size == 0
+            next if provinces.empty?
             # ユニット数と補給都市数が一致している：調整不要
             next if provinces.size == units.size
 
             if provinces.size > units.size
-              homes = MapUtil.provinces.select { |p, v| v["supplycenter"] && v["owner"] == power.symbol }.keys
+              homes = MapUtil.provinces.select do |_p, v|
+                v['supplycenter'] && v['owner'] == power.symbol
+              end .keys
               homes.each do |province|
-                if units.where("province like ?", "#{province}%").size == 0
-                  # ユニットより補給都市が多く本国補給都市に空きがある：増設可
-                  to_gain = true
-                  break
+                unless units.where('province like ?', "#{province}%").empty?
+                  next
                 end
+
+                # ユニットより補給都市が多く本国補給都市に空きがある：増設可
+                to_gain = true
+                break
               end
               next
             end
@@ -190,11 +205,16 @@ class ProceedPhaseService
             # ユニットより補給都市が少ない：要撤去
             to_lose = true
             # 撤去命令登録
-            unit_provinces = PrioritizeDisbandingService.call(table: @table, power: power)
+            unit_provinces = PrioritizeDisbandingService.call(
+              table: @table,
+              power: power
+            )
             (units.size - provinces.size).downto(0) do
               break if unit_provinces.empty?
+
               province = unit_provinces.pop
-              unit = @table.last_phase_units.where("province like ?", "#{province}%")
+              unit = @table.last_phase_units
+                           .where('province like ?', "#{province}%")
               turn.orders << DisbandOrder.new(power: power, unit: unit)
             end
             turn.orders.each { |o| p o }
@@ -222,11 +242,13 @@ class ProceedPhaseService
     supply_centers = @table.current_turn.provinces.where(supplycenter: true)
     @table.powers.each do |power|
       next if supply_centers.where(power: power.symbol).size < Const.solo_line
+
       winner = power
       break
     end
 
     return false unless winner
+
     @table = @table.solo
     true
   end

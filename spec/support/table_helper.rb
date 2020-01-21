@@ -1,7 +1,9 @@
+# frozen_string_literal: true
+
 module TableHelper
   def override_proceed(table:)
     table.define_singleton_method(:proceed) do
-      case self.phase
+      case phase
       when Const.phases.spr_1st
         self.phase = Const.phases.spr_2nd
       when Const.phases.spr_2nd
