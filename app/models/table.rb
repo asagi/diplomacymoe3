@@ -24,6 +24,14 @@ class Table < ApplicationRecord
     CLOSED: 'CLOSED'
   }.freeze
 
+  NEXT_PHASE = {
+    Const.phases.spr_1st => Const.phases.spr_2nd,
+    Const.phases.spr_2nd => Const.phases.fal_1st,
+    Const.phases.fal_1st => Const.phases.fal_2nd,
+    Const.phases.fal_2nd => Const.phases.fal_3rd,
+    Const.phases.fal_3rd => Const.phases.spr_1st
+  }.freeze
+
   class NoPlaceAvailableError < StandardError; end
 
   def self.status_text(code:)
@@ -97,21 +105,8 @@ class Table < ApplicationRecord
   end
 
   def proceed
-    case phase
-    when Const.phases.spr_1st
-      self.phase = Const.phases.spr_2nd
-    when Const.phases.spr_2nd
-      self.phase = Const.phases.fal_1st
-    when Const.phases.fal_1st
-      self.phase = Const.phases.fal_2nd
-    when Const.phases.fal_2nd
-      self.phase = Const.phases.fal_3rd
-    when Const.phases.fal_3rd
-      turn = turns.find_by(number: self.turn).next
-      turns << turn
-      self.turn = turn.number
-      self.phase = Const.phases.spr_1st
-    end
+    self.phase = NEXT_PHASE[phase]
+    proceed_phase if phase == Const.phases.spr_1st
     self.period = next_period(next_phase: phase) if regulation
     save!
     self
@@ -164,5 +159,13 @@ class Table < ApplicationRecord
     number -= 1 if phase == Const.phases.spr_1st
     turn = turns.find_by(number: number)
     turn.units
+  end
+
+  private
+
+  def proceed_phase
+    turn = turns.find_by(number: self.turn).next
+    turns << turn
+    self.turn = turn.number
   end
 end

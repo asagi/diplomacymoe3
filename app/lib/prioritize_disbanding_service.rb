@@ -19,7 +19,7 @@ class PrioritizeDisbandingService
       unit_distances = []
       home_sc = MapUtil.home_sc_codes(power: @power.symbol)
       home_sc.each do |sc|
-        distance = MapUtil.distance(from: sc, to: unit.province)
+        distance = MapUtil.distance(start: sc, to: unit.province)
         utype = unit.type
         pname = MapUtil.provinces[unit.province]['name']
         unit_distances << [distance, utype, pname, unit.province]
