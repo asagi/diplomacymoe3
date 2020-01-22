@@ -95,10 +95,9 @@ class ArrangeUnitsService
         end
 
         # 解散命令は何もしない
-        if order.disband?
-          # N/A
-        end
+        nil if order.disband?
       when Const.phases.fal_3rd
+        nil
       end
     end
 

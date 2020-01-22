@@ -90,7 +90,7 @@ class ProceedPhaseService
           end
 
           # 行軍命令解決
-          result, keepout = ResoluteOrdersService.call(
+          _result, keepout = ResoluteOrdersService.call(
             orders: turn.orders.where(phase: @table.phase)
           )
 
@@ -121,7 +121,7 @@ class ProceedPhaseService
         when Const.phases.spr_2nd, Const.phases.fal_2nd
           # 撤退解散命令解決
           retreat_orders = turn.orders.where(phase: @table.phase)
-          result = ResoluteRetreatsService.call(orders: retreat_orders)
+          ResoluteRetreatsService.call(orders: retreat_orders)
 
           # ユニット保存
           @table = ArrangeUnitsService.call(table: @table)

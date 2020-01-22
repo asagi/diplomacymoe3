@@ -185,12 +185,12 @@ class ResoluteOrdersService
     return if dests.empty?
 
     dests.each do |dest|
-      next unless move = unsloved_move_orders
-                  .detect { |m| m.dest == dest }
-      unless against = unsloved_move_orders
+      next unless (move = unsloved_move_orders
+                  .detect { |m| m.dest == dest })
+      unless (against = unsloved_move_orders
              .detect do |m|
                m.unit.province == dest && m.dest == move.unit.province
-             end
+             end)
         next
       end
 
@@ -334,9 +334,7 @@ class ResoluteOrdersService
     return unless target.dest
 
     @orders.select { |o| o.move? && o.dest == target.dest }.each do |m|
-      return if m == target
-
-      m.status = Order::UNSLOVED
+      m.status = Order::UNSLOVED unless m == target
     end
   end
 

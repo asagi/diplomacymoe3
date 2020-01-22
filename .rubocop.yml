@@ -28,12 +28,28 @@ Metrics/ClassLength:
 Metrics/MethodLength:
   Enabled: false
 
+# Offense count: 1
+Lint/IneffectiveAccessModifier:
+  Enabled: true
+
 AllCops:
   Exclude:
     - 'Gemfile*'
     - 'Rakefile'
     - 'spec/rails_helper.rb'
     - 'spec/spec_helper.rb'
+    - 'bin/*'
     - 'db/**/*'
-    - 'config/**/*'
+    - 'config/*'
+    - 'config/environments/*'
+    - 'config/initializers/application_controller_renderer.rb'
+    - 'config/initializers/filter_parameter_logging.rb'
+    - 'config/initializers/backtrace_silencers.rb'
+    - 'config/initializers/wrap_parameters.rb'
+    - 'config/initializers/inflections.rb'
+    - 'config/initializers/filter_parameter_logging.rb'
+    - 'config/initializers/backtrace_silencers.rb'
+    - 'config/initializers/inflections.rb'
+    - 'config/initializers/cors.rb'
+    - 'config/unicorn.rb'
     - 'script/**/*'
