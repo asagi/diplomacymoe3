@@ -15,37 +15,48 @@ class SearchReachableCoastalsService
   def call
     return [] if @fleets.empty?
 
-    waters_with_fleet = @fleets.map(&:province)
-    marked = reachable_waters(
+    waters = reachable_waters(
       province: @unit.province,
-      fleets: waters_with_fleet
+      fleets: @fleets.map(&:province)
     )
-    if MapUtil.provinces[@unit.province]['type'] == Water.to_s
-      marked << @unit.province
-    end
-    coastals = []
-    marked.each do |water|
-      MapUtil.adjacents[water].each do |k, _v|
-        next if k[0, 3] == @unit.province
-        next unless MapUtil.provinces[k]['type'] == Coastal.to_s
+    # @unit が海上にいる（＝海軍）なら所在地を経路に追加
+    waters << @unit.province if MapUtil.water?(@unit.province)
 
-        coastals << k
-      end
-    end
-    coastals -= MapUtil.adjacents[@unit.province]
-                       .select { |_k, v| v['army'] }.keys
+    coastals = reachable_coastals(
+      province: @unit.province,
+      waters: waters
+    )
+
     coastals.map { |c| c[0, 3] }.uniq
   end
 
-  def reachable_waters(province:, fleets:, marked: [])
-    MapUtil.adjacents[province].each_key do |k|
-      next if marked.include?(k)
-      next unless fleets.include?(k)
+  def reachable_waters(province:, fleets:, waters: [])
+    MapUtil.adjacents[province].each_key do |prov|
+      next if waters.include?(prov)
+      next unless fleets.include?(prov)
+      next unless MapUtil.water?(prov)
 
-      if MapUtil.provinces[k]['type'] == Water.to_s
-        reachable_waters(province: k, fleets: fleets, marked: marked.push(k))
+      waters = reachable_waters(
+        province: prov,
+        fleets: fleets,
+        waters: waters.push(prov)
+      )
+    end
+    waters
+  end
+
+  def reachable_coastals(province:, waters:)
+    coastals = []
+    waters.each do |water|
+      MapUtil.adjacents[water].each_key do |prov|
+        next if prov[0, 3] == province
+        next unless MapUtil.coastal?(prov)
+
+        coastals << prov
       end
     end
-    marked
+    # 陸路で移動可能な海岸は除外
+    coastals -= MapUtil.adjacents[province]
+                       .select { |_k, v| v['army'] }.keys
   end
 end

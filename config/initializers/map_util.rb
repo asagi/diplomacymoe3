@@ -4,6 +4,14 @@ class MapUtil < Settingslogic
   source Rails.root.join('config', 'map.yml')
   namespace Rails.env
 
+  def self.water?(prov)
+    provinces[prov]['type'] == Water.to_s
+  end
+
+  def self.coastal?(prov)
+    provinces[prov]['type'] == Coastal.to_s
+  end
+
   def self.max_provinces
     provinces.count { |k, _v| k.length == 3 }
   end
