@@ -4,26 +4,31 @@ class User < ApplicationRecord
   has_secure_token
 
   def self.find_or_create_from_auth(auth)
-    params = {}
-    params[:provider] = auth[:provider]
-    # UID
-    params[:uid] = auth[:uid]
-    # アカウント
-    params[:nickname] = auth[:info][:nickname]
-    # スクリーン名
-    params[:name] = auth[:info][:name]
-    # 画像
-    params[:image_url] = auth[:info][:image]
-    # URL
-    params[:url] = auth[:info][:urls][:Twitter]
-
+    params = authenticated_user_params(auth)
     user = User.find_by(uid: params[:uid])
     if user
       user.attributes = params
+      user.save!
     else
+      # レコード作成時のみ表示名を Twitter から取得
+      params[:nickname] = auth[:info][:nickname]
       user = User.create(params)
     end
-    user.save!
     user
+  end
+
+  def authenticated_user_params(auth:)
+    {
+      # プロバイダ
+      provider: auth[:provider],
+      # UID
+      uid: auth[:uid],
+      # スクリーン名
+      name: auth[:info][:name],
+      # 画像
+      image_url: auth[:info][:image],
+      # URL
+      url: auth[:info][:urls][:Twitter]
+    }
   end
 end

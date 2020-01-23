@@ -32,6 +32,14 @@ class Table < ApplicationRecord
     Const.phases.fal_3rd => Const.phases.spr_1st
   }.freeze
 
+  LAST_PHASE = {
+    Const.phases.spr_1st => Const.phases.fal_3rd,
+    Const.phases.spr_2nd => Const.phases.spr_1st,
+    Const.phases.fal_1st => Const.phases.spr_2nd,
+    Const.phases.fal_2nd => Const.phases.fal_1st,
+    Const.phases.fal_3rd => Const.phases.fal_2nd
+  }.freeze
+
   class NoPlaceAvailableError < StandardError; end
 
   def self.status_text(code:)
@@ -76,8 +84,13 @@ class Table < ApplicationRecord
       raise NoPlaceAvailableError if full?
 
       players.create(user: user, desired_power: desired_power)
-      self
     end
+    self
+  end
+
+  def last_phase_units
+    turn = phase == Const.phases.spr_1st ? last_turn : current_turn
+    turn.units.where(phase: LAST_PHASE[phase])
   end
 
   def current_turn
@@ -86,22 +99,6 @@ class Table < ApplicationRecord
 
   def last_turn
     turns.find_by(number: turn - 1)
-  end
-
-  def last_phase_units
-    case phase
-    when Const.phases.spr_1st
-      turn = turns.find_by(number: self.turn - 1)
-      turn.units.where(phase: Const.phases.fal_3rd)
-    when Const.phases.spr_2nd
-      current_turn.units.where(phase: Const.phases.spr_1st)
-    when Const.phases.fal_1st
-      current_turn.units.where(phase: Const.phases.spr_2nd)
-    when Const.phases.fal_2nd
-      current_turn.units.where(phase: Const.phases.fal_1st)
-    when Const.phases.fal_3rd
-      current_turn.units.where(phase: Const.phases.fal_2nd)
-    end
   end
 
   def proceed

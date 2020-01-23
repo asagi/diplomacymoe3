@@ -26,22 +26,16 @@ class Regulation < ApplicationRecord
       end
 
       def next_period(next_phase:)
-        now = Time.zone.now
-
         case next_phase
         when Const.phases.spr_1st, Const.phases.fal_1st
           # 外交フェイズ
-          result = if last_nego_period
-                     last_nego_period + negotiation_time
-                   else
-                     period + negotiation_time
-                   end
+          result = (last_nego_period || period) + negotiation_time
           self.last_nego_period = period
-          result.strftime('%Y-%m-%d %H:%M')
+          result
         else
           # 処理フェイズ
-          (now + cleanup_time).strftime('%Y-%m-%d %H:%M')
-        end
+          Time.zone.now + cleanup_time
+        end.strftime('%Y-%m-%d %H:%M')
       end
     end
 

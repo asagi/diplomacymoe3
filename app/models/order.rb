@@ -136,11 +136,16 @@ class Order < ApplicationRecord
 
   def formated_target
     keys = target.split('-')
-    target = ''
-    target += Powers[keys[0]]['genitive'] + ' ' if keys[0] != power.symbol
-    target += keys[1].upcase
-    target += ' ' + keys[2]
-    target += '-' + keys[3] if keys[3]
-    target
+    format(
+      '%<unit_power>s%<unit_kind>s %<unit_from>s%<unit_to>s',
+      unit_power: target_unit_power(keys[0]),
+      unit_kind: keys[1].upcase,
+      unit_from: keys[2],
+      unit_to: (keys[3] ? '-' + keys[3] : '')
+    )
+  end
+
+  def target_unit_power(unit_power)
+    unit_power == power.symbol ? '' : Powers[unit_power]['genitive'] + ' '
   end
 end
