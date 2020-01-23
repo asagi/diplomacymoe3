@@ -212,25 +212,27 @@ class ResoluteOrdersService
 
   # 輸送妨害の優先解決
   def resolute_disturb_convoy_orders
-    convoys = @orders.select(&:convoy?)
-    dests = convoys.map { |c| c.unit.province }
-    dests.each do |dest|
+    @orders.select(&:convoy?).map { |c| c.unit.province }.each do |dest|
       resolute_move_orders_core(dest: dest)
     end
 
-    unsloved_move_orders.each do |m|
+    unsloved_move_orders.each do |move|
       convoys = @orders.select do |o|
-        o.convoy? && o.applied? && o.target == m.to_key
+        o.convoy? && o.applied? && o.target == move.to_key
       end
-      next if convoys.empty?
 
-      fleets = convoys.map(&:unit)
-      coastals = SearchReachableCoastalsService.call(
-        unit: m.unit,
-        fleets: fleets
-      )
-      m.fail unless coastals.include?(m.dest)
+      resolute_disturb_convoy_orders_succeed(convoys, move)
     end
+  end
+
+  def resolute_disturb_convoy_orders_succeed(convoys, move)
+    return if convoys.empty?
+
+    coastals = SearchReachableCoastalsService.call(
+      unit: move.unit,
+      fleets: convoys.map(&:unit)
+    )
+    move.fail unless coastals.include?(move.dest)
   end
 
   # 支援妨害の優先解決
