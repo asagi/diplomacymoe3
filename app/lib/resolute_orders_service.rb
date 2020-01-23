@@ -264,31 +264,18 @@ class ResoluteOrdersService
   end
 
   def resolute_move_orders_core(dest:)
-    moves = unsloved_move_orders.select { |m| m.dest == dest && m.unsloved? }
+    moves = unsloved_move_orders_to(dest)
     return if moves.empty?
 
     # 複数の衝突
     if moves.size > 1
-      support_level_list = moves.map(&:support)
-      max_support_level = support_level_list.max
-      winner = nil
-      if support_level_list.count(max_support_level) == 1
-        winner = moves.detect { |m| m.support == max_support_level }
-      end
-      moves.map do |m|
-        next if winner && m == winner
-
-        m.fail
-        against = rewind_move_order_to(province: m.unit.province)
-        m.dislodge(against: against) if against
-      end
-      @standoff << dest unless winner
+      resolute_move_orders_conflict(moves, dest)
       return
     end
 
     # 入ってます
     move = moves[0]
-    hold = hold_orders.detect { |h| h.unit.province == dest }
+    hold = hold_orders_on(dest)
 
     # 暫定成功
     unless hold
@@ -297,37 +284,63 @@ class ResoluteOrdersService
     end
 
     # 移動先と同じ軍からの支援をリジェクト
+    resolute_move_orders_reject_supports(move, hold)
+
+    # 移動失敗
+    if condition_failure_move(move, hold)
+      resolute_move_orders_failure(move, hold)
+      return
+    end
+
+    # 移動成功
+    resolute_move_orders_succeed_move(move, hold)
+
+    return unless hold.support?
+
+    # 撃退されたのが支援命令だった場合
+    resolute_move_orders_reset_supported_by_dislodged_unit(hold)
+  end
+
+  def resolute_move_orders_conflict(moves, dest)
+    support_level_list = moves.map(&:support)
+    max_support_level = support_level_list.max
+    if support_level_list.count(max_support_level) == 1
+      winner = moves.detect { |m| m.support == max_support_level }
+    end
+    moves.map do |m|
+      next if winner && m == winner
+
+      m.fail
+      against = rewind_move_order_to(province: m.unit.province)
+      m.dislodge(against: against) if against
+    end
+    @standoff << dest unless winner
+  end
+
+  def resolute_move_orders_reject_supports(move, hold)
     @orders.select { |o| o.support? && o.target == move.to_key }.each do |s|
       next unless s.power == hold.power
 
       s.reject
       move.support -= 1
     end
+  end
 
-    # 移動失敗
-    if hold.support >= move.support || hold.power == move.power
-      move.fail
-      @orders.select { |o| o.support? && o.target == move.to_key }.each do |s|
-        next unless move.power == hold.power
+  def resolute_move_orders_failure(move, hold)
+    move.fail
+    @orders.select { |o| o.support? && o.target == move.to_key }.each do |s|
+      next unless move.power == hold.power
 
-        s.reject
-      end
-
-      against = rewind_move_order_to(province: move.unit.province)
-      move.dislodge(against: against) if against
-      return
+      s.reject
     end
 
-    # 移動成功
-    move.succeed
-    hold.dislodge(against: move)
+    against = rewind_move_order_to(province: move.unit.province)
+    move.dislodge(against: against) if against
+  end
 
-    # 撃退されたのが支援命令だった場合
-    return unless hold.target
-
+  def resolute_move_orders_reset_supported_by_dislodged_unit(hold)
     target = @orders.detect { |o| o.to_key == hold.target }
     return unless target
-    return unless hold.support?
 
     target.status = Order::UNSLOVED
     target.support -= 1
@@ -336,6 +349,11 @@ class ResoluteOrdersService
     @orders.select { |o| o.move? && o.dest == target.dest }.each do |m|
       m.status = Order::UNSLOVED unless m == target
     end
+  end
+
+  def resolute_move_orders_succeed_move(move, hold = nil)
+    move.succeed
+    hold&.dislodge(against: move)
   end
 
   # 海路有効判定
@@ -367,8 +385,16 @@ class ResoluteOrdersService
     holds
   end
 
+  def hold_orders_on(dest)
+    hold_orders.detect { |h| h.unit.province == dest }
+  end
+
   def unsloved_move_orders
     @orders.select { |o| o.move? && o.unsloved? }
+  end
+
+  def unsloved_move_orders_to(dest)
+    unsloved_move_orders.select { |m| m.dest == dest && m.unsloved? }
   end
 
   def unsloved_support_orders
@@ -381,5 +407,9 @@ class ResoluteOrdersService
 
   def applied_convoy_orders
     @orders.select { |o| o.convoy? && o.applied? }
+  end
+
+  def condition_failure_move(move, hold)
+    hold.support >= move.support || hold.power == move.power
   end
 end
