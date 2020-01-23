@@ -67,67 +67,110 @@ class ResoluteOrdersService
 
   # 支援カット判定
   def resolute_cutting_support_orders
+    # 複数個所からの攻撃は即カット
+    resolute_cutting_support_orders_multiple_attack
+
+    # 移動命令の支援でなければ攻撃を受けた時点でカット
+    resolute_cutting_support_orders_not_move_target
+
+    # 遠隔攻撃でなければカット
+    resolute_cutting_support_orders_attacked_by_directly
+
+    # 移動支援に攻撃目標がいなければその時点でカット
+    resolute_cutting_support_orders_not_support_attack
+
     unsloved_support_orders.each do |s|
-      moves = unsloved_move_orders.select { |m| s.unit.province == m.dest }
-      enemies = moves.reject { |m| m.power == s.power }
-      if enemies.size > 1
-        s.status = Order::CUT
-        next
-      end
+      next unless (enemy = effected_support_cutter(s))
 
-      next if enemies.empty?
-
-      enemy = enemies[0]
-
-      support_target = @orders.detect { |o| o.to_key == s.target }
-      unless support_target.move?
-        s.status = Order::CUT
-        next
-      end
-
-      if support_target.dest == enemy.unit.province
-        # カットされない
-        next
-      end
-
-      # 遠隔攻撃？
-      if MapUtil.adjacents[s.unit.province]
-                .detect do |code, _data|
-           code == enemy.unit.province
-         end
-        # 違った
-        s.status = Order::CUT
-        next
-      end
-
-      attack_target = @orders.detect do |o|
-        o.unit.province == support_target.dest
-      end
-      unless attack_target
-        s.status = Order::CUT
-        next
-      end
-
+      support_target = supported_order_by(s)
+      attack_target = attack_target_by(support_target)
       unless attack_target.convoy?
         s.status = Order::CUT
         next
       end
 
+      support_target = supported_order_by(s)
+      attack_target = attack_target_by(support_target)
+      next unless attack_target.convoy?
+
       unless enemy.to_key == attack_target.target
         s.status = Order::CUT
         next
       end
-
-      # 輸送経路判定処理
-      convoys = @orders.select { |o| o.convoy? && o.target == enemy.to_key }
-      convoys = convoys.reject { |c| c == attack_target }
-      fleets = convoys.map(&:unit)
-      coastals = SearchReachableCoastalsService.call(
-        unit: enemy.unit,
-        fleets: fleets
-      )
-      s.status = Order::CUT if coastals.include?(enemy.dest)
     end
+
+    unsloved_support_orders.each do |s|
+      next unless (enemy = effected_support_cutter(s))
+
+      support_target = supported_order_by(s)
+      attack_target = attack_target_by(support_target)
+      # 輸送経路判定処理
+      resolute_cutting_support_orders_oversea_attack(s, enemy, attack_target)
+    end
+  end
+
+  def effected_support_cutter(support)
+    enemies = unsloved_move_orders_support_cutter(support)
+    return nil if enemies.empty?
+
+    # 支援対象の攻撃目標にはカットされない
+    enemy = enemies[0]
+    support_target = @orders.detect { |o| o.to_key == support.target }
+    return nil if support_target.dest == enemy.unit.province
+
+    enemy
+  end
+
+  def resolute_cutting_support_orders_multiple_attack
+    unsloved_support_orders.each do |support|
+      enemies = unsloved_move_orders_support_cutter(support)
+      if enemies.size > 1
+        support.status = Order::CUT
+        next
+      end
+    end
+  end
+
+  def resolute_cutting_support_orders_not_move_target
+    unsloved_support_orders.each do |s|
+      support_target = @orders.detect { |o| o.to_key == s.target }
+      unless support_target.move?
+        s.status = Order::CUT
+        next
+      end
+    end
+  end
+
+  def resolute_cutting_support_orders_attacked_by_directly
+    unsloved_support_orders.each do |s|
+      next unless (enemy = effected_support_cutter(s))
+      next unless MapUtil.adjacents[s.unit.province][enemy.unit.province]
+
+      s.status = Order::CUT
+      next
+    end
+  end
+
+  def resolute_cutting_support_orders_not_support_attack
+    unsloved_support_orders.each do |s|
+      support_target = supported_order_by(s)
+      attack_target = attack_target_by(support_target)
+      unless attack_target
+        s.status = Order::CUT
+        next
+      end
+    end
+  end
+
+  def resolute_cutting_support_orders_oversea_attack(support, enemy, attacked)
+    convoys = @orders.select { |o| o.convoy? && o.target == enemy.to_key }
+    convoys = convoys.reject { |c| c == attacked }
+    fleets = convoys.map(&:unit)
+    coastals = SearchReachableCoastalsService.call(
+      unit: enemy.unit,
+      fleets: fleets
+    )
+    support.status = Order::CUT if coastals.include?(enemy.dest)
   end
 
   # 支援適用
@@ -416,6 +459,12 @@ class ResoluteOrdersService
       .select { |m| MapUtil.coastal?(m.unit.province) }
   end
 
+  def unsloved_move_orders_support_cutter(support)
+    unsloved_move_orders
+      .select { |m| support.unit.province == m.dest }
+      .reject { |m| m.power == support.power }
+  end
+
   def unsloved_support_orders
     @orders.select { |o| o.support? && o.unsloved? }
   end
@@ -430,5 +479,15 @@ class ResoluteOrdersService
 
   def condition_failure_move(move, hold)
     hold.support >= move.support || hold.power == move.power
+  end
+
+  def supported_order_by(support)
+    @orders.detect { |o| o.to_key == support.target }
+  end
+
+  def attack_target_by(support_target)
+    @orders.detect do |o|
+      o.unit.province == support_target.dest
+    end
   end
 end
