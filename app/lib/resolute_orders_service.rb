@@ -185,28 +185,28 @@ class ResoluteOrdersService
     return if dests.empty?
 
     dests.each do |dest|
-      next unless (move = unsloved_move_orders
-                  .detect { |m| m.dest == dest })
-      unless (against = unsloved_move_orders
-             .detect do |m|
-               m.unit.province == dest && m.dest == move.unit.province
-             end)
-        next
-      end
-
+      move = unsloved_move_orders_to(dest).first
+      next unless move
       next if sea_route_effective?(move: move)
+
+      against = unsloved_move_orders_against(move)
+      next unless against
       next if sea_route_effective?(move: against)
 
-      if move.support > against.support
-        move.succeed
-        against.dislodge(against: move)
-      elsif move.support < against.support
-        move.dislodge(against: against)
-        against.succeed
-      else
-        move.fail
-        against.fail
-      end
+      resolute_switch_orders_status(move, against)
+    end
+  end
+
+  def resolute_switch_orders_status(move, against)
+    if move.support > against.support
+      move.succeed
+      against.dislodge(against: move)
+    elsif move.support < against.support
+      move.dislodge(against: against)
+      against.succeed
+    else
+      move.fail
+      against.fail
     end
   end
 
@@ -396,7 +396,13 @@ class ResoluteOrdersService
   end
 
   def unsloved_move_orders_to(dest)
-    unsloved_move_orders.select { |m| m.dest == dest && m.unsloved? }
+    unsloved_move_orders.select { |m| m.dest == dest }
+  end
+
+  def unsloved_move_orders_against(move)
+    unsloved_move_orders
+      .select { |m| m.dest == move.unit.province }
+      .detect { |m| m.unit.province == move.dest }
   end
 
   def unsloved_support_orders
