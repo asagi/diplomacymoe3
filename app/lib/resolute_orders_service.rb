@@ -147,14 +147,20 @@ class ResoluteOrdersService
   # 輸送適用
   def apply_convoy_orders
     # 輸送経路成立チェック
+    apply_convoy_orders_check_route
+
+    # 輸送経路不成立の輸送対象移動命令のリジェクト
+    apply_convoy_orders_reject_impossible
+  end
+
+  def apply_convoy_orders_check_route
     unsloved_move_orders.each do |m|
       convoys = unsloved_convoy_orders
       next if convoys.empty?
 
-      fleets = convoys.map(&:unit)
       coastals = SearchReachableCoastalsService.call(
         unit: m.unit,
-        fleets: fleets
+        fleets: convoys.map(&:unit)
       )
       if coastals.include?(m.dest)
         # 経路成立
@@ -164,15 +170,14 @@ class ResoluteOrdersService
         convoys.each(&:reject)
       end
     end
+  end
 
-    # 輸送経路不成立の輸送対象移動命令のリジェクト
-    unsloved_move_orders.each do |m|
-      next unless m.unit.army?
-      next unless MapUtil.provinces[m.unit.province]['type'] == Coastal.to_s
-
-      if MapUtil.adjacents[m.unit.province][m.dest]
-        next if MapUtil.adjacents[m.unit.province][m.dest][m.unit.type.downcase]
-      end
+  def apply_convoy_orders_reject_impossible
+    unsloved_move_orders_to_armies_on_coastal.each do |m|
+      dest = (MapUtil.adjacents[m.unit.province][m.dest])
+      # 陸路で移動可能
+      next if dest && dest[m.unit.type.downcase]
+      # 他の海路が生きている
       next if sea_route_effective?(move: m)
 
       m.reject
@@ -403,6 +408,12 @@ class ResoluteOrdersService
     unsloved_move_orders
       .select { |m| m.dest == move.unit.province }
       .detect { |m| m.unit.province == move.dest }
+  end
+
+  def unsloved_move_orders_to_armies_on_coastal
+    unsloved_move_orders
+      .select { |m| m.unit.army? }
+      .select { |m| MapUtil.coastal?(m.unit.province) }
   end
 
   def unsloved_support_orders
