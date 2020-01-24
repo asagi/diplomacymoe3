@@ -16,6 +16,16 @@ class Table < ApplicationRecord
     closed: 6
   }, _prefix: true
 
+  module Status
+    CREATED = 'created'
+    DISCARDED = 'discarded'
+    READY = 'ready'
+    STARTED = 'started'
+    DRAW = 'draw'
+    SOLO = 'solo'
+    CLOSED = 'closed'
+  end
+
   enum phase: {
     spr_1st: 0,
     spr_2nd: 1,
