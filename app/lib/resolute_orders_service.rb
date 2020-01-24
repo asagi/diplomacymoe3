@@ -89,19 +89,15 @@ class ResoluteOrdersService
 
   def effected_support_cutter(support)
     enemies = unsloved_move_orders_support_cutter(support)
-    return nil if enemies.empty?
 
     # 支援対象の攻撃目標にはカットされない
-    enemy = enemies[0]
     support_target = @orders.detect { |o| o.to_key == support.target }
-    return nil if support_target.dest == enemy.unit.province
-
-    enemy
+    enemies.reject { |enemy| support_target.dest == enemy.unit.province }
   end
 
   def resolute_cutting_support_orders_multiple_attack
     unsloved_support_orders.each do |support|
-      enemies = unsloved_move_orders_support_cutter(support)
+      enemies = effected_support_cutter(support)
       if enemies.size > 1
         support.cut
         next
@@ -111,7 +107,7 @@ class ResoluteOrdersService
 
   def resolute_cutting_support_orders_not_move_target
     unsloved_support_orders.each do |s|
-      next unless effected_support_cutter(s)
+      next if effected_support_cutter(s).empty?
 
       support_target = @orders.detect { |o| o.to_key == s.target }
       unless support_target.move?
@@ -123,7 +119,7 @@ class ResoluteOrdersService
 
   def resolute_cutting_support_orders_attacked_by_directly
     unsloved_support_orders.each do |s|
-      next unless (enemy = effected_support_cutter(s))
+      next unless (enemy = effected_support_cutter(s).first)
       next unless MapUtil.adjacents[s.unit.province][enemy.unit.province]
 
       s.cut
@@ -133,7 +129,7 @@ class ResoluteOrdersService
 
   def resolute_cutting_support_orders_not_support_attack
     unsloved_support_orders.each do |s|
-      next unless effected_support_cutter(s)
+      next if effected_support_cutter(s).empty?
 
       support_target = supported_order_by(s)
       attack_target = attack_target_by(support_target)
@@ -146,7 +142,7 @@ class ResoluteOrdersService
 
   def resolute_cutting_support_orders_not_support_attacking_convoy
     unsloved_support_orders.each do |s|
-      next unless effected_support_cutter(s)
+      next if effected_support_cutter(s).empty?
 
       support_target = supported_order_by(s)
       attack_target = attack_target_by(support_target)
@@ -159,7 +155,7 @@ class ResoluteOrdersService
 
   def resolute_cutting_support_orders_not_attacked_by_convoyed_target
     unsloved_support_orders.each do |s|
-      next unless (enemy = effected_support_cutter(s))
+      next unless (enemy = effected_support_cutter(s).first)
 
       support_target = supported_order_by(s)
       attack_target = attack_target_by(support_target)
@@ -173,7 +169,7 @@ class ResoluteOrdersService
 
   def resolute_cutting_support_orders_oversea_attack
     unsloved_support_orders.each do |s|
-      next unless (enemy = effected_support_cutter(s))
+      next unless (enemy = effected_support_cutter(s).first)
 
       support_target = supported_order_by(s)
       attack_target = attack_target_by(support_target)
