@@ -6,7 +6,7 @@ RSpec.describe ListPossibleRetreatsService, type: :service do
   describe '#call' do
     context 'after Diagram 8:' do
       before :example do
-        @table = Table.create(turn: 1, phase: 'spr_1st')
+        @table = Table.create(turn: 1, phase: Table::Phase::SPR_1ST)
         @power_f = @table.powers.create(symbol: Power::F)
         @power_g = @table.powers.create(symbol: Power::G)
         override_proceed(table: @table)
@@ -83,7 +83,7 @@ RSpec.describe ListPossibleRetreatsService, type: :service do
 
     context 'Diagram 12:' do
       before :example do
-        @table = Table.create(turn: 1, phase: 'spr_1st')
+        @table = Table.create(turn: 1, phase: Table::Phase::SPR_1ST)
         override_proceed(table: @table)
         @power_a = @table.powers.create(symbol: Power::A)
         @power_g = @table.powers.create(symbol: Power::G)
@@ -179,7 +179,7 @@ RSpec.describe ListPossibleRetreatsService, type: :service do
 
     context 'Diagram 13:' do
       before :example do
-        @table = Table.create(turn: 1, phase: 'spr_1st')
+        @table = Table.create(turn: 1, phase: Table::Phase::SPR_1ST)
         override_proceed(table: @table)
         @power_t = @table.powers.create(symbol: Power::T)
         @power_r = @table.powers.create(symbol: Power::R)
@@ -253,7 +253,7 @@ RSpec.describe ListPossibleRetreatsService, type: :service do
 
     context 'Diagram 14:' do
       before :example do
-        @table = Table.create(turn: 1, phase: 'spr_1st')
+        @table = Table.create(turn: 1, phase: Table::Phase::SPR_1ST)
         override_proceed(table: @table)
         @power_t = @table.powers.create(symbol: Power::T)
         @power_r = @table.powers.create(symbol: Power::R)
@@ -336,7 +336,7 @@ RSpec.describe ListPossibleRetreatsService, type: :service do
 
     context 'Diagram 16:' do
       before :example do
-        @table = Table.create(turn: 1, phase: 'spr_1st')
+        @table = Table.create(turn: 1, phase: Table::Phase::SPR_1ST)
         override_proceed(table: @table)
         @power_g = @table.powers.create(symbol: Power::G)
         @power_r = @table.powers.create(symbol: Power::R)
@@ -409,7 +409,7 @@ RSpec.describe ListPossibleRetreatsService, type: :service do
 
     context 'Diagram 17:' do
       before :example do
-        @table = Table.create(turn: 1, phase: 'spr_1st')
+        @table = Table.create(turn: 1, phase: Table::Phase::SPR_1ST)
         override_proceed(table: @table)
         @power_g = @table.powers.create(symbol: Power::G)
         @power_r = @table.powers.create(symbol: Power::R)
@@ -494,7 +494,7 @@ RSpec.describe ListPossibleRetreatsService, type: :service do
 
     context 'Diagram 18:' do
       before :example do
-        @table = Table.create(turn: 0, phase: 'fal_3rd')
+        @table = Table.create(turn: 0, phase: Table::Phase::FAL_3RD)
         override_proceed(table: @table)
         @power_g = @table.powers.create(symbol: Power::G)
         @power_r = @table.powers.create(symbol: Power::R)
@@ -589,7 +589,7 @@ RSpec.describe ListPossibleRetreatsService, type: :service do
 
     context 'Diagram 21:' do
       before :example do
-        @table = Table.create(turn: 0, phase: 'fal_3rd')
+        @table = Table.create(turn: 0, phase: Table::Phase::FAL_3RD)
         override_proceed(table: @table)
         @power_f = @table.powers.create(symbol: Power::F)
         @power_i = @table.powers.create(symbol: Power::I)
@@ -678,7 +678,7 @@ RSpec.describe ListPossibleRetreatsService, type: :service do
 
     context 'Diagram 29:' do
       before :example do
-        @table = Table.create(turn: 0, phase: 'fal_3rd')
+        @table = Table.create(turn: 0, phase: Table::Phase::FAL_3RD)
         override_proceed(table: @table)
         @power_e = @table.powers.create(symbol: Power::E)
         @power_f = @table.powers.create(symbol: Power::F)
@@ -771,7 +771,7 @@ RSpec.describe ListPossibleRetreatsService, type: :service do
 
     context 'Diagram 30:' do
       before :example do
-        @table = Table.create(turn: 0, phase: 'fal_3rd')
+        @table = Table.create(turn: 0, phase: Table::Phase::FAL_3RD)
         override_proceed(table: @table)
         @power_f = @table.powers.create(symbol: Power::F)
         @power_i = @table.powers.create(symbol: Power::I)
@@ -854,7 +854,7 @@ RSpec.describe ListPossibleRetreatsService, type: :service do
 
     context 'Diagram 32:' do
       before :example do
-        @table = Table.create(turn: 0, phase: 'fal_3rd')
+        @table = Table.create(turn: 0, phase: Table::Phase::FAL_3RD)
         override_proceed(table: @table)
         @power_f = @table.powers.create(symbol: Power::F)
         @power_i = @table.powers.create(symbol: Power::I)

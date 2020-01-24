@@ -6,7 +6,7 @@ RSpec.describe ListPossibleOrdersService, type: :service do
   describe '#call' do
     context 'Diagram 1:' do
       before :example do
-        @table = Table.create(turn: 0, phase: 'fal_3rd')
+        @table = Table.create(turn: 0, phase: Table::Phase::FAL_3RD)
         @power = @table.powers.create(symbol: Power::F)
         override_proceed(table: @table)
         @turn = @table.turns.create(number: @table.turn)
@@ -56,7 +56,7 @@ RSpec.describe ListPossibleOrdersService, type: :service do
 
     context 'Diagram 2:' do
       before :example do
-        @table = Table.create(turn: 0, phase: 'fal_3rd')
+        @table = Table.create(turn: 0, phase: Table::Phase::FAL_3RD)
         @power = @table.powers.create(symbol: Power::E)
         override_proceed(table: @table)
         @turn = @table.turns.create(number: @table.turn)
@@ -122,7 +122,7 @@ RSpec.describe ListPossibleOrdersService, type: :service do
 
     context 'Diagram 3:' do
       before :example do
-        @table = Table.create(turn: 0, phase: 'fal_3rd')
+        @table = Table.create(turn: 0, phase: Table::Phase::FAL_3RD)
         @power_i = @table.powers.create(symbol: Power::I)
         @power_e = @table.powers.create(symbol: Power::E)
         override_proceed(table: @table)
@@ -177,7 +177,7 @@ RSpec.describe ListPossibleOrdersService, type: :service do
 
     context 'Diagram 4:' do
       before :example do
-        @table = Table.create(turn: 0, phase: 'fal_3rd')
+        @table = Table.create(turn: 0, phase: Table::Phase::FAL_3RD)
         @power_g = @table.powers.create(symbol: Power::G)
         @power_r = @table.powers.create(symbol: Power::R)
         override_proceed(table: @table)
@@ -224,7 +224,7 @@ RSpec.describe ListPossibleOrdersService, type: :service do
 
     context 'Diagram 8:' do
       before :example do
-        @table = Table.create(turn: 0, phase: 'fal_3rd')
+        @table = Table.create(turn: 0, phase: Table::Phase::FAL_3RD)
         @power_f = @table.powers.create(symbol: Power::F)
         @power_g = @table.powers.create(symbol: Power::G)
         override_proceed(table: @table)
@@ -271,7 +271,7 @@ RSpec.describe ListPossibleOrdersService, type: :service do
 
     context 'Diagram 19:' do
       before :example do
-        @table = Table.create(turn: 0, phase: 'fal_3rd')
+        @table = Table.create(turn: 0, phase: Table::Phase::FAL_3RD)
         @power_e = @table.powers.create(symbol: Power::E)
         override_proceed(table: @table)
         @turn = @table.turns.create(number: @table.turn)
@@ -339,7 +339,7 @@ RSpec.describe ListPossibleOrdersService, type: :service do
 
     context 'Diagram 21:' do
       before :example do
-        @table = Table.create(turn: 0, phase: 'fal_3rd')
+        @table = Table.create(turn: 0, phase: Table::Phase::FAL_3RD)
         @power_f = @table.powers.create(symbol: Power::F)
         @power_i = @table.powers.create(symbol: Power::I)
         override_proceed(table: @table)

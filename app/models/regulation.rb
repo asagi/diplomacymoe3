@@ -27,7 +27,7 @@ class Regulation < ApplicationRecord
 
       def next_period(next_phase:)
         case next_phase
-        when 'spr_1st', 'fal_1st'
+        when Table::Phase::SPR_1ST, Table::Phase::FAL_1ST
           # 外交フェイズ
           result = (last_nego_period || period) + negotiation_time
           self.last_nego_period = period
@@ -48,7 +48,7 @@ class Regulation < ApplicationRecord
         now = Time.zone.now
 
         case next_phase
-        when 'spr_1st', 'fal_1st'
+        when Table::Phase::SPR_1ST, Table::Phase::FAL_1ST
           # 外交フェイズ
           (now + negotiation_time).strftime('%Y-%m-%d %H:%M')
         else

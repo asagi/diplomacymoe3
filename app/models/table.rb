@@ -32,20 +32,28 @@ class Table < ApplicationRecord
     fal_3rd: 4
   }, _prefix: true
 
+  module Phase
+    SPR_1ST = 'spr_1st'
+    SPR_2ND = 'spr_2nd'
+    FAL_1ST = 'fal_1st'
+    FAL_2ND = 'fal_2nd'
+    FAL_3RD = 'fal_3rd'
+  end
+
   NEXT_PHASE = {
-    'spr_1st' => 'spr_2nd',
-    'spr_2nd' => 'fal_1st',
-    'fal_1st' => 'fal_2nd',
-    'fal_2nd' => 'fal_3rd',
-    'fal_3rd' => 'spr_1st'
+    Phase::SPR_1ST => Phase::SPR_2ND,
+    Phase::SPR_2ND => Phase::FAL_1ST,
+    Phase::FAL_1ST => Phase::FAL_2ND,
+    Phase::FAL_2ND => Phase::FAL_3RD,
+    Phase::FAL_3RD => Phase::SPR_1ST
   }.freeze
 
   LAST_PHASE = {
-    'spr_1st' => 'fal_3rd',
-    'spr_2nd' => 'spr_1st',
-    'fal_1st' => 'spr_2nd',
-    'fal_2nd' => 'fal_1st',
-    'fal_3rd' => 'fal_2nd'
+    Phase::SPR_1ST => Phase::FAL_3RD,
+    Phase::SPR_2ND => Phase::SPR_1ST,
+    Phase::FAL_1ST => Phase::SPR_2ND,
+    Phase::FAL_2ND => Phase::FAL_1ST,
+    Phase::FAL_3RD => Phase::FAL_2ND
   }.freeze
 
   class NoPlaceAvailableError < StandardError; end

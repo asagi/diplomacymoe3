@@ -100,7 +100,7 @@ RSpec.describe Regulation, type: :model do
               @table = table
               @table.last_nego_period = Time.zone.parse('2019-05-04 20:00')
               expect(
-                @table.next_period(next_phase: 'spr_1st')
+                @table.next_period(next_phase: Table::Phase::SPR_1ST)
               ).to eq '2019-05-05 20:00'
             end
           end
@@ -111,7 +111,7 @@ RSpec.describe Regulation, type: :model do
               @table = table
               @table.last_nego_period = Time.zone.parse('2019-05-05 20:00')
               expect(
-                @table.next_period(next_phase: 'spr_2nd')
+                @table.next_period(next_phase: Table::Phase::SPR_2ND)
               ).to eq '2019-05-05 20:30'
             end
           end
@@ -122,7 +122,7 @@ RSpec.describe Regulation, type: :model do
               @table = table
               @table.last_nego_period = Time.zone.parse('2019-05-05 20:00')
               expect(
-                @table.next_period(next_phase: 'fal_1st')
+                @table.next_period(next_phase: Table::Phase::FAL_1ST)
               ).to eq '2019-05-06 20:00'
             end
           end
@@ -133,7 +133,7 @@ RSpec.describe Regulation, type: :model do
               @table = table
               @table.last_nego_period = Time.zone.parse('2019-05-05 20:00')
               expect(
-                @table.next_period(next_phase: 'fal_1st')
+                @table.next_period(next_phase: Table::Phase::FAL_1ST)
               ).to eq '2019-05-06 20:00'
             end
           end
@@ -144,7 +144,7 @@ RSpec.describe Regulation, type: :model do
               @table = table
               @table.last_nego_period = Time.zone.parse('2019-05-06 20:00')
               expect(
-                @table.next_period(next_phase: 'fal_2nd')
+                @table.next_period(next_phase: Table::Phase::FAL_2ND)
               ).to eq '2019-05-06 20:30'
             end
           end
@@ -155,7 +155,7 @@ RSpec.describe Regulation, type: :model do
               @table = table
               @table.last_nego_period = Time.zone.parse('2019-05-06 20:00')
               expect(
-                @table.next_period(next_phase: 'fal_3rd')
+                @table.next_period(next_phase: Table::Phase::FAL_3RD)
               ).to eq '2019-05-06 20:38'
             end
           end
@@ -166,7 +166,7 @@ RSpec.describe Regulation, type: :model do
               @table = table
               @table.last_nego_period = Time.zone.parse('2019-05-06 20:00')
               expect(
-                @table.next_period(next_phase: 'fal_3rd')
+                @table.next_period(next_phase: Table::Phase::FAL_3RD)
               ).to eq '2019-05-06 21:00'
             end
           end
@@ -177,7 +177,7 @@ RSpec.describe Regulation, type: :model do
               @table = table
               @table.last_nego_period = Time.zone.parse('2019-05-06 20:00')
               expect(
-                @table.next_period(next_phase: 'spr_1st')
+                @table.next_period(next_phase: Table::Phase::SPR_1ST)
               ).to eq '2019-05-07 20:00'
             end
           end
@@ -188,7 +188,7 @@ RSpec.describe Regulation, type: :model do
               @table = table
               @table.last_nego_period = Time.zone.parse('2019-05-06 20:00')
               expect(
-                @table.next_period(next_phase: 'spr_1st')
+                @table.next_period(next_phase: Table::Phase::SPR_1ST)
               ).to eq '2019-05-07 20:00'
             end
           end
@@ -210,7 +210,7 @@ RSpec.describe Regulation, type: :model do
               @table = table
               @table.last_nego_period = Time.zone.parse('2019-05-04 23:30')
               expect(
-                @table.next_period(next_phase: 'spr_1st')
+                @table.next_period(next_phase: Table::Phase::SPR_1ST)
               ).to eq '2019-05-05 23:30'
             end
           end
@@ -221,7 +221,7 @@ RSpec.describe Regulation, type: :model do
               @table = table
               @table.last_nego_period = Time.zone.parse('2019-05-05 23:30')
               expect(
-                @table.next_period(next_phase: 'spr_2nd')
+                @table.next_period(next_phase: Table::Phase::SPR_2ND)
               ).to eq '2019-05-06 00:00'
             end
           end
@@ -232,7 +232,7 @@ RSpec.describe Regulation, type: :model do
               @table = table
               @table.last_nego_period = Time.zone.parse('2019-05-05 23:30')
               expect(
-                @table.next_period(next_phase: 'fal_1st')
+                @table.next_period(next_phase: Table::Phase::FAL_1ST)
               ).to eq '2019-05-06 23:30'
             end
           end
@@ -243,7 +243,7 @@ RSpec.describe Regulation, type: :model do
               @table = table
               @table.last_nego_period = Time.zone.parse('2019-05-05 23:30')
               expect(
-                @table.next_period(next_phase: 'fal_1st')
+                @table.next_period(next_phase: Table::Phase::FAL_1ST)
               ).to eq '2019-05-06 23:30'
             end
           end
@@ -254,7 +254,7 @@ RSpec.describe Regulation, type: :model do
               @table = table
               @table.last_nego_period = Time.zone.parse('2019-05-06 23:30')
               expect(
-                @table.next_period(next_phase: 'fal_2nd')
+                @table.next_period(next_phase: Table::Phase::FAL_2ND)
               ).to eq '2019-05-07 00:00'
             end
           end
@@ -265,7 +265,7 @@ RSpec.describe Regulation, type: :model do
               @table = table
               @table.last_nego_period = Time.zone.parse('2019-05-06 23:30')
               expect(
-                @table.next_period(next_phase: 'fal_3rd')
+                @table.next_period(next_phase: Table::Phase::FAL_3RD)
               ).to eq '2019-05-07 00:05'
             end
           end
@@ -276,7 +276,7 @@ RSpec.describe Regulation, type: :model do
               @table = table
               @table.last_nego_period = Time.zone.parse('2019-05-06 23:30')
               expect(
-                @table.next_period(next_phase: 'fal_3rd')
+                @table.next_period(next_phase: Table::Phase::FAL_3RD)
               ).to eq '2019-05-07 00:30'
             end
           end
@@ -287,7 +287,7 @@ RSpec.describe Regulation, type: :model do
               @table = table
               @table.last_nego_period = Time.zone.parse('2019-05-06 23:30')
               expect(
-                @table.next_period(next_phase: 'spr_1st')
+                @table.next_period(next_phase: Table::Phase::SPR_1ST)
               ).to eq '2019-05-07 23:30'
             end
           end
@@ -308,7 +308,7 @@ RSpec.describe Regulation, type: :model do
           time = '2019-05-04 20:00'
           travel_to(time) do
             expect(
-              table.next_period(next_phase: 'spr_1st')
+              table.next_period(next_phase: Table::Phase::SPR_1ST)
             ).to eq '2019-05-05 20:00'
           end
         end
@@ -317,7 +317,7 @@ RSpec.describe Regulation, type: :model do
           time = '2019-05-04 23:00'
           travel_to(time) do
             expect(
-              table.next_period(next_phase: 'spr_2nd')
+              table.next_period(next_phase: Table::Phase::SPR_2ND)
             ).to eq '2019-05-04 23:30'
           end
         end
@@ -326,7 +326,7 @@ RSpec.describe Regulation, type: :model do
           time = '2019-05-04 23:20'
           travel_to(time) do
             expect(
-              table.next_period(next_phase: 'fal_1st')
+              table.next_period(next_phase: Table::Phase::FAL_1ST)
             ).to eq '2019-05-05 23:20'
           end
         end
@@ -335,7 +335,7 @@ RSpec.describe Regulation, type: :model do
           time = '2019-05-06 18:20'
           travel_to(time) do
             expect(
-              table.next_period(next_phase: 'fal_2nd')
+              table.next_period(next_phase: Table::Phase::FAL_2ND)
             ).to eq '2019-05-06 18:50'
           end
         end
@@ -344,7 +344,7 @@ RSpec.describe Regulation, type: :model do
           time = '2019-05-06 23:58'
           travel_to(time) do
             expect(
-              table.next_period(next_phase: 'spr_1st')
+              table.next_period(next_phase: Table::Phase::SPR_1ST)
             ).to eq '2019-05-07 23:58'
           end
         end
@@ -369,7 +369,7 @@ RSpec.describe Regulation, type: :model do
               @table = table
               @table.last_nego_period = Time.zone.parse('2019-05-04 20:00')
               expect(
-                @table.next_period(next_phase: 'spr_1st')
+                @table.next_period(next_phase: Table::Phase::SPR_1ST)
               ).to eq '2019-05-04 21:00'
             end
           end
@@ -380,7 +380,7 @@ RSpec.describe Regulation, type: :model do
               @table = table
               @table.last_nego_period = Time.zone.parse('2019-05-04 21:00')
               expect(
-                @table.next_period(next_phase: 'spr_2nd')
+                @table.next_period(next_phase: Table::Phase::SPR_2ND)
               ).to eq '2019-05-04 21:15'
             end
           end
@@ -391,7 +391,7 @@ RSpec.describe Regulation, type: :model do
               @table = table
               @table.last_nego_period = Time.zone.parse('2019-05-04 21:00')
               expect(
-                @table.next_period(next_phase: 'fal_1st')
+                @table.next_period(next_phase: Table::Phase::FAL_1ST)
               ).to eq '2019-05-04 22:00'
             end
           end
@@ -402,7 +402,7 @@ RSpec.describe Regulation, type: :model do
               @table = table
               @table.last_nego_period = Time.zone.parse('2019-05-04 21:00')
               expect(
-                @table.next_period(next_phase: 'fal_1st')
+                @table.next_period(next_phase: Table::Phase::FAL_1ST)
               ).to eq '2019-05-04 22:00'
             end
           end
@@ -412,7 +412,7 @@ RSpec.describe Regulation, type: :model do
               @table = table
               @table.last_nego_period = Time.zone.parse('2019-05-04 22:00')
               expect(
-                @table.next_period(next_phase: 'fal_2nd')
+                @table.next_period(next_phase: Table::Phase::FAL_2ND)
               ).to eq '2019-05-04 22:15'
             end
           end
@@ -422,7 +422,7 @@ RSpec.describe Regulation, type: :model do
               @table = table
               @table.last_nego_period = Time.zone.parse('2019-05-04 22:00')
               expect(
-                @table.next_period(next_phase: 'fal_3rd')
+                @table.next_period(next_phase: Table::Phase::FAL_3RD)
               ).to eq '2019-05-04 22:27'
             end
           end
@@ -432,7 +432,7 @@ RSpec.describe Regulation, type: :model do
               @table = table
               @table.last_nego_period = Time.zone.parse('2019-05-04 22:00')
               expect(
-                @table.next_period(next_phase: 'fal_3rd')
+                @table.next_period(next_phase: Table::Phase::FAL_3RD)
               ).to eq '2019-05-04 22:30'
             end
           end
@@ -442,7 +442,7 @@ RSpec.describe Regulation, type: :model do
               @table = table
               @table.last_nego_period = Time.zone.parse('2019-05-04 22:00')
               expect(
-                @table.next_period(next_phase: 'spr_1st')
+                @table.next_period(next_phase: Table::Phase::SPR_1ST)
               ).to eq '2019-05-04 23:00'
             end
           end
@@ -452,7 +452,7 @@ RSpec.describe Regulation, type: :model do
               @table = table
               @table.last_nego_period = Time.zone.parse('2019-05-04 22:00')
               expect(
-                @table.next_period(next_phase: 'spr_1st')
+                @table.next_period(next_phase: Table::Phase::SPR_1ST)
               ).to eq '2019-05-04 23:00'
             end
           end
@@ -474,7 +474,7 @@ RSpec.describe Regulation, type: :model do
               @table = table
               @table.last_nego_period = Time.zone.parse('2019-05-04 22:50')
               expect(
-                @table.next_period(next_phase: 'spr_1st')
+                @table.next_period(next_phase: Table::Phase::SPR_1ST)
               ).to eq '2019-05-04 23:50'
             end
           end
@@ -485,7 +485,7 @@ RSpec.describe Regulation, type: :model do
               @table = table
               @table.last_nego_period = Time.zone.parse('2019-05-04 23:50')
               expect(
-                @table.next_period(next_phase: 'spr_2nd')
+                @table.next_period(next_phase: Table::Phase::SPR_2ND)
               ).to eq '2019-05-05 00:05'
             end
           end
@@ -496,7 +496,7 @@ RSpec.describe Regulation, type: :model do
               @table = table
               @table.last_nego_period = Time.zone.parse('2019-05-04 23:50')
               expect(
-                @table.next_period(next_phase: 'fal_1st')
+                @table.next_period(next_phase: Table::Phase::FAL_1ST)
               ).to eq '2019-05-05 00:50'
             end
           end
@@ -507,7 +507,7 @@ RSpec.describe Regulation, type: :model do
               @table = table
               @table.last_nego_period = Time.zone.parse('2019-05-04 23:50')
               expect(
-                @table.next_period(next_phase: 'fal_1st')
+                @table.next_period(next_phase: Table::Phase::FAL_1ST)
               ).to eq '2019-05-05 00:50'
             end
           end
@@ -518,7 +518,7 @@ RSpec.describe Regulation, type: :model do
               @table = table
               @table.last_nego_period = Time.zone.parse('2019-05-05 00:50')
               expect(
-                @table.next_period(next_phase: 'fal_2nd')
+                @table.next_period(next_phase: Table::Phase::FAL_2ND)
               ).to eq '2019-05-05 01:05'
             end
           end
@@ -529,7 +529,7 @@ RSpec.describe Regulation, type: :model do
               @table = table
               @table.last_nego_period = Time.zone.parse('2019-05-05 00:50')
               expect(
-                @table.next_period(next_phase: 'fal_3rd')
+                @table.next_period(next_phase: Table::Phase::FAL_3RD)
               ).to eq '2019-05-05 01:17'
             end
           end
@@ -540,7 +540,7 @@ RSpec.describe Regulation, type: :model do
               @table = table
               @table.last_nego_period = Time.zone.parse('2019-05-05 00:50')
               expect(
-                @table.next_period(next_phase: 'fal_3rd')
+                @table.next_period(next_phase: Table::Phase::FAL_3RD)
               ).to eq '2019-05-05 01:20'
             end
           end
@@ -551,7 +551,7 @@ RSpec.describe Regulation, type: :model do
               @table = table
               @table.last_nego_period = Time.zone.parse('2019-05-05 00:50')
               expect(
-                @table.next_period(next_phase: 'spr_1st')
+                @table.next_period(next_phase: Table::Phase::SPR_1ST)
               ).to eq '2019-05-05 01:50'
             end
           end
@@ -562,7 +562,7 @@ RSpec.describe Regulation, type: :model do
               @table = table
               @table.last_nego_period = Time.zone.parse('2019-05-05 00:50')
               expect(
-                @table.next_period(next_phase: 'spr_1st')
+                @table.next_period(next_phase: Table::Phase::SPR_1ST)
               ).to eq '2019-05-05 01:50'
             end
           end
@@ -583,7 +583,7 @@ RSpec.describe Regulation, type: :model do
           time = '2019-05-04 20:00'
           travel_to(time) do
             expect(
-              table.next_period(next_phase: 'spr_1st')
+              table.next_period(next_phase: Table::Phase::SPR_1ST)
             ).to eq '2019-05-04 21:00'
           end
         end
@@ -592,7 +592,7 @@ RSpec.describe Regulation, type: :model do
           time = '2019-05-04 20:40'
           travel_to(time) do
             expect(
-              table.next_period(next_phase: 'spr_2nd')
+              table.next_period(next_phase: Table::Phase::SPR_2ND)
             ).to eq '2019-05-04 20:55'
           end
         end
@@ -601,7 +601,7 @@ RSpec.describe Regulation, type: :model do
           time = '2019-05-04 20:52'
           travel_to(time) do
             expect(
-              table.next_period(next_phase: 'fal_1st')
+              table.next_period(next_phase: Table::Phase::FAL_1ST)
             ).to eq '2019-05-04 21:52'
           end
         end
@@ -610,7 +610,7 @@ RSpec.describe Regulation, type: :model do
           time = '2019-05-04 21:50'
           travel_to(time) do
             expect(
-              table.next_period(next_phase: 'fal_2nd')
+              table.next_period(next_phase: Table::Phase::FAL_2ND)
             ).to eq '2019-05-04 22:05'
           end
         end
@@ -619,7 +619,7 @@ RSpec.describe Regulation, type: :model do
           time = '2019-05-04 21:59'
           travel_to(time) do
             expect(
-              table.next_period(next_phase: 'spr_1st')
+              table.next_period(next_phase: Table::Phase::SPR_1ST)
             ).to eq '2019-05-04 22:59'
           end
         end

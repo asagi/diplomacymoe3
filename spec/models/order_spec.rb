@@ -6,7 +6,7 @@ RSpec.describe Order, type: :model do
   describe '#to_key' do
     context 'Diagram 5:' do
       before :example do
-        @table = Table.create(turn: 0, phase: 'fal_3rd')
+        @table = Table.create(turn: 0, phase: Table::Phase::FAL_3RD)
         override_proceed(table: @table)
         @power_g = @table.powers.create(symbol: Power::G)
         @power_r = @table.powers.create(symbol: Power::R)
@@ -56,7 +56,7 @@ RSpec.describe Order, type: :model do
 
     context 'Diagram 8:' do
       before :example do
-        @table = Table.create(turn: 0, phase: 'fal_3rd')
+        @table = Table.create(turn: 0, phase: Table::Phase::FAL_3RD)
         override_proceed(table: @table)
         @power_f = @table.powers.create(symbol: Power::F)
         @turn = @table.turns.create(number: @table.turn)
@@ -96,7 +96,7 @@ RSpec.describe Order, type: :model do
 
     context 'その他:' do
       before :example do
-        @table = Table.create(turn: 0, phase: 'fal_3rd')
+        @table = Table.create(turn: 0, phase: Table::Phase::FAL_3RD)
         override_proceed(table: @table)
         @power_f = @table.powers.create(symbol: Power::F)
         @turn = @table.turns.create(number: @table.turn)

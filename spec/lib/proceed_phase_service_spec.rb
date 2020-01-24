@@ -92,7 +92,7 @@ RSpec.describe ProceedPhaseService, type: :service do
 
       example '更新前には F lon-nth の仮想命令が登録されていること' do
         travel_to('2019-05-12 06:50') do
-          orders = table.current_turn.orders.where(phase: 'spr_1st')
+          orders = table.current_turn.orders.where(phase: Table::Phase::SPR_1ST)
           expect(orders.size).to eq 1
           expect(orders.where(type: MoveOrder.to_s).size).to eq 1
           order = orders[0]
@@ -109,14 +109,14 @@ RSpec.describe ProceedPhaseService, type: :service do
 
       example '更新後には F lon-nth の仮想命令が削除されていること' do
         travel_to('2019-05-12 07:00') do
-          orders = table.current_turn.orders.where(phase: 'spr_1st')
+          orders = table.current_turn.orders.where(phase: Table::Phase::SPR_1ST)
           expect(orders.where(type: MoveOrder.to_s).size).to eq 0
         end
       end
 
       example '1 年目の春外交フェイズに 22 の維持命令が生成されていること' do
         travel_to('2019-05-12 07:00') do
-          orders = table.current_turn.orders.where(phase: 'spr_1st')
+          orders = table.current_turn.orders.where(phase: Table::Phase::SPR_1ST)
           expect(orders.size).to eq 22
           expect(orders.where(type: HoldOrder.to_s).size).to eq 22
         end
@@ -125,7 +125,7 @@ RSpec.describe ProceedPhaseService, type: :service do
       example '1 年目の春外交フェイズに 22 のユニットが生成されていること' do
         travel_to('2019-05-12 07:00') do
           turn = table.turns.find_by(number: 1)
-          units = turn.units.where(phase: 'spr_1st')
+          units = turn.units.where(phase: Table::Phase::SPR_1ST)
           expect(units.size).to eq 22
         end
       end
@@ -133,7 +133,7 @@ RSpec.describe ProceedPhaseService, type: :service do
       example '1 年目の春撤退フェイズに 22 のユニットが生成されていること' do
         travel_to('2019-05-12 07:00') do
           turn = table.turns.find_by(number: 1)
-          units = turn.units.where(phase: 'spr_2nd')
+          units = turn.units.where(phase: Table::Phase::SPR_2ND)
           expect(units.size).to eq 22
         end
       end
@@ -177,7 +177,7 @@ RSpec.describe ProceedPhaseService, type: :service do
 
       example '1 年目の春外交フェイズに 22 の維持命令が生成されていること' do
         travel_to('2019-05-12 07:00') do
-          orders = table.current_turn.orders.where(phase: 'spr_1st')
+          orders = table.current_turn.orders.where(phase: Table::Phase::SPR_1ST)
           expect(orders.size).to eq 22
           expect(orders.where(type: HoldOrder.to_s).size).to eq 22
         end
@@ -186,7 +186,7 @@ RSpec.describe ProceedPhaseService, type: :service do
       example '1 年目の春撤退フェイズに F lon の解散命令が生成されていること' do
         travel_to('2019-05-12 07:00') do
           turn = table.turns.find_by(number: 1)
-          orders = turn.orders.where(phase: 'spr_2nd')
+          orders = turn.orders.where(phase: Table::Phase::SPR_2ND)
           expect(orders.size).to eq 1
           expect(orders[0].type).to eq DisbandOrder.to_s
         end

@@ -13,7 +13,7 @@ RSpec.describe Table, type: :model do
   describe '#create' do
     context 'Regulation 省略' do
       before :example do
-        @table = Table.create(turn: 1, phase: 'spr_1st')
+        @table = Table.create(turn: 1, phase: Table::Phase::SPR_1ST)
       end
 
       example '初期値' do
@@ -29,7 +29,7 @@ RSpec.describe Table, type: :model do
         @regulation = Regulation.create
         @table = Table.create(
           turn: 1,
-          phase: 'spr_1st',
+          phase: Table::Phase::SPR_1ST,
           regulation: @regulation
         )
       end
