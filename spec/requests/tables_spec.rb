@@ -49,7 +49,7 @@ RSpec.describe 'tables', type: :request do
 
       example 'レスポンスに ID が含まれている' do
         json = JSON.parse(response.body)
-        expect(json['id']).to be > 0
+        expect(json['id']).to be_positive
       end
     end
   end

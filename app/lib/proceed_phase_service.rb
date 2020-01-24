@@ -10,8 +10,8 @@ class ProceedPhaseService
   end
 
   def call
-    return @table if @table.status == Table::DISCARDED
-    return @table if @table.status == Table::CLOSED
+    return @table if @table.status_discarded?
+    return @table if @table.status_closed?
 
     # ロック前状態取得
     turn = @table.turn
@@ -36,8 +36,7 @@ class ProceedPhaseService
       # 更新期限チェック
       raise ActiveRecord::Rollback if @table.period > now
 
-      case @table.status
-      when Table::CREATED
+      if @table.status_created?
         # ロビー
         # TODO: 参加者が揃っていなければ終了
         unless @table.full?
@@ -52,7 +51,7 @@ class ProceedPhaseService
         @table = @table.start
         @table.save!
         return @table
-      when Table::DRAW, Table::SOLO
+      elsif @table.status_draw? || @table.status_solo?
         # 感想戦
         # 卓を閉鎖
         @table = @table.close

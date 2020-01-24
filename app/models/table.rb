@@ -6,23 +6,15 @@ class Table < ApplicationRecord
   has_many :players
   belongs_to :regulation, optional: true
 
-  CREATED = 0
-  DISCARDED = 1
-  READY = 2
-  STARTED = 3
-  DRAW = 4
-  SOLO = 5
-  CLOSED = 6
-
-  STATUS_NAME = {
-    CREATED: 'CREATED',
-    DISCARDED: 'DISCARDED',
-    READY: 'READY',
-    STARTED: 'STARTED',
-    DRAW: 'DRAW',
-    SOLO: 'SOLO',
-    CLOSED: 'CLOSED'
-  }.freeze
+  enum status: {
+    created: 0,
+    discarded: 1,
+    ready: 2,
+    started: 3,
+    draw: 4,
+    solo: 5,
+    closed: 6
+  }, _prefix: true
 
   enum phase: {
     spr_1st: 0,
@@ -58,21 +50,13 @@ class Table < ApplicationRecord
 
   class NoPlaceAvailableError < StandardError; end
 
-  def self.status_text(code:)
-    STATUS_NAME[code]
-  end
-
-  def status_text
-    self.class.status_text(code: status)
-  end
-
   after_initialize do
     next unless regulation
 
     extend regulation.face_type_module
     extend regulation.period_rule_module
     extend regulation.duration_module
-    self.status ||= CREATED
+    status_created! unless status
   end
 
   def initialize(options = {})
@@ -83,11 +67,10 @@ class Table < ApplicationRecord
   end
 
   def full?
+    return unless status_created?
+
     # 管理人を除いて 7 人
-    case self.status
-    when CREATED
-      players.joins(:user).where(users: { admin: false }).size == 7
-    end
+    players.joins(:user).where(users: { admin: false }).size == 7
   end
 
   def add_master
@@ -126,14 +109,14 @@ class Table < ApplicationRecord
   end
 
   def discard
-    self.status = DISCARDED
+    status_discarded!
     self
   end
 
   def start
     proceed
     self.period = next_period(next_phase: phase) if regulation
-    self.status = STARTED
+    status_started!
     self
   end
 
@@ -143,7 +126,7 @@ class Table < ApplicationRecord
     self.turn = turn.number
     phase_spr_1st!
     self.period = last_nego_period + (60 * 60 * 24)
-    self.status = DRAW
+    status_draw!
     self
   end
 
@@ -153,7 +136,7 @@ class Table < ApplicationRecord
     self.turn = turn.number
     phase_spr_1st!
     self.period = last_nego_period + (60 * 60 * 24)
-    self.status = SOLO
+    status_solo!
     self
   end
 
@@ -161,7 +144,7 @@ class Table < ApplicationRecord
     proceed
     phase_spr_1st!
     self.period = next_period(next_phase: phase) if regulation
-    self.status = CLOSED
+    status_closed!
     self
   end
 

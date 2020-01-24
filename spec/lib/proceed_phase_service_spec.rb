@@ -25,16 +25,16 @@ RSpec.describe ProceedPhaseService, type: :service do
       example '更新前の卓のステータスが CREATED であること' do
         travel_to('2019-05-12 06:50') do
           expect(
-            table.status_text
-          ).to eq Table.status_text(code: Table::CREATED)
+            table.status_created?
+          ).to be true
         end
       end
 
       example '更新後の卓のステータスが DISCARDED であること' do
         travel_to('2019-05-12 07:00') do
           expect(
-            table.status_text
-          ).to eq Table.status_text(code: Table::DISCARDED)
+            table.status_discarded?
+          ).to be true
         end
       end
     end
@@ -54,8 +54,8 @@ RSpec.describe ProceedPhaseService, type: :service do
       example '更新後の卓のステータスが STARTED であること' do
         travel_to('2019-05-12 07:00') do
           expect(
-            table.status_text
-          ).to eq Table.status_text(code: Table::STARTED)
+            table.status_started?
+          ).to be true
         end
       end
 
@@ -222,7 +222,7 @@ RSpec.describe ProceedPhaseService, type: :service do
 
       example '卓のステータスが制覇終了であること' do
         travel_to('2019-05-12 07:00') do
-          expect(table.status_text).to eq Table.status_text(code: Table::SOLO)
+          expect(table.status_solo?).to be true
         end
       end
 
