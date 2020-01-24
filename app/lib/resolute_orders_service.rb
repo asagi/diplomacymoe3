@@ -49,8 +49,8 @@ class ResoluteOrdersService
   # ステータス初期化
   def initialize_status
     @orders.each do |o|
-      o.status = Order::UNSLOVED
-      o.support = 0
+      o.unslove
+      o.supports = 0
       o.keepout = nil
     end
   end
@@ -59,9 +59,7 @@ class ResoluteOrdersService
   def remove_unmatched_support_orders
     supports = unsloved_support_orders
     supports.each do |s|
-      unless @orders.detect { |o| o.to_key == s.target }
-        s.status = Order::UNMATCHED
-      end
+      s.unmatch unless @orders.detect { |o| o.to_key == s.target }
     end
   end
 
@@ -105,7 +103,7 @@ class ResoluteOrdersService
     unsloved_support_orders.each do |support|
       enemies = unsloved_move_orders_support_cutter(support)
       if enemies.size > 1
-        support.status = Order::CUT
+        support.cut
         next
       end
     end
@@ -113,9 +111,11 @@ class ResoluteOrdersService
 
   def resolute_cutting_support_orders_not_move_target
     unsloved_support_orders.each do |s|
+      next unless effected_support_cutter(s)
+
       support_target = @orders.detect { |o| o.to_key == s.target }
       unless support_target.move?
-        s.status = Order::CUT
+        s.cut
         next
       end
     end
@@ -126,19 +126,21 @@ class ResoluteOrdersService
       next unless (enemy = effected_support_cutter(s))
       next unless MapUtil.adjacents[s.unit.province][enemy.unit.province]
 
-      s.status = Order::CUT
+      s.cut
       next
     end
   end
 
   def resolute_cutting_support_orders_not_support_attack
     unsloved_support_orders.each do |s|
+      next unless effected_support_cutter(s)
+
       support_target = supported_order_by(s)
       attack_target = attack_target_by(support_target)
-      unless attack_target
-        s.status = Order::CUT
-        next
-      end
+      next if attack_target
+
+      s.cut
+      next
     end
   end
 
@@ -149,7 +151,7 @@ class ResoluteOrdersService
       support_target = supported_order_by(s)
       attack_target = attack_target_by(support_target)
       unless attack_target.convoy?
-        s.status = Order::CUT
+        s.cut
         next
       end
     end
@@ -163,7 +165,7 @@ class ResoluteOrdersService
       attack_target = attack_target_by(support_target)
 
       unless enemy.to_key == attack_target.target
-        s.status = Order::CUT
+        s.cut
         next
       end
     end
@@ -176,12 +178,12 @@ class ResoluteOrdersService
       support_target = supported_order_by(s)
       attack_target = attack_target_by(support_target)
 
-      convoys = applied_convoy_orders
+      convoys = unsloved_convoy_orders
                 .select { |o| o.target == enemy.to_key }
                 .reject { |c| c == attack_target }
       next unless alive_any_convoy_route_for(enemy, convoys)
 
-      s.status = Order::CUT
+      s.cut
     end
   end
 
@@ -198,7 +200,7 @@ class ResoluteOrdersService
     supports.each do |s|
       target = @orders.detect { |o| o.to_key == s.target }
       if target
-        target.support += 1
+        target.supports += 1
         s.apply
       else
         s.reject
@@ -265,10 +267,10 @@ class ResoluteOrdersService
   end
 
   def resolute_switch_orders_status(move, against)
-    if move.support > against.support
+    if move.supports > against.supports
       move.succeed
       against.dislodge(against: move)
-    elsif move.support < against.support
+    elsif move.supports < against.supports
       move.dislodge(against: against)
       against.succeed
     else
@@ -371,10 +373,10 @@ class ResoluteOrdersService
   end
 
   def resolute_move_orders_conflict(moves, dest)
-    support_level_list = moves.map(&:support)
+    support_level_list = moves.map(&:supports)
     max_support_level = support_level_list.max
     if support_level_list.count(max_support_level) == 1
-      winner = moves.detect { |m| m.support == max_support_level }
+      winner = moves.detect { |m| m.supports == max_support_level }
     end
     moves.map do |m|
       next if winner && m == winner
@@ -391,7 +393,7 @@ class ResoluteOrdersService
       next unless s.power == hold.power
 
       s.reject
-      move.support -= 1
+      move.supports -= 1
     end
   end
 
@@ -411,12 +413,12 @@ class ResoluteOrdersService
     target = @orders.detect { |o| o.to_key == hold.target }
     return unless target
 
-    target.status = Order::UNSLOVED
-    target.support -= 1
+    target.unslove
+    target.supports -= 1
     return unless target.dest
 
     @orders.select { |o| o.move? && o.dest == target.dest }.each do |m|
-      m.status = Order::UNSLOVED unless m == target
+      m.unslove unless m == target
     end
   end
 
@@ -440,11 +442,11 @@ class ResoluteOrdersService
     against_move = @orders.detect { |o| o.dest == province && o.succeeded? }
     return nil unless against_move
 
-    if against_move&.support&.positive?
+    if against_move&.supports&.positive?
       against_move.succeed
       return against_move
     end
-    against_move.status = Order::UNSLOVED
+    against_move.unslove
     nil
   end
 
@@ -497,7 +499,7 @@ class ResoluteOrdersService
   end
 
   def condition_failure_move(move, hold)
-    hold.support >= move.support || hold.power == move.power
+    hold.supports >= move.supports || hold.power == move.power
   end
 
   def supported_order_by(support)

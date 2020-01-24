@@ -35,8 +35,8 @@ RSpec.describe ResoluteRetreatsService, type: :service do
 
       example '解決後の bur 陸軍への解隊命令のステータスは SUCCEEDED' do
         expect(
-          result.detect { |o| o.unit == @unit }.status_text
-        ).to eq Order.status_text(code: Order::SUCCEEDED)
+          result.detect { |o| o.unit == @unit }.status
+        ).to eq Order::Status::SUCCEEDED
       end
     end
 
@@ -71,8 +71,8 @@ RSpec.describe ResoluteRetreatsService, type: :service do
 
       example '解決後の bur 陸軍への par への撤退命令のステータスは SUCCEEDED' do
         expect(
-          result.detect { |o| o.unit == @unit }.status_text
-        ).to eq Order.status_text(code: Order::SUCCEEDED)
+          result.detect { |o| o.unit == @unit }.status
+        ).to eq Order::Status::SUCCEEDED
       end
     end
 
@@ -120,14 +120,14 @@ RSpec.describe ResoluteRetreatsService, type: :service do
 
       example '解決後の gas 陸軍への par への撤退命令のステータスは FAILED' do
         expect(
-          result.detect { |o| o.unit == @unit_f }.status_text
-        ).to eq Order.status_text(code: Order::FAILED)
+          result.detect { |o| o.unit == @unit_f }.status
+        ).to eq Order::Status::FAILED
       end
 
       example '解決後の bur 陸軍への par への撤退命令のステータスは FAILED' do
         expect(
-          result.detect { |o| o.unit == @unit_g }.status_text
-        ).to eq Order.status_text(code: Order::FAILED)
+          result.detect { |o| o.unit == @unit_g }.status
+        ).to eq Order::Status::FAILED
       end
     end
   end

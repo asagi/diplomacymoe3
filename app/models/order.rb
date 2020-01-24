@@ -5,38 +5,34 @@ class Order < ApplicationRecord
   belongs_to :power
   belongs_to :unit
 
-  attr_accessor :support
+  attr_accessor :supports
 
   enum phase: Table.phases
 
-  UNSLOVED = 0
-  FAILED = 1
-  SUCCEEDED = 2
-  APPLIED = 3
-  DISLODGED = 4
-  REJECTED = 5
-  CUT = 6
+  enum status: {
+    unsloved: 0,
+    failed: 1,
+    succeeded: 2,
+    applied: 3,
+    missed: 4,
+    dislodged: 5,
+    rejected: 6,
+    cut: 7
+  }, _prefix: true
 
-  STATUS_NAME = {
-    UNSLOVED: 'UNSLOVED',
-    FAILED: 'FAILED',
-    SUCCEEDED: 'SUCCEEDED',
-    APPLIED: 'APPLIED',
-    DISLODGED: 'DISLODGED',
-    REJECTED: 'REJECTED',
-    CUT: 'CUT'
-  }.freeze
+  module Status
+    UNSLOVED = 'unsloved'
+    FAILED = 'failed'
+    SUCCEEDED = 'succeeded'
+    APPLIED = 'applied'
+    MISSED = 'missed'
+    DISLODGED = 'dislodged'
+    REJECTED = 'rejected'
+    CUT = 'cut'
+  end
 
   after_initialize do
-    self.status ||= UNSLOVED
-  end
-
-  def self.status_text(code:)
-    STATUS_NAME[code]
-  end
-
-  def status_text
-    self.class.status_text(code: self.status)
+    unslove unless status
   end
 
   def to_key
@@ -80,54 +76,70 @@ class Order < ApplicationRecord
     false
   end
 
+  def unslove
+    self.status = Status::UNSLOVED
+  end
+
   def unsloved?
-    self.status == UNSLOVED
+    status == Status::UNSLOVED
   end
 
   def succeed
-    self.status = SUCCEEDED
+    self.status = Status::SUCCEEDED
   end
 
   def succeeded?
-    self.status == SUCCEEDED
+    status == Status::SUCCEEDED
   end
 
   def apply
-    self.status = APPLIED
+    self.status = Status::APPLIED
   end
 
   def applied?
-    self.status == APPLIED
+    status == Status::APPLIED
   end
 
-  def fail
-    self.status = FAILED
-    self.support = 0
-  end
-
-  def failed?
-    self.status == FAILED
-  end
-
-  def dislodge(against:)
-    self.status = DISLODGED
-    self.keepout = against.unit.province[0, 3]
-  end
-
-  def dislodged?
-    self.status == DISLODGED
-  end
-
-  def reject
-    self.status = REJECTED
-  end
-
-  def rejected?
-    self.status == REJECTED
+  def cut
+    self.status = Status::CUT
   end
 
   def cut?
-    self.status == CUT
+    status == Status::CUT
+  end
+
+  def fail
+    self.status = Status::FAILED
+    self.supports = 0
+  end
+
+  def failed?
+    status == Status::FAILED
+  end
+
+  def dislodge(against: nil)
+    self.status = Status::DISLODGED
+    self.keepout = against.unit.province[0, 3] if against
+  end
+
+  def dislodged?
+    status == Status::DISLODGED
+  end
+
+  def miss
+    self.status = Status::MISSED
+  end
+
+  def missed?
+    status == Status::MISSED
+  end
+
+  def reject
+    self.status = Status::REJECTED
+  end
+
+  def rejected?
+    status == Status::REJECTED
   end
 
   private

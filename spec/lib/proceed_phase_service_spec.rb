@@ -161,7 +161,7 @@ RSpec.describe ProceedPhaseService, type: :service do
           unit: unit_e
         ).detect(&:hold?)
         order.keepout = 'eng'
-        order.status = Order::DISLODGED
+        order.dislodge
         turn.orders << order
         # 更新期限調整
         @table.period = '2019-05-12 07:00'

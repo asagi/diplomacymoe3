@@ -41,26 +41,26 @@ RSpec.describe ResoluteOrdersService, type: :service do
 
       example '解決前の ber 陸軍への sil への移動命令のステータスは UNSLOVED' do
         expect(
-          @turn.orders.find_by(unit: @unit_g).status_text
-        ).to eq Order.status_text(code: Order::UNSLOVED)
+          @turn.orders.find_by(unit: @unit_g).status
+        ).to eq Order::Status::UNSLOVED
       end
 
       example '解決前の war 陸軍への sil への移動命令のステータスは UNSLOVED' do
         expect(
-          @turn.orders.find_by(unit: @unit_r).status_text
-        ).to eq Order.status_text(code: Order::UNSLOVED)
+          @turn.orders.find_by(unit: @unit_r).status
+        ).to eq Order::Status::UNSLOVED
       end
 
       example '解決後の ber 陸軍への sil への移動命令のステータスは FAILED' do
         expect(
-          result[0].detect { |o| o.unit == @unit_g }.status_text
-        ).to eq Order.status_text(code: Order::FAILED)
+          result[0].detect { |o| o.unit == @unit_g }.status
+        ).to eq Order::Status::FAILED
       end
 
       example '解決後の war 陸軍への sil への移動命令のステータスは FAILED' do
         expect(
-          result[0].detect { |o| o.unit == @unit_r }.status_text
-        ).to eq Order.status_text(code: Order::FAILED)
+          result[0].detect { |o| o.unit == @unit_r }.status
+        ).to eq Order::Status::FAILED
       end
 
       example 'スタンドオフ発生地域として sil が返却される' do
@@ -114,20 +114,20 @@ RSpec.describe ResoluteOrdersService, type: :service do
 
       example '解決後の kie 海軍への ber への移動命令のステータスは FAILED' do
         expect(
-          result[0].detect { |o| o.unit == @unit_g_kie }.status_text
-        ).to eq Order.status_text(code: Order::FAILED)
+          result[0].detect { |o| o.unit == @unit_g_kie }.status
+        ).to eq Order::Status::FAILED
       end
 
       example '解決後の ber 陸軍への pur への移動命令のステータスは FAILED' do
         expect(
-          result[0].detect { |o| o.unit == @unit_g_ber }.status_text
-        ).to eq Order.status_text(code: Order::FAILED)
+          result[0].detect { |o| o.unit == @unit_g_ber }.status
+        ).to eq Order::Status::FAILED
       end
 
       example '解決後の pur 陸軍への維持命令のステータスは SUCCEEDED' do
         expect(
-          result[0].detect { |o| o.unit == @unit_r_war }.status_text
-        ).to eq Order.status_text(code: Order::SUCCEEDED)
+          result[0].detect { |o| o.unit == @unit_r_war }.status
+        ).to eq Order::Status::SUCCEEDED
       end
     end
 
@@ -168,14 +168,14 @@ RSpec.describe ResoluteOrdersService, type: :service do
 
       example '解決後の ber 海軍への pru への移動命令のステータスは FAILED' do
         expect(
-          result[0].detect { |o| o.unit == @unit_f }.status_text
-        ).to eq Order.status_text(code: Order::FAILED)
+          result[0].detect { |o| o.unit == @unit_f }.status
+        ).to eq Order::Status::FAILED
       end
 
       example '解決後の pru 陸軍への ber への移動命令のステータスは FAILED' do
         expect(
-          result[0].detect { |o| o.unit == @unit_a }.status_text
-        ).to eq Order.status_text(code: Order::FAILED)
+          result[0].detect { |o| o.unit == @unit_a }.status
+        ).to eq Order::Status::FAILED
       end
     end
 
@@ -225,20 +225,20 @@ RSpec.describe ResoluteOrdersService, type: :service do
 
       example '解決後の hol 陸軍への bel への移動命令のステータスは SUCCEEDED' do
         expect(
-          result[0].detect { |o| o.unit == @unit_e_hol }.status_text
-        ).to eq Order.status_text(code: Order::SUCCEEDED)
+          result[0].detect { |o| o.unit == @unit_e_hol }.status
+        ).to eq Order::Status::SUCCEEDED
       end
 
       example '解決後の bel 海軍への nth への移動命令のステータスは SUCCEEDED' do
         expect(
-          result[0].detect { |o| o.unit == @unit_e_bel }.status_text
-        ).to eq Order.status_text(code: Order::SUCCEEDED)
+          result[0].detect { |o| o.unit == @unit_e_bel }.status
+        ).to eq Order::Status::SUCCEEDED
       end
 
       example '解決後の nth 海軍への hol への移動命令のステータスは SUCCEEDED' do
         expect(
-          result[0].detect { |o| o.unit == @unit_f_nth }.status_text
-        ).to eq Order.status_text(code: Order::SUCCEEDED)
+          result[0].detect { |o| o.unit == @unit_f_nth }.status
+        ).to eq Order::Status::SUCCEEDED
       end
     end
 
@@ -288,20 +288,20 @@ RSpec.describe ResoluteOrdersService, type: :service do
 
       example '解決後の mar 陸軍への bur への移動命令のステータスは SUCCEEDED' do
         expect(
-          result[0].detect { |o| o.unit == @unit_f_mar }.status_text
-        ).to eq Order.status_text(code: Order::SUCCEEDED)
+          result[0].detect { |o| o.unit == @unit_f_mar }.status
+        ).to eq Order::Status::SUCCEEDED
       end
 
       example '解決後の gas 陸軍への A mar-bur への支援命令のステータスは APPLIED' do
         expect(
-          result[0].detect { |o| o.unit == @unit_f_gas }.status_text
-        ).to eq Order.status_text(code: Order::APPLIED)
+          result[0].detect { |o| o.unit == @unit_f_gas }.status
+        ).to eq Order::Status::APPLIED
       end
 
       example '解決後の bur 陸軍への維持命令のステータスは DISLODGED' do
         expect(
-          result[0].detect { |o| o.unit == @unit_g_bur }.status_text
-        ).to eq Order.status_text(code: Order::DISLODGED)
+          result[0].detect { |o| o.unit == @unit_g_bur }.status
+        ).to eq Order::Status::DISLODGED
       end
 
       example '敗退した bur 陸軍には撤退不可地域として mar が設定されている' do
@@ -357,20 +357,20 @@ RSpec.describe ResoluteOrdersService, type: :service do
 
       example '解決後の sil 陸軍への pru への移動命令のステータスは SUCCEEDED' do
         expect(
-          result[0].detect { |o| o.unit == @unit_g_sil }.status_text
-        ).to eq Order.status_text(code: Order::SUCCEEDED)
+          result[0].detect { |o| o.unit == @unit_g_sil }.status
+        ).to eq Order::Status::SUCCEEDED
       end
 
       example '解決後の bal 海軍への A sil-pru への支援命令のステータスは APPLIED' do
         expect(
-          result[0].detect { |o| o.unit == @unit_g_bal }.status_text
-        ).to eq Order.status_text(code: Order::APPLIED)
+          result[0].detect { |o| o.unit == @unit_g_bal }.status
+        ).to eq Order::Status::APPLIED
       end
 
       example '解決後の pru 陸軍への維持命令のステータスは DISLODGED' do
         expect(
-          result[0].detect { |o| o.unit == @unit_r_pru }.status_text
-        ).to eq Order.status_text(code: Order::DISLODGED)
+          result[0].detect { |o| o.unit == @unit_r_pru }.status
+        ).to eq Order::Status::DISLODGED
       end
 
       example '敗退した pru 陸軍には撤退不可地域として pru が設定されている' do
@@ -435,26 +435,26 @@ RSpec.describe ResoluteOrdersService, type: :service do
 
       example '解決後の wes 海軍への tys への移動命令のステータスは FAILED' do
         expect(
-          result[0].detect { |o| o.unit == @unit_f_lyo }.status_text
-        ).to eq Order.status_text(code: Order::FAILED)
+          result[0].detect { |o| o.unit == @unit_f_lyo }.status
+        ).to eq Order::Status::FAILED
       end
 
       example '解決後の wes 海軍への F lyo-tys への支援命令のステータスは APPLIED' do
         expect(
-          result[0].detect { |o| o.unit == @unit_f_wes }.status_text
-        ).to eq Order.status_text(code: Order::APPLIED)
+          result[0].detect { |o| o.unit == @unit_f_wes }.status
+        ).to eq Order::Status::APPLIED
       end
 
       example '解決後の nap 海軍への tys への移動命令のステータスは FAILED' do
         expect(
-          result[0].detect { |o| o.unit == @unit_i_nap }.status_text
-        ).to eq Order.status_text(code: Order::FAILED)
+          result[0].detect { |o| o.unit == @unit_i_nap }.status
+        ).to eq Order::Status::FAILED
       end
 
       example '解決後の rom 海軍への F nap-tys への支援命令のステータスは APPLIED' do
         expect(
-          result[0].detect { |o| o.unit == @unit_i_rom }.status_text
-        ).to eq Order.status_text(code: Order::APPLIED)
+          result[0].detect { |o| o.unit == @unit_i_rom }.status
+        ).to eq Order::Status::APPLIED
       end
 
       example 'スタンドオフ発生地域として tys が返却される' do
@@ -517,26 +517,26 @@ RSpec.describe ResoluteOrdersService, type: :service do
 
       example '解決後の wes 海軍への tys への移動命令のステータスは FAILED' do
         expect(
-          result[0].detect { |o| o.unit == @unit_f_lyo }.status_text
-        ).to eq Order.status_text(code: Order::FAILED)
+          result[0].detect { |o| o.unit == @unit_f_lyo }.status
+        ).to eq Order::Status::FAILED
       end
 
       example '解決後の wes 海軍への F lyo-tys への支援命令のステータスは APPLIED' do
         expect(
-          result[0].detect { |o| o.unit == @unit_f_wes }.status_text
-        ).to eq Order.status_text(code: Order::APPLIED)
+          result[0].detect { |o| o.unit == @unit_f_wes }.status
+        ).to eq Order::Status::APPLIED
       end
 
       example '解決後の tys 海軍への維持命令のステータスは SUCCEEDED' do
         expect(
-          result[0].detect { |o| o.unit == @unit_i_tys }.status_text
-        ).to eq Order.status_text(code: Order::SUCCEEDED)
+          result[0].detect { |o| o.unit == @unit_i_tys }.status
+        ).to eq Order::Status::SUCCEEDED
       end
 
       example '解決後の rom 海軍への F tys H への支援命令のステータスは APPLIED' do
         expect(
-          result[0].detect { |o| o.unit == @unit_i_rom }.status_text
-        ).to eq Order.status_text(code: Order::APPLIED)
+          result[0].detect { |o| o.unit == @unit_i_rom }.status
+        ).to eq Order::Status::APPLIED
       end
     end
 
@@ -614,20 +614,20 @@ RSpec.describe ResoluteOrdersService, type: :service do
 
       example '解決後の boh 陸軍への mun への移動命令のステータスは SUCCEEDED' do
         expect(
-          result[0].detect { |o| o.unit == @unit_a_boh }.status_text
-        ).to eq Order.status_text(code: Order::SUCCEEDED)
+          result[0].detect { |o| o.unit == @unit_a_boh }.status
+        ).to eq Order::Status::SUCCEEDED
       end
 
       example '解決後の tyr 陸軍への A boh-mun への支援命令のステータスは APPLIED' do
         expect(
-          result[0].detect { |o| o.unit == @unit_a_tyr }.status_text
-        ).to eq Order.status_text(code: Order::APPLIED)
+          result[0].detect { |o| o.unit == @unit_a_tyr }.status
+        ).to eq Order::Status::APPLIED
       end
 
       example '解決後の mun 陸軍への sil への移動命令のステータスは DISLODGE' do
         expect(
-          result[0].detect { |o| o.unit == @unit_g_mun }.status_text
-        ).to eq Order.status_text(code: Order::DISLODGED)
+          result[0].detect { |o| o.unit == @unit_g_mun }.status
+        ).to eq Order::Status::DISLODGED
       end
 
       example '敗退した mun 陸軍には撤退不可地域として boh が設定されている' do
@@ -638,20 +638,20 @@ RSpec.describe ResoluteOrdersService, type: :service do
 
       example '解決後の ber 陸軍への A mun-sil への支援命令のステータスは APPLIED' do
         expect(
-          result[0].detect { |o| o.unit == @unit_g_ber }.status_text
-        ).to eq Order.status_text(code: Order::APPLIED)
+          result[0].detect { |o| o.unit == @unit_g_ber }.status
+        ).to eq Order::Status::APPLIED
       end
 
       example '解決後の war 陸軍への sil への移動命令のステータスは FAILED' do
         expect(
-          result[0].detect { |o| o.unit == @unit_r_war }.status_text
-        ).to eq Order.status_text(code: Order::FAILED)
+          result[0].detect { |o| o.unit == @unit_r_war }.status
+        ).to eq Order::Status::FAILED
       end
 
       example '解決後の pru 陸軍への A war-sil への支援命令のステータスは APPLIED' do
         expect(
-          result[0].detect { |o| o.unit == @unit_r_pru }.status_text
-        ).to eq Order.status_text(code: Order::APPLIED)
+          result[0].detect { |o| o.unit == @unit_r_pru }.status
+        ).to eq Order::Status::APPLIED
       end
 
       example 'スタンドオフ発生地域として sil が返却される' do
@@ -714,26 +714,26 @@ RSpec.describe ResoluteOrdersService, type: :service do
 
       example '解決後の bul 陸軍への rum への移動命令のステータスは DISLODGED' do
         expect(
-          result[0].detect { |o| o.unit == @unit_t_bul }.status_text
-        ).to eq Order.status_text(code: Order::DISLODGED)
+          result[0].detect { |o| o.unit == @unit_t_bul }.status
+        ).to eq Order::Status::DISLODGED
       end
 
       example '解決後の rum 陸軍への bul への移動命令のステータスは SUCCEEDED' do
         expect(
-          result[0].detect { |o| o.unit == @unit_r_rum }.status_text
-        ).to eq Order.status_text(code: Order::SUCCEEDED)
+          result[0].detect { |o| o.unit == @unit_r_rum }.status
+        ).to eq Order::Status::SUCCEEDED
       end
 
       example '解決後の ser 陸軍への A bul-rum への支援命令のステータスは APPLIED' do
         expect(
-          result[0].detect { |o| o.unit == @unit_r_ser }.status_text
-        ).to eq Order.status_text(code: Order::APPLIED)
+          result[0].detect { |o| o.unit == @unit_r_ser }.status
+        ).to eq Order::Status::APPLIED
       end
 
       example '解決後の sev 陸軍への rum への移動命令のステータスは SUCCEEDED' do
         expect(
-          result[0].detect { |o| o.unit == @unit_r_sev }.status_text
-        ).to eq Order.status_text(code: Order::SUCCEEDED)
+          result[0].detect { |o| o.unit == @unit_r_sev }.status
+        ).to eq Order::Status::SUCCEEDED
       end
     end
 
@@ -810,38 +810,38 @@ RSpec.describe ResoluteOrdersService, type: :service do
 
       example '解決後の bul 陸軍への rum への移動命令のステータスは DISLODGED' do
         expect(
-          result[0].detect { |o| o.unit == @unit_t_bul }.status_text
-        ).to eq Order.status_text(code: Order::DISLODGED)
+          result[0].detect { |o| o.unit == @unit_t_bul }.status
+        ).to eq Order::Status::DISLODGED
       end
 
       example '解決後の bla 海軍への A bul-rum への支援命令のステータスは APPLIED' do
         expect(
-          result[0].detect { |o| o.unit == @unit_t_bla }.status_text
-        ).to eq Order.status_text(code: Order::APPLIED)
+          result[0].detect { |o| o.unit == @unit_t_bla }.status
+        ).to eq Order::Status::APPLIED
       end
 
       example '解決後の rum 陸軍への bul への移動命令のステータスは SUCCEEDED' do
         expect(
-          result[0].detect { |o| o.unit == @unit_r_rum }.status_text
-        ).to eq Order.status_text(code: Order::SUCCEEDED)
+          result[0].detect { |o| o.unit == @unit_r_rum }.status
+        ).to eq Order::Status::SUCCEEDED
       end
 
       example '解決後の gre 陸軍への A rum-bul への支援命令のステータスは APPLIED' do
         expect(
-          result[0].detect { |o| o.unit == @unit_r_gre }.status_text
-        ).to eq Order.status_text(code: Order::APPLIED)
+          result[0].detect { |o| o.unit == @unit_r_gre }.status
+        ).to eq Order::Status::APPLIED
       end
 
       example '解決後の ser 陸軍への A bul-rum への支援命令のステータスは APPLIED' do
         expect(
-          result[0].detect { |o| o.unit == @unit_r_ser }.status_text
-        ).to eq Order.status_text(code: Order::APPLIED)
+          result[0].detect { |o| o.unit == @unit_r_ser }.status
+        ).to eq Order::Status::APPLIED
       end
 
       example '解決後の sev 陸軍への rum への移動命令のステータスは SUCCEEDED' do
         expect(
-          result[0].detect { |o| o.unit == @unit_r_sev }.status_text
-        ).to eq Order.status_text(code: Order::SUCCEEDED)
+          result[0].detect { |o| o.unit == @unit_r_sev }.status
+        ).to eq Order::Status::SUCCEEDED
       end
     end
 
@@ -900,26 +900,26 @@ RSpec.describe ResoluteOrdersService, type: :service do
 
       example '解決後の pru 陸軍への war への移動命令のステータスは FAILED' do
         expect(
-          result[0].detect { |o| o.unit == @unit_g_pru }.status_text
-        ).to eq Order.status_text(code: Order::FAILED)
+          result[0].detect { |o| o.unit == @unit_g_pru }.status
+        ).to eq Order::Status::FAILED
       end
 
       example '解決後の sil 陸軍への A pru-war への支援命令のステータスは CUT' do
         expect(
-          result[0].detect { |o| o.unit == @unit_g_sil }.status_text
-        ).to eq Order.status_text(code: Order::CUT)
+          result[0].detect { |o| o.unit == @unit_g_sil }.status
+        ).to eq Order::Status::CUT
       end
 
       example '解決後の war 陸軍への維持命令のステータスは SUCCEEDED' do
         expect(
-          result[0].detect { |o| o.unit == @unit_r_war }.status_text
-        ).to eq Order.status_text(code: Order::SUCCEEDED)
+          result[0].detect { |o| o.unit == @unit_r_war }.status
+        ).to eq Order::Status::SUCCEEDED
       end
 
       example '解決後の boh 陸軍への sil への移動命令のステータスは FAILED' do
         expect(
-          result[0].detect { |o| o.unit == @unit_r_boh }.status_text
-        ).to eq Order.status_text(code: Order::FAILED)
+          result[0].detect { |o| o.unit == @unit_r_boh }.status
+        ).to eq Order::Status::FAILED
       end
     end
 
@@ -969,20 +969,20 @@ RSpec.describe ResoluteOrdersService, type: :service do
 
       example '解決後の pru 陸軍への war への移動命令のステータスは FAILED' do
         expect(
-          result[0].detect { |o| o.unit == @unit_g_pru }.status_text
-        ).to eq Order.status_text(code: Order::SUCCEEDED)
+          result[0].detect { |o| o.unit == @unit_g_pru }.status
+        ).to eq Order::Status::SUCCEEDED
       end
 
       example '解決後の sil 陸軍への A pru-war への支援命令のステータスは APPLIED' do
         expect(
-          result[0].detect { |o| o.unit == @unit_g_sil }.status_text
-        ).to eq Order.status_text(code: Order::APPLIED)
+          result[0].detect { |o| o.unit == @unit_g_sil }.status
+        ).to eq Order::Status::APPLIED
       end
 
       example '解決後の war 陸軍への sil への移動命令のステータスは DISLODGED' do
         expect(
-          result[0].detect { |o| o.unit == @unit_r_war }.status_text
-        ).to eq Order.status_text(code: Order::DISLODGED)
+          result[0].detect { |o| o.unit == @unit_r_war }.status
+        ).to eq Order::Status::DISLODGED
       end
     end
 
@@ -1050,14 +1050,14 @@ RSpec.describe ResoluteOrdersService, type: :service do
 
       example '解決後の ber 海軍への pru への移動命令のステータスは FAILED' do
         expect(
-          result[0].detect { |o| o.unit == @unit_g_ber }.status_text
-        ).to eq Order.status_text(code: Order::FAILED)
+          result[0].detect { |o| o.unit == @unit_g_ber }.status
+        ).to eq Order::Status::FAILED
       end
 
       example '解決後の sil 陸軍への A ber-pru への支援命令のステータスは DISLODGED' do
         expect(
-          result[0].detect { |o| o.unit == @unit_g_sil }.status_text
-        ).to eq Order.status_text(code: Order::DISLODGED)
+          result[0].detect { |o| o.unit == @unit_g_sil }.status
+        ).to eq Order::Status::DISLODGED
       end
 
       example '敗退した sil 陸軍には撤退不可地域として pru が設定されている' do
@@ -1068,20 +1068,20 @@ RSpec.describe ResoluteOrdersService, type: :service do
 
       example '解決後の pru 陸軍への sil への移動命令のステータスは SUCCEEDED' do
         expect(
-          result[0].detect { |o| o.unit == @unit_r_pru }.status_text
-        ).to eq Order.status_text(code: Order::SUCCEEDED)
+          result[0].detect { |o| o.unit == @unit_r_pru }.status
+        ).to eq Order::Status::SUCCEEDED
       end
 
       example '解決後の war 陸軍への A ber-pru への支援命令のステータスは APPLIED' do
         expect(
-          result[0].detect { |o| o.unit == @unit_r_war }.status_text
-        ).to eq Order.status_text(code: Order::APPLIED)
+          result[0].detect { |o| o.unit == @unit_r_war }.status
+        ).to eq Order::Status::APPLIED
       end
 
       example '解決後の bal 海軍への pru への移動命令のステータスは FAILED' do
         expect(
-          result[0].detect { |o| o.unit == @unit_r_bal }.status_text
-        ).to eq Order.status_text(code: Order::FAILED)
+          result[0].detect { |o| o.unit == @unit_r_bal }.status
+        ).to eq Order::Status::FAILED
       end
 
       example 'スタンドオフ発生地域として pru が返却される' do
@@ -1162,38 +1162,38 @@ RSpec.describe ResoluteOrdersService, type: :service do
 
       example '解決後の ber 陸軍への維持命令のステータスは SUCCEEDED' do
         expect(
-          result[0].detect { |o| o.unit == @unit_g_ber }.status_text
-        ).to eq Order.status_text(code: Order::SUCCEEDED)
+          result[0].detect { |o| o.unit == @unit_g_ber }.status
+        ).to eq Order::Status::SUCCEEDED
       end
 
       example '解決後の mun 陸軍への sil への移動命令のステータスは DISLODGED' do
         expect(
-          result[0].detect { |o| o.unit == @unit_g_mun }.status_text
-        ).to eq Order.status_text(code: Order::DISLODGED)
+          result[0].detect { |o| o.unit == @unit_g_mun }.status
+        ).to eq Order::Status::DISLODGED
       end
 
       example '解決後の pru 陸軍への ber への移動命令のステータスは FAILED' do
         expect(
-          result[0].detect { |o| o.unit == @unit_r_pru }.status_text
-        ).to eq Order.status_text(code: Order::FAILED)
+          result[0].detect { |o| o.unit == @unit_r_pru }.status
+        ).to eq Order::Status::FAILED
       end
 
       example '解決後の sil 陸軍への A pru-ber への支援命令のステータスは CUT' do
         expect(
-          result[0].detect { |o| o.unit == @unit_r_sil }.status_text
-        ).to eq Order.status_text(code: Order::CUT)
+          result[0].detect { |o| o.unit == @unit_r_sil }.status
+        ).to eq Order::Status::CUT
       end
 
       example '解決後の boh 陸軍への mun への移動命令のステータスは SUCCEEDED' do
         expect(
-          result[0].detect { |o| o.unit == @unit_r_boh }.status_text
-        ).to eq Order.status_text(code: Order::SUCCEEDED)
+          result[0].detect { |o| o.unit == @unit_r_boh }.status
+        ).to eq Order::Status::SUCCEEDED
       end
 
       example '解決後の tyr 陸軍への A boh-mun への支援命令のステータスは APPLIED' do
         expect(
-          result[0].detect { |o| o.unit == @unit_r_tyr }.status_text
-        ).to eq Order.status_text(code: Order::APPLIED)
+          result[0].detect { |o| o.unit == @unit_r_tyr }.status
+        ).to eq Order::Status::APPLIED
       end
     end
 
@@ -1233,14 +1233,14 @@ RSpec.describe ResoluteOrdersService, type: :service do
 
       example '解決後の lon 陸軍への nwy への移動命令のステータスは SUCCEEDED' do
         expect(
-          result[0].detect { |o| o.unit == @unit_e_lon }.status_text
-        ).to eq Order.status_text(code: Order::SUCCEEDED)
+          result[0].detect { |o| o.unit == @unit_e_lon }.status
+        ).to eq Order::Status::SUCCEEDED
       end
 
       example '解決後の nth 海軍への A lon-nwy の輸送命令のステータスは APPLIED' do
         expect(
-          result[0].detect { |o| o.unit == @unit_e_nth }.status_text
-        ).to eq Order.status_text(code: Order::APPLIED)
+          result[0].detect { |o| o.unit == @unit_e_nth }.status
+        ).to eq Order::Status::APPLIED
       end
 
       context '解決時に海路が存在しなかった場合' do
@@ -1279,8 +1279,8 @@ RSpec.describe ResoluteOrdersService, type: :service do
 
         example '解決後の lon 陸軍への nwy への移動命令のステータスは REFECTED' do
           expect(
-            result[0].detect { |o| o.unit == @unit_e_lon }.status_text
-          ).to eq Order.status_text(code: Order::REJECTED)
+            result[0].detect { |o| o.unit == @unit_e_lon }.status
+          ).to eq Order::Status::REJECTED
         end
       end
     end
@@ -1340,26 +1340,26 @@ RSpec.describe ResoluteOrdersService, type: :service do
 
       example '解決後の lon 陸軍への tun への移動命令のステータスは SUCCEEDED' do
         expect(
-          result[0].detect { |o| o.unit == @unit_e_lon }.status_text
-        ).to eq Order.status_text(code: Order::SUCCEEDED)
+          result[0].detect { |o| o.unit == @unit_e_lon }.status
+        ).to eq Order::Status::SUCCEEDED
       end
 
       example '解決後の eng 海軍への A lon-tun の輸送命令のステータスは APPLIED' do
         expect(
-          result[0].detect { |o| o.unit == @unit_e_eng }.status_text
-        ).to eq Order.status_text(code: Order::APPLIED)
+          result[0].detect { |o| o.unit == @unit_e_eng }.status
+        ).to eq Order::Status::APPLIED
       end
 
       example '解決後の mao 海軍への A lon-tun の輸送命令のステータスは APPLIED' do
         expect(
-          result[0].detect { |o| o.unit == @unit_e_mao }.status_text
-        ).to eq Order.status_text(code: Order::APPLIED)
+          result[0].detect { |o| o.unit == @unit_e_mao }.status
+        ).to eq Order::Status::APPLIED
       end
 
       example '解決後の wes 海軍への A lon-tun の輸送命令のステータスは APPLIED' do
         expect(
-          result[0].detect { |o| o.unit == @unit_f_wes }.status_text
-        ).to eq Order.status_text(code: Order::APPLIED)
+          result[0].detect { |o| o.unit == @unit_f_wes }.status
+        ).to eq Order::Status::APPLIED
       end
     end
 
@@ -1427,32 +1427,32 @@ RSpec.describe ResoluteOrdersService, type: :service do
 
       example '解決後の spa 陸軍への nap への移動命令のステータスは FAILED' do
         expect(
-          result[0].detect { |o| o.unit == @unit_f_spa }.status_text
-        ).to eq Order.status_text(code: Order::FAILED)
+          result[0].detect { |o| o.unit == @unit_f_spa }.status
+        ).to eq Order::Status::FAILED
       end
 
       example '解決後の lyo 海軍への A spa-nap の輸送命令のステータスは APPLIED' do
         expect(
-          result[0].detect { |o| o.unit == @unit_f_lyo }.status_text
-        ).to eq Order.status_text(code: Order::APPLIED)
+          result[0].detect { |o| o.unit == @unit_f_lyo }.status
+        ).to eq Order::Status::APPLIED
       end
 
       example '解決後の tys 海軍への A spa-nap の輸送命令のステータスは DISLODGED' do
         expect(
-          result[0].detect { |o| o.unit == @unit_f_tys }.status_text
-        ).to eq Order.status_text(code: Order::DISLODGED)
+          result[0].detect { |o| o.unit == @unit_f_tys }.status
+        ).to eq Order::Status::DISLODGED
       end
 
       example '解決後の ion 海軍への tys への移動命令のステータスは SUCCEEDED' do
         expect(
-          result[0].detect { |o| o.unit == @unit_i_ion }.status_text
-        ).to eq Order.status_text(code: Order::SUCCEEDED)
+          result[0].detect { |o| o.unit == @unit_i_ion }.status
+        ).to eq Order::Status::SUCCEEDED
       end
 
       example '解決後の tun 海軍への F ion-tys への支援命令のステータスは APPLIED' do
         expect(
-          result[0].detect { |o| o.unit == @unit_i_tun }.status_text
-        ).to eq Order.status_text(code: Order::APPLIED)
+          result[0].detect { |o| o.unit == @unit_i_tun }.status
+        ).to eq Order::Status::APPLIED
       end
     end
 
@@ -1501,20 +1501,20 @@ RSpec.describe ResoluteOrdersService, type: :service do
 
       example '解決後の par 陸軍への bur への移動命令のステータスは FAILED' do
         expect(
-          result[0].detect { |o| o.unit == @unit_f_par }.status_text
-        ).to eq Order.status_text(code: Order::FAILED)
+          result[0].detect { |o| o.unit == @unit_f_par }.status
+        ).to eq Order::Status::FAILED
       end
 
       example '解決後の mar 陸軍への A par-bur への支援命令のステータスは REJECTED' do
         expect(
-          result[0].detect { |o| o.unit == @unit_f_mar }.status_text
-        ).to eq Order.status_text(code: Order::REJECTED)
+          result[0].detect { |o| o.unit == @unit_f_mar }.status
+        ).to eq Order::Status::REJECTED
       end
 
       example '解決後の bur 陸軍への維持命令のステータスは SUCCEEDED' do
         expect(
-          result[0].detect { |o| o.unit == @unit_f_bur }.status_text
-        ).to eq Order.status_text(code: Order::SUCCEEDED)
+          result[0].detect { |o| o.unit == @unit_f_bur }.status
+        ).to eq Order::Status::SUCCEEDED
       end
     end
 
@@ -1574,26 +1574,26 @@ RSpec.describe ResoluteOrdersService, type: :service do
 
       example '解決後の par 陸軍への bur への移動命令のステータスは FAILED' do
         expect(
-          result[0].detect { |o| o.unit == @unit_f_par }.status_text
-        ).to eq Order.status_text(code: Order::FAILED)
+          result[0].detect { |o| o.unit == @unit_f_par }.status
+        ).to eq Order::Status::FAILED
       end
 
       example '解決後の bur 陸軍への mar への移動命令のステータスは FAILED' do
         expect(
-          result[0].detect { |o| o.unit == @unit_f_bur }.status_text
-        ).to eq Order.status_text(code: Order::FAILED)
+          result[0].detect { |o| o.unit == @unit_f_bur }.status
+        ).to eq Order::Status::FAILED
       end
 
       example '解決後の mar 陸軍への A par-bur への支援命令のステータスは REJECTED' do
         expect(
-          result[0].detect { |o| o.unit == @unit_g_ruh }.status_text
-        ).to eq Order.status_text(code: Order::REJECTED)
+          result[0].detect { |o| o.unit == @unit_g_ruh }.status
+        ).to eq Order::Status::REJECTED
       end
 
       example '解決後の mar 陸軍への bur への移動命令のステータスは FAILED' do
         expect(
-          result[0].detect { |o| o.unit == @unit_i_mar }.status_text
-        ).to eq Order.status_text(code: Order::FAILED)
+          result[0].detect { |o| o.unit == @unit_i_mar }.status
+        ).to eq Order::Status::FAILED
       end
     end
 
@@ -1652,26 +1652,26 @@ RSpec.describe ResoluteOrdersService, type: :service do
 
       example '解決後の ruh 陸軍への bur への移動命令のステータスは FAILED' do
         expect(
-          result[0].detect { |o| o.unit == @unit_g_ruh }.status_text
-        ).to eq Order.status_text(code: Order::FAILED)
+          result[0].detect { |o| o.unit == @unit_g_ruh }.status
+        ).to eq Order::Status::FAILED
       end
 
       example '解決後の mun 陸軍への維持命令のステータスは SUCCEEDED' do
         expect(
-          result[0].detect { |o| o.unit == @unit_g_mun }.status_text
-        ).to eq Order.status_text(code: Order::SUCCEEDED)
+          result[0].detect { |o| o.unit == @unit_g_mun }.status
+        ).to eq Order::Status::SUCCEEDED
       end
 
       example '解決後の par 陸軍への A ruh-bur への支援命令のステータスは REJECTED' do
         expect(
-          result[0].detect { |o| o.unit == @unit_f_par }.status_text
-        ).to eq Order.status_text(code: Order::REJECTED)
+          result[0].detect { |o| o.unit == @unit_f_par }.status
+        ).to eq Order::Status::REJECTED
       end
 
       example '解決後の bur 陸軍への維持命令のステータスは SUCCEEDED' do
         expect(
-          result[0].detect { |o| o.unit == @unit_f_bur }.status_text
-        ).to eq Order.status_text(code: Order::SUCCEEDED)
+          result[0].detect { |o| o.unit == @unit_f_bur }.status
+        ).to eq Order::Status::SUCCEEDED
       end
 
       context 'If Germany had supported its own attack (from Munich), ...' do
@@ -1729,26 +1729,26 @@ RSpec.describe ResoluteOrdersService, type: :service do
 
         example '解決後の ruh 陸軍への bur への移動命令のステータスは SUCCEEDED' do
           expect(
-            result[0].detect { |o| o.unit == @unit_g_ruh }.status_text
-          ).to eq Order.status_text(code: Order::SUCCEEDED)
+            result[0].detect { |o| o.unit == @unit_g_ruh }.status
+          ).to eq Order::Status::SUCCEEDED
         end
 
         example '解決後の par 陸軍への A ruh-bur への支援命令のステータスは APPLIED' do
           expect(
-            result[0].detect { |o| o.unit == @unit_g_mun }.status_text
-          ).to eq Order.status_text(code: Order::APPLIED)
+            result[0].detect { |o| o.unit == @unit_g_mun }.status
+          ).to eq Order::Status::APPLIED
         end
 
         example '解決後の par 陸軍への維持命令のステータスは SUCCEEDED' do
           expect(
-            result[0].detect { |o| o.unit == @unit_f_par }.status_text
-          ).to eq Order.status_text(code: Order::SUCCEEDED)
+            result[0].detect { |o| o.unit == @unit_f_par }.status
+          ).to eq Order::Status::SUCCEEDED
         end
 
         example '解決後の bur 陸軍への維持命令のステータスは DISLODGED' do
           expect(
-            result[0].detect { |o| o.unit == @unit_f_bur }.status_text
-          ).to eq Order.status_text(code: Order::DISLODGED)
+            result[0].detect { |o| o.unit == @unit_f_bur }.status
+          ).to eq Order::Status::DISLODGED
         end
       end
     end
@@ -1818,32 +1818,32 @@ RSpec.describe ResoluteOrdersService, type: :service do
 
       example '解決後の ruh 陸軍への mun への移動命令のステータスは FAILED' do
         expect(
-          result[0].detect { |o| o.unit == @unit_g_ruh }.status_text
-        ).to eq Order.status_text(code: Order::FAILED)
+          result[0].detect { |o| o.unit == @unit_g_ruh }.status
+        ).to eq Order::Status::FAILED
       end
 
       example '解決後の mun 陸軍への tyr への移動命令のステータスは FAILED' do
         expect(
-          result[0].detect { |o| o.unit == @unit_g_mun }.status_text
-        ).to eq Order.status_text(code: Order::FAILED)
+          result[0].detect { |o| o.unit == @unit_g_mun }.status
+        ).to eq Order::Status::FAILED
       end
 
       example '解決後の sil 陸軍への mun への移動命令のステータスは FAILED' do
         expect(
-          result[0].detect { |o| o.unit == @unit_g_sil }.status_text
-        ).to eq Order.status_text(code: Order::FAILED)
+          result[0].detect { |o| o.unit == @unit_g_sil }.status
+        ).to eq Order::Status::FAILED
       end
 
       example '解決後の tyr 陸軍への mun への移動命令のステータスは FAILED' do
         expect(
-          result[0].detect { |o| o.unit == @unit_a_tyr }.status_text
-        ).to eq Order.status_text(code: Order::FAILED)
+          result[0].detect { |o| o.unit == @unit_a_tyr }.status
+        ).to eq Order::Status::FAILED
       end
 
       example '解決後の boh 陸軍への A sil-mun への支援命令のステータスは REJECTED' do
         expect(
-          result[0].detect { |o| o.unit == @unit_a_boh }.status_text
-        ).to eq Order.status_text(code: Order::REJECTED)
+          result[0].detect { |o| o.unit == @unit_a_boh }.status
+        ).to eq Order::Status::REJECTED
       end
     end
 
@@ -1920,38 +1920,38 @@ RSpec.describe ResoluteOrdersService, type: :service do
 
       example '解決後の den 海軍への kie への移動命令のステータスは FAILED' do
         expect(
-          result[0].detect { |o| o.unit == @unit_e_den }.status_text
-        ).to eq Order.status_text(code: Order::FAILED)
+          result[0].detect { |o| o.unit == @unit_e_den }.status
+        ).to eq Order::Status::FAILED
       end
 
       example '解決後の nth 海軍への den への移動命令のステータスは FAILED' do
         expect(
-          result[0].detect { |o| o.unit == @unit_e_nth }.status_text
-        ).to eq Order.status_text(code: Order::FAILED)
+          result[0].detect { |o| o.unit == @unit_e_nth }.status
+        ).to eq Order::Status::FAILED
       end
 
       example '解決後の hel 海軍への F nth-den への支援命令のステータスは APPLIED' do
         expect(
-          result[0].detect { |o| o.unit == @unit_e_hel }.status_text
-        ).to eq Order.status_text(code: Order::APPLIED)
+          result[0].detect { |o| o.unit == @unit_e_hel }.status
+        ).to eq Order::Status::APPLIED
       end
 
       example '解決後の bel 陸軍への kie への移動命令のステータスは FAILED' do
         expect(
-          result[0].detect { |o| o.unit == @unit_r_ber }.status_text
-        ).to eq Order.status_text(code: Order::FAILED)
+          result[0].detect { |o| o.unit == @unit_r_ber }.status
+        ).to eq Order::Status::FAILED
       end
 
       example '解決後の ska 海軍への den への移動命令のステータスは FAILED' do
         expect(
-          result[0].detect { |o| o.unit == @unit_r_ska }.status_text
-        ).to eq Order.status_text(code: Order::FAILED)
+          result[0].detect { |o| o.unit == @unit_r_ska }.status
+        ).to eq Order::Status::FAILED
       end
 
       example '解決後の bal 海軍への A ska-den への支援命令のステータスは APPLIED' do
         expect(
-          result[0].detect { |o| o.unit == @unit_r_bal }.status_text
-        ).to eq Order.status_text(code: Order::APPLIED)
+          result[0].detect { |o| o.unit == @unit_r_bal }.status
+        ).to eq Order::Status::APPLIED
       end
     end
 
@@ -2001,20 +2001,20 @@ RSpec.describe ResoluteOrdersService, type: :service do
 
       example '解決後の ser 陸軍への bud への移動命令のステータスは SUCCEEDED' do
         expect(
-          result[0].detect { |o| o.unit == @unit_a_ser }.status_text
-        ).to eq Order.status_text(code: Order::SUCCEEDED)
+          result[0].detect { |o| o.unit == @unit_a_ser }.status
+        ).to eq Order::Status::SUCCEEDED
       end
 
       example '解決後の vie 陸軍への den への移動命令のステータスは FAILED' do
         expect(
-          result[0].detect { |o| o.unit == @unit_a_vie }.status_text
-        ).to eq Order.status_text(code: Order::FAILED)
+          result[0].detect { |o| o.unit == @unit_a_vie }.status
+        ).to eq Order::Status::FAILED
       end
 
       example '解決後の bal 陸軍への A ser-bud への支援命令のステータスは APPLIED' do
         expect(
-          result[0].detect { |o| o.unit == @unit_r_gal }.status_text
-        ).to eq Order.status_text(code: Order::APPLIED)
+          result[0].detect { |o| o.unit == @unit_r_gal }.status
+        ).to eq Order::Status::APPLIED
       end
     end
 
@@ -2073,26 +2073,26 @@ RSpec.describe ResoluteOrdersService, type: :service do
 
       example '解決後の lon 陸軍への bel への移動命令のステータスは SUCCEEDED' do
         expect(
-          result[0].detect { |o| o.unit == @unit_e_lon }.status_text
-        ).to eq Order.status_text(code: Order::SUCCEEDED)
+          result[0].detect { |o| o.unit == @unit_e_lon }.status
+        ).to eq Order::Status::SUCCEEDED
       end
 
       example '解決後の nth 海軍への A lon-bel の輸送命令のステータスは APPLIED' do
         expect(
-          result[0].detect { |o| o.unit == @unit_e_nth }.status_text
-        ).to eq Order.status_text(code: Order::APPLIED)
+          result[0].detect { |o| o.unit == @unit_e_nth }.status
+        ).to eq Order::Status::APPLIED
       end
 
       example '解決後の bel 陸軍への lon への移動命令のステータスは SUCCEEDED' do
         expect(
-          result[0].detect { |o| o.unit == @unit_f_bel }.status_text
-        ).to eq Order.status_text(code: Order::SUCCEEDED)
+          result[0].detect { |o| o.unit == @unit_f_bel }.status
+        ).to eq Order::Status::SUCCEEDED
       end
 
       example '解決後の eng 海軍への A bel-lon の輸送命令のステータスは APPLIED' do
         expect(
-          result[0].detect { |o| o.unit == @unit_f_eng }.status_text
-        ).to eq Order.status_text(code: Order::APPLIED)
+          result[0].detect { |o| o.unit == @unit_f_eng }.status
+        ).to eq Order::Status::APPLIED
       end
     end
 
@@ -2160,20 +2160,20 @@ RSpec.describe ResoluteOrdersService, type: :service do
 
       example '解決後の lon 陸軍への bel への移動命令のステータスは SUCCEEDED' do
         expect(
-          result[0].detect { |o| o.unit == @unit_e_lon }.status_text
-        ).to eq Order.status_text(code: Order::SUCCEEDED)
+          result[0].detect { |o| o.unit == @unit_e_lon }.status
+        ).to eq Order::Status::SUCCEEDED
       end
 
       example '解決後の nth 海軍への A lon-bel の輸送命令のステータスは APPLIED' do
         expect(
-          result[0].detect { |o| o.unit == @unit_e_nth }.status_text
-        ).to eq Order.status_text(code: Order::APPLIED)
+          result[0].detect { |o| o.unit == @unit_e_nth }.status
+        ).to eq Order::Status::APPLIED
       end
 
       example '解決後の eng 海軍への A lon-bel の輸送命令のステータスは DISLODGED' do
         expect(
-          result[0].detect { |o| o.unit == @unit_e_eng }.status_text
-        ).to eq Order.status_text(code: Order::DISLODGED)
+          result[0].detect { |o| o.unit == @unit_e_eng }.status
+        ).to eq Order::Status::DISLODGED
       end
 
       example '敗退した eng 海軍には撤退不可地域として bre が設定されている' do
@@ -2184,14 +2184,14 @@ RSpec.describe ResoluteOrdersService, type: :service do
 
       example '解決後の bre 海軍への eng への移動命令のステータスは SUCCEEDED' do
         expect(
-          result[0].detect { |o| o.unit == @unit_f_bre }.status_text
-        ).to eq Order.status_text(code: Order::SUCCEEDED)
+          result[0].detect { |o| o.unit == @unit_f_bre }.status
+        ).to eq Order::Status::SUCCEEDED
       end
 
       example '解決後の iri 海軍への F bre-eng への支援命令のステータスは APPLIED' do
         expect(
-          result[0].detect { |o| o.unit == @unit_f_iri }.status_text
-        ).to eq Order.status_text(code: Order::APPLIED)
+          result[0].detect { |o| o.unit == @unit_f_iri }.status
+        ).to eq Order::Status::APPLIED
       end
     end
 
@@ -2258,26 +2258,26 @@ RSpec.describe ResoluteOrdersService, type: :service do
 
       example '解決後の tys 海軍への A tun-nap の輸送命令のステータスは DISLODGED' do
         expect(
-          result[0].detect { |o| o.unit == @unit_f_tys }.status_text
-        ).to eq Order.status_text(code: Order::DISLODGED)
+          result[0].detect { |o| o.unit == @unit_f_tys }.status
+        ).to eq Order::Status::DISLODGED
       end
 
       example '解決後の tun 陸軍への nap への移動命令のステータスは FAILED' do
         expect(
-          result[0].detect { |o| o.unit == @unit_f_tun }.status_text
-        ).to eq Order.status_text(code: Order::FAILED)
+          result[0].detect { |o| o.unit == @unit_f_tun }.status
+        ).to eq Order::Status::FAILED
       end
 
       example '解決後の nap 海軍への F ion-tys への支援命令のステータスは APPLIED' do
         expect(
-          result[0].detect { |o| o.unit == @unit_i_nap }.status_text
-        ).to eq Order.status_text(code: Order::APPLIED)
+          result[0].detect { |o| o.unit == @unit_i_nap }.status
+        ).to eq Order::Status::APPLIED
       end
 
       example '解決後の ion 海軍への tys への移動命令のステータスは SUCCEEDED' do
         expect(
-          result[0].detect { |o| o.unit == @unit_i_ion }.status_text
-        ).to eq Order.status_text(code: Order::SUCCEEDED)
+          result[0].detect { |o| o.unit == @unit_i_ion }.status
+        ).to eq Order::Status::SUCCEEDED
       end
     end
 
@@ -2355,32 +2355,32 @@ RSpec.describe ResoluteOrdersService, type: :service do
 
       example '解決後の tun 陸軍への nap への移動命令のステータスは FAILED' do
         expect(
-          result[0].detect { |o| o.unit == @unit_f_tun }.status_text
-        ).to eq Order.status_text(code: Order::FAILED)
+          result[0].detect { |o| o.unit == @unit_f_tun }.status
+        ).to eq Order::Status::FAILED
       end
 
       example '解決後の tys 海軍への A tun-nap の輸送命令のステータスは APPLIED' do
         expect(
-          result[0].detect { |o| o.unit == @unit_f_tys }.status_text
-        ).to eq Order.status_text(code: Order::APPLIED)
+          result[0].detect { |o| o.unit == @unit_f_tys }.status
+        ).to eq Order::Status::APPLIED
       end
 
       example '解決後の ion 海軍への A tun-nap の輸送命令のステータスは APPLIED' do
         expect(
-          result[0].detect { |o| o.unit == @unit_f_ion }.status_text
-        ).to eq Order.status_text(code: Order::APPLIED)
+          result[0].detect { |o| o.unit == @unit_f_ion }.status
+        ).to eq Order::Status::APPLIED
       end
 
       example '解決後の rom 海軍への tys への移動命令のステータスは FAILED' do
         expect(
-          result[0].detect { |o| o.unit == @unit_i_rom }.status_text
-        ).to eq Order.status_text(code: Order::FAILED)
+          result[0].detect { |o| o.unit == @unit_i_rom }.status
+        ).to eq Order::Status::FAILED
       end
 
       example '解決後の nap 海軍への F rom-tys への支援命令のステータスは CUT' do
         expect(
-          result[0].detect { |o| o.unit == @unit_i_nap }.status_text
-        ).to eq Order.status_text(code: Order::CUT)
+          result[0].detect { |o| o.unit == @unit_i_nap }.status
+        ).to eq Order::Status::CUT
       end
     end
 
@@ -2469,38 +2469,38 @@ RSpec.describe ResoluteOrdersService, type: :service do
 
       example '解決後の tun 陸軍への nap への移動命令のステータスは SUCCEEDED' do
         expect(
-          result[0].detect { |o| o.unit == @unit_f_tun }.status_text
-        ).to eq Order.status_text(code: Order::SUCCEEDED)
+          result[0].detect { |o| o.unit == @unit_f_tun }.status
+        ).to eq Order::Status::SUCCEEDED
       end
 
       example '解決後の tys 海軍への A tun-nap の輸送命令のステータスは APPLIED' do
         expect(
-          result[0].detect { |o| o.unit == @unit_f_tys }.status_text
-        ).to eq Order.status_text(code: Order::APPLIED)
+          result[0].detect { |o| o.unit == @unit_f_tys }.status
+        ).to eq Order::Status::APPLIED
       end
 
       example '解決後の ion 海軍への A tun-nap の輸送命令のステータスは APPLIED' do
         expect(
-          result[0].detect { |o| o.unit == @unit_f_ion }.status_text
-        ).to eq Order.status_text(code: Order::APPLIED)
+          result[0].detect { |o| o.unit == @unit_f_ion }.status
+        ).to eq Order::Status::APPLIED
       end
 
       example '解決後の apu 陸軍への A tun-nap への支援命令のステータスは APPLIED' do
         expect(
-          result[0].detect { |o| o.unit == @unit_f_apu }.status_text
-        ).to eq Order.status_text(code: Order::APPLIED)
+          result[0].detect { |o| o.unit == @unit_f_apu }.status
+        ).to eq Order::Status::APPLIED
       end
 
       example '解決後の rom 海軍への tys への移動命令のステータスは FAILED' do
         expect(
-          result[0].detect { |o| o.unit == @unit_i_rom }.status_text
-        ).to eq Order.status_text(code: Order::FAILED)
+          result[0].detect { |o| o.unit == @unit_i_rom }.status
+        ).to eq Order::Status::FAILED
       end
 
       example '解決後の nap 海軍への F rom-tys への支援命令のステータスは DISLODGED' do
         expect(
-          result[0].detect { |o| o.unit == @unit_i_nap }.status_text
-        ).to eq Order.status_text(code: Order::DISLODGED)
+          result[0].detect { |o| o.unit == @unit_i_nap }.status
+        ).to eq Order::Status::DISLODGED
       end
 
       example '敗退した nap 海軍には撤退不可地域として tun が設定されている' do
