@@ -7,6 +7,8 @@ class Order < ApplicationRecord
 
   attr_accessor :support
 
+  enum phase: Table.phases
+
   UNSLOVED = 0
   FAILED = 1
   SUCCEEDED = 2

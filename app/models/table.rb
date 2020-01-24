@@ -24,20 +24,28 @@ class Table < ApplicationRecord
     CLOSED: 'CLOSED'
   }.freeze
 
+  enum phase: {
+    spr_1st: 0,
+    spr_2nd: 1,
+    fal_1st: 2,
+    fal_2nd: 3,
+    fal_3rd: 4
+  }, _prefix: true
+
   NEXT_PHASE = {
-    Const.phases.spr_1st => Const.phases.spr_2nd,
-    Const.phases.spr_2nd => Const.phases.fal_1st,
-    Const.phases.fal_1st => Const.phases.fal_2nd,
-    Const.phases.fal_2nd => Const.phases.fal_3rd,
-    Const.phases.fal_3rd => Const.phases.spr_1st
+    'spr_1st' => 'spr_2nd',
+    'spr_2nd' => 'fal_1st',
+    'fal_1st' => 'fal_2nd',
+    'fal_2nd' => 'fal_3rd',
+    'fal_3rd' => 'spr_1st'
   }.freeze
 
   LAST_PHASE = {
-    Const.phases.spr_1st => Const.phases.fal_3rd,
-    Const.phases.spr_2nd => Const.phases.spr_1st,
-    Const.phases.fal_1st => Const.phases.spr_2nd,
-    Const.phases.fal_2nd => Const.phases.fal_1st,
-    Const.phases.fal_3rd => Const.phases.fal_2nd
+    'spr_1st' => 'fal_3rd',
+    'spr_2nd' => 'spr_1st',
+    'fal_1st' => 'spr_2nd',
+    'fal_2nd' => 'fal_1st',
+    'fal_3rd' => 'fal_2nd'
   }.freeze
 
   class NoPlaceAvailableError < StandardError; end
@@ -89,7 +97,7 @@ class Table < ApplicationRecord
   end
 
   def last_phase_units
-    turn = phase == Const.phases.spr_1st ? last_turn : current_turn
+    turn = phase_spr_1st? ? last_turn : current_turn
     turn.units.where(phase: LAST_PHASE[phase])
   end
 
@@ -103,7 +111,7 @@ class Table < ApplicationRecord
 
   def proceed
     self.phase = NEXT_PHASE[phase]
-    proceed_phase if phase == Const.phases.spr_1st
+    proceed_phase if phase_spr_1st?
     self.period = next_period(next_phase: phase) if regulation
     save!
     self
@@ -125,7 +133,7 @@ class Table < ApplicationRecord
     turn = turns.find_by(number: self.turn).next
     turns << turn
     self.turn = turn.number
-    self.phase = Const.phases.spr_1st
+    phase_spr_1st!
     self.period = last_nego_period + (60 * 60 * 24)
     self.status = DRAW
     self
@@ -135,7 +143,7 @@ class Table < ApplicationRecord
     turn = turns.find_by(number: self.turn).next
     turns << turn
     self.turn = turn.number
-    self.phase = Const.phases.spr_1st
+    phase_spr_1st!
     self.period = last_nego_period + (60 * 60 * 24)
     self.status = SOLO
     self
@@ -143,7 +151,7 @@ class Table < ApplicationRecord
 
   def close
     proceed
-    self.phase = Const.phases.spr_1st
+    phase_spr_1st!
     self.period = next_period(next_phase: phase) if regulation
     self.status = CLOSED
     self
@@ -153,7 +161,7 @@ class Table < ApplicationRecord
     return Unit.none if turn == Const.turns.initial
 
     number = turn
-    number -= 1 if phase == Const.phases.spr_1st
+    number -= 1 if phase_spr_1st?
     turn = turns.find_by(number: number)
     turn.units
   end

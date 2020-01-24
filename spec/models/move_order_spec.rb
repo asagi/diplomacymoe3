@@ -9,7 +9,7 @@ RSpec.describe MoveOrder, type: :model do
       @unit = Unit.create(
         type: Army.to_s,
         power: @power,
-        phase: 0,
+        phase: 'spr_1st',
         province: 'par'
       )
       expect(

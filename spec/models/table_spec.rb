@@ -13,13 +13,13 @@ RSpec.describe Table, type: :model do
   describe '#create' do
     context 'Regulation 省略' do
       before :example do
-        @table = Table.create(turn: 1, phase: Const.phases.spr_1st)
+        @table = Table.create(turn: 1, phase: 'spr_1st')
       end
 
       example '初期値' do
         expect(@table.turn).to eq 1
-        expect(@table.phase).to eq Const.phases.spr_1st
-        expect(@table.powers.empty?).to eq true
+        expect(@table.phase_spr_1st?).to be true
+        expect(@table.powers.empty?).to be true
         expect(@table.regulation).to be nil
       end
     end
@@ -29,14 +29,14 @@ RSpec.describe Table, type: :model do
         @regulation = Regulation.create
         @table = Table.create(
           turn: 1,
-          phase: Const.phases.spr_1st,
+          phase: 'spr_1st',
           regulation: @regulation
         )
       end
 
       example '初期値' do
         expect(@table.turn).to eq 1
-        expect(@table.phase).to eq Const.phases.spr_1st
+        expect(@table.phase_spr_1st?).to be true
         expect(@table.powers.empty?).to be true
         expect(@table.regulation).to eq @regulation
       end
@@ -86,7 +86,7 @@ RSpec.describe Table, type: :model do
       example 'フェイズを進行させる' do
         @table = table.proceed
         expect(@table.turn).to eq 1
-        expect(@table.phase).to eq Const.phases.spr_1st
+        expect(@table.phase_spr_1st?).to be true
       end
     end
   end

@@ -15,7 +15,7 @@ class CreateInitializedTableService
   def call
     table = Table.create(
       turn: Const.turns.initial,
-      phase: Const.phases.final,
+      phase: 'fal_3rd',
       regulation: @regulation
     )
     table = setup_powers(table)

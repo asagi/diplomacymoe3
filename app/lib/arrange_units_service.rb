@@ -13,15 +13,14 @@ class ArrangeUnitsService
     turn = @table.current_turn
 
     # 前処理
-    case @table.phase
-    when Const.phases.spr_2nd, Const.phases.fal_2nd
+    if @table.phase_spr_2nd? || @table.phase_fal_2nd?
       # 前フェイズの撃退されていないユニットを複製
       @table.last_phase_units.where(keepout: nil).each do |lpu|
         unit = lpu.dup
         unit.phase = @table.phase
         turn.units << unit
       end
-    when Const.phases.fal_3rd
+    elsif @table.phase_fal_3rd?
       # 前フェイズの全てのユニットを複製
       @table.last_phase_units.each do |lpu|
         unit = lpu.dup
@@ -35,8 +34,7 @@ class ArrangeUnitsService
       next unless order.power == order.unit.power
 
       # 命令結果によるユニット配置
-      case @table.phase
-      when Const.phases.spr_1st, Const.phases.fal_1st
+      if @table.phase_spr_1st? || @table.phase_fal_1st?
         # 撃退された命令
         if order.dislodged?
           params = {}
@@ -82,7 +80,7 @@ class ArrangeUnitsService
           end
           next
         end
-      when Const.phases.spr_2nd, Const.phases.fal_2nd
+      elsif @table.phase_spr_2nd? || @table.phase_fal_2nd?
         # 成功した撤退命令
         if order.retreat? && order.succeeded?
           params = {}
@@ -96,8 +94,6 @@ class ArrangeUnitsService
 
         # 解散命令は何もしない
         nil if order.disband?
-      when Const.phases.fal_3rd
-        nil
       end
     end
 

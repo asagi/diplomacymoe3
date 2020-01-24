@@ -5,6 +5,8 @@ class Unit < ApplicationRecord
   belongs_to :power
   has_many :orders
 
+  enum phase: Table.phases
+
   def army?
     false
   end

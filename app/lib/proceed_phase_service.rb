@@ -64,8 +64,7 @@ class ProceedPhaseService
       loop do
         turn = @table.current_turn
 
-        case @table.phase
-        when Const.phases.spr_1st, Const.phases.fal_1st
+        if @table.phase_spr_1st? || @table.phase_fal_1st?
           # TODO: 和平チェック
           if false
             @table = @table.draw
@@ -118,7 +117,7 @@ class ProceedPhaseService
             end
             break
           end
-        when Const.phases.spr_2nd, Const.phases.fal_2nd
+        elsif @table.phase_spr_2nd? || @table.phase_fal_2nd?
           # 撤退解散命令解決
           retreat_orders = turn.orders.where(phase: @table.phase)
           ResoluteRetreatsService.call(orders: retreat_orders)
@@ -128,7 +127,7 @@ class ProceedPhaseService
           @table.save!
 
           # 春撤退フェイズであれば秋外交フェイズに進み更新終了
-          if @table.phase == Const.phases.spr_2nd
+          if @table.phase_spr_2nd?
             @table = @table.proceed
             break
           end
@@ -214,14 +213,14 @@ class ProceedPhaseService
 
               province = unit_provinces.pop
               unit = @table.last_phase_units
-                           .where('province like ?', "#{province}%")
+                           .where('province like ?', "#{province}%").first
               turn.orders << DisbandOrder.new(power: power, unit: unit)
             end
-            turn.orders.each { |o| p o }
+            # turn.orders.each { |o| p o }
           end
           # 要調整
           break if to_gain || to_lose
-        when Const.phases.fal_3rd
+        elsif @table.phase_fal_3rd?
           # TODO: 増設撤去実行
           # TODO: ユニット保存
 
