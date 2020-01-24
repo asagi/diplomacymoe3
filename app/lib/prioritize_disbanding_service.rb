@@ -11,32 +11,33 @@ class PrioritizeDisbandingService
   end
 
   def call
-    result = []
-
     # ユニット毎に本国の一番近い補給都市への距離を計算
     units = @table.last_phase_units.where(power: @power)
-    units.each do |unit|
-      unit_distances = []
-      home_sc = MapUtil.home_sc_codes(power: @power.symbol)
-      home_sc.each do |sc|
-        distance = MapUtil.distance(start: sc, to: unit.province)
-        utype = unit.type
-        pname = MapUtil.provinces[unit.province]['name']
-        unit_distances << [distance, utype, pname, unit.province]
-      end
-      unit_distances.sort! { |a, b| a[0] <=> b[0] }
-      result << unit_distances.first
+    result = units.inject([]) do |nearest_supply_center, unit|
+      supply_centers = home_suuply_centers_for(unit)
+      supply_centers.sort! { |a, b| a[0] <=> b[0] }
+      nearest_supply_center << supply_centers.first
     end
+    sort_by_disassembly_priority(result)
+  end
 
-    # ユニット駐留地域名アルファベット順
-    result.sort! { |a, b| a[2] <=> b[2] }
-    # 海軍優先
-    result.sort! { |a, b| b[1] <=> a[1] }
-    # 本国の一番近い補給都市への距離が遠い順
-    result.sort! { |a, b| b[0] <=> a[0] }
+  def home_suuply_centers_for(unit)
+    MapUtil.home_sc_codes(power: @power.symbol).map do |sc|
+      [
+        MapUtil.distance(start: sc, to: unit.province),
+        unit.type,
+        MapUtil.provinces[unit.province]['name'],
+        unit.province
+      ]
+    end
+  end
 
-    result = result.map { |x| x[3] }
-    result.uniq!
-    result
+  def sort_by_disassembly_priority(distances_of_units)
+    distances_of_units
+      .sort { |a, b| a[2] <=> b[2] }  # ユニット駐留地域名アルファベット順
+      .sort { |a, b| b[1] <=> a[1] }  # 海軍優先
+      .sort { |a, b| b[0] <=> a[0] }  # 本国の一番近い補給都市への距離が遠い順
+      .map { |x| x[3] }               # 港除去
+      .uniq
   end
 end
