@@ -88,6 +88,10 @@ class Table < ApplicationRecord
     phase_fal_3rd?
   end
 
+  def settled?
+    status_draw? || status_solo?
+  end
+
   def full?
     return unless status_created?
 

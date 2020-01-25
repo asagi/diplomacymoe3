@@ -23,49 +23,42 @@ class ProceedPhaseService
       raise ActiveRecord::Rollback unless @table.turn == turn
       raise ActiveRecord::Rollback unless @table.phase == phase
 
-      # 現在時刻取得
-      now = Time.zone.now
-
-      # 延長チェック
-      # TODO: 延長可決なら更新期限を延長して処理終了
-      # TODO: Regulation モジュールに延長時間計算処理を実装
-
-      # 早回しチェック
-      # TODO: 早回し可決なら更新期限を now に変更
-
-      # 更新期限チェック
-      raise ActiveRecord::Rollback if @table.period > now
-
-      # 開始・廃卓チェック
-      return update_created_table_status if @table.status_created?
-
-      # 終了卓閉鎖チェック
-      if @table.status_draw? || @table.status_solo?
-        return update_closed_table_status
-      end
-
-      # プレイ中
-      if @table.phase_1st?
-        proceed_phase_1st
-      elsif @table.phase_2nd?
-        proceed_phase_2nd
-      elsif @table.phase_3rd?
-        proceed_phase_3rd
-      else
-        raise Exception, 'Illegal case'
-      end
-      @table.save!
+      proceed_phase
     end
     @table
   end
 
   private
 
+  def proceed_phase
+    # 現在時刻取得
+    now = Time.zone.now
+
+    # 延長チェック
+    # TODO: 延長可決なら更新期限を延長して処理終了
+    # TODO: Regulation モジュールに延長時間計算処理を実装
+
+    # 早回しチェック
+    # TODO: 早回し可決なら更新期限を now に変更
+
+    # 更新期限チェック
+    raise ActiveRecord::Rollback if @table.period > now
+
+    # 開始・廃卓チェック
+    return update_created_table_status if @table.status_created?
+
+    # 終了卓閉鎖チェック
+    return update_closed_table_status if @table.settled?
+
+    # プレイ中
+    update_live_table_status
+  end
+
   def update_created_table_status
     # ロビー
     # TODO: 参加者が揃っていなければ終了
     unless @table.full?
-      @table = @table.discard
+      @table.discard
       @table.save!
       return @table
     end
@@ -73,7 +66,16 @@ class ProceedPhaseService
     # TODO: 参加者に担当国をアサイン
 
     # 開始
-    @table = @table.start
+    @table.start
+    @table.save!
+    @table
+  end
+
+  def update_live_table_status
+    return proceed_phase_1st if @table.phase_1st?
+    return proceed_phase_2nd if @table.phase_2nd?
+    return proceed_phase_3rd if @table.phase_3rd?
+  ensure
     @table.save!
     @table
   end
