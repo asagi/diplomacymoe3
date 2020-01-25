@@ -24,6 +24,7 @@ class ProceedPhaseService
       raise ActiveRecord::Rollback unless @table.phase == phase
 
       proceed_phase
+      @table.save!
     end
     @table
   end
@@ -60,7 +61,7 @@ class ProceedPhaseService
     unless @table.full?
       @table.discard
       @table.save!
-      return @table
+      return
     end
 
     # TODO: 参加者に担当国をアサイン
@@ -68,28 +69,39 @@ class ProceedPhaseService
     # 開始
     @table.start
     @table.save!
-    @table
   end
 
   def update_live_table_status
     return proceed_phase_1st if @table.phase_1st?
     return proceed_phase_2nd if @table.phase_2nd?
     return proceed_phase_3rd if @table.phase_3rd?
-  ensure
-    @table.save!
-    @table
   end
 
   def proceed_phase_1st
-    turn = @table.current_turn
-
-    # TODO: 和平チェック
-    # if false
-    #   @table = @table.draw
-    #   break
-    # end
+    # 和平チェック
+    return if peace?
 
     # 維持命令生成
+    create_hold_orders_for_neglected_units
+
+    # 仮想命令削除
+    delete_assumed_orders
+
+    # 行軍命令解決
+    keepout = resolute_orders_and_save
+
+    dislodged_units = @table.last_phase_units.where.not(keepout: nil)
+    if dislodged_units.empty?
+      # 敗退ユニットがなければ継続して次フェイズの処理を実行
+      proceed_phase_2nd
+    else
+      # 解散命令生成
+      create_retreat_orders_for_dislodged_units(dislodged_units, keepout)
+    end
+  end
+
+  def create_hold_orders_for_neglected_units
+    turn = @table.current_turn
     @table.last_phase_units.each do |unit|
       next unless unit.orders.where(power: unit.power).empty?
 
@@ -99,41 +111,39 @@ class ProceedPhaseService
         power: unit.power
       ).detect(&:hold?)
     end
+  end
 
-    # 仮想命令削除
+  def delete_assumed_orders
+    turn = @table.current_turn
     turn.orders.where(phase: @table.phase).map do |order|
       order.delete if order.assumed?
     end
+  end
 
-    # 行軍命令解決
+  def resolute_orders_and_save
+    turn = @table.current_turn
     _result, keepout = ResoluteOrdersService.call(
       orders: turn.orders.where(phase: @table.phase)
     )
 
-    # ユニット保存
+    # ユニット配置を確定して次のフェイズに進める
     @table = ArrangeUnitsService.call(table: @table)
-    @table.save!
-
-    # 次のフェイズに進む
     @table = @table.proceed
-    turn = @table.current_turn
+    @table.save!
+    keepout
+  end
 
-    # 敗退ユニットがあれば更新処理終了
-    dislodged_units = @table.last_phase_units.where.not(keepout: nil)
-    unless dislodged_units.empty?
-      # 解散命令生成
-      dislodged_units.each do |unit|
-        order = ListPossibleRetreatsService.call(
-          turn: turn,
-          power: unit.power,
-          unit: unit,
-          standoff: keepout
-        ).detect(&:disband?)
-        turn.orders << order
-      end
-      return
+  def create_retreat_orders_for_dislodged_units(dislodged_units, keepout)
+    turn = @table.current_turn
+    dislodged_units.each do |unit|
+      order = ListPossibleRetreatsService.call(
+        turn: turn,
+        power: unit.power,
+        unit: unit,
+        standoff: keepout
+      ).detect(&:disband?)
+      turn.orders << order
     end
-    proceed_phase_2nd
   end
 
   def proceed_phase_2nd
@@ -256,7 +266,14 @@ class ProceedPhaseService
     # 卓を閉鎖
     @table = @table.close
     @table.save!
-    @table
+  end
+
+  def peace?
+    # if false
+    #   @table = @table.draw
+    #   break
+    # end
+    false
   end
 
   def solo?
@@ -268,7 +285,6 @@ class ProceedPhaseService
       winner = power
       break
     end
-
     return false unless winner
 
     @table = @table.solo
