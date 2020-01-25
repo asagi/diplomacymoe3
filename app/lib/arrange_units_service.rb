@@ -20,7 +20,7 @@ class ArrangeUnitsService
       arrange_units_3rd_phase
 
     else
-      raise StandardError, 'Illegal case'
+      raise Exception, 'Illegal case'
     end
   end
 

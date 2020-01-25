@@ -2,7 +2,10 @@
 
 class ResoluteOrdersService
   def self.call(orders:)
+    Order.set_callback(:save, :before, :prevent_save)
     new(orders: orders).call
+  ensure
+    Order.skip_callback(:save, :before, :prevent_save)
   end
 
   def initialize(orders:)

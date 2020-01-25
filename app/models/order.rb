@@ -35,6 +35,10 @@ class Order < ApplicationRecord
     unslove unless status
   end
 
+  def prevent_save
+    raise Exception, "Don't save order now"
+  end
+
   def to_key
     keys = []
     keys << power.symbol
