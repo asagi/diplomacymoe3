@@ -76,6 +76,18 @@ class Table < ApplicationRecord
     super
   end
 
+  def phase_1st?
+    phase_spr_1st? || phase_fal_1st?
+  end
+
+  def phase_2nd?
+    phase_spr_2nd? || phase_fal_2nd?
+  end
+
+  def phase_3rd?
+    phase_fal_3rd?
+  end
+
   def full?
     return unless status_created?
 
