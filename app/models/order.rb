@@ -48,6 +48,10 @@ class Order < ApplicationRecord
     unit.province
   end
 
+  def assumed?
+    power != unit.power
+  end
+
   def hold?
     false
   end
