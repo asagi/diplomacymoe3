@@ -45,34 +45,41 @@ class CreateInitializedTableService
   def setup_initial_turn(table)
     # 開幕ターン
     turn = table.turns.build
+    setup_initial_provbinces(turn)
+    setup_inital_each_power_units(turn)
+    table.save!
+    table
+  end
 
+  def setup_initial_provbinces(turn)
     MapUtil.provinces.each do |code, province|
       next unless province['owner']
 
-      params = {}
-      params['code'] = code[0, 3]
-      params['type'] = province['type']
-      params['name'] = province['name']
-      params['jname'] = province['jname']
-      params['supplycenter'] = !!province['supplycenter']
-      params['power'] = province['owner']
-      turn.provinces.build(params)
+      turn.provinces.build(
+        code: code[0, 3],
+        type: province['type'],
+        name: province['name'],
+        jname: province['jname'],
+        supplycenter: !!province['supplycenter'],
+        power: province['owner']
+      )
     end
+  end
 
-    Initial.powers.each do |power, data|
+  def setup_inital_each_power_units(turn)
+    Initial.powers.each do |symbol, data|
       next unless data['units']
 
+      power = turn.table.powers.find_by(symbol: symbol)
       data['units'].each do |unit|
-        params = {}
-        params['power'] = table.powers.find_by(symbol: power)
-        params['province'] = unit['province']
-        params['type'] = unit['type']
-        params['phase'] = table.phase
-        turn.units.build(params)
+        turn.units.build(
+          power: power,
+          province: unit['province'],
+          type: unit['type'],
+          phase: turn.table.phase
+        )
       end
     end
-    table.save!
-    table
   end
 
   def setup_initial_players(table)
