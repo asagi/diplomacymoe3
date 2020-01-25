@@ -44,6 +44,10 @@ class Order < ApplicationRecord
     keys.join('-')
   end
 
+  def from
+    unit.province
+  end
+
   def hold?
     false
   end

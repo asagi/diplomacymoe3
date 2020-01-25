@@ -47,9 +47,7 @@ class ListPossibleOrdersService
   def gen_movc_order_menu
     result = []
     return result unless @unit.army?
-    unless MapUtil.provinces[@unit.province]['type'] == Coastal.to_s
-      return result
-    end
+    return result unless MapUtil.coastal?(@unit.province)
 
     SearchReachableCoastalsService.call(unit: @unit).each do |code|
       result << MoveOrder.new(power: @power, unit: @unit, dest: code)
@@ -58,32 +56,39 @@ class ListPossibleOrdersService
   end
 
   def gen_supp_order_menu
-    result = []
-    @orders.each do |o|
-      if !o.move? && @dests.map { |d| d[0, 3] }.include?(o.unit.province[0, 3])
-        result << SupportOrder.new(power: @power, unit: @unit, target: o.to_key)
-        next
+    @orders.each_with_object([]) do |order, result|
+      if (supp = gen_supp_order_for_hold(order))
+        next result << supp
       end
-
-      if o.move? && @dests.map { |d| d[0, 3] }.include?(o.dest[0, 3])
-        result << SupportOrder.new(power: @power, unit: @unit, target: o.to_key)
-        next
+      if (supp = gen_supp_order_for_move(order))
+        next result << supp
       end
     end
-    result
+  end
+
+  def gen_supp_order_for_hold(order)
+    return if order.move?
+    return unless @dests.map { |d| d[0, 3] }.include?(order.from[0, 3])
+
+    SupportOrder.new(power: @power, unit: @unit, target: order.to_key)
+  end
+
+  def gen_supp_order_for_move(order)
+    return unless order.move?
+    return unless @dests.map { |d| d[0, 3] }.include?(order.dest[0, 3])
+
+    SupportOrder.new(power: @power, unit: @unit, target: order.to_key)
   end
 
   def gen_conv_order_menu
-    result = []
-    return [] unless MapUtil.provinces[@unit.province]['type'] == Water.to_s
+    return [] unless MapUtil.water?(@unit.province)
 
-    @orders.where(type: MoveOrder.to_s).each do |o|
+    @orders.where(type: MoveOrder.to_s).inject([]) do |result, o|
       coastals = SearchReachableCoastalsService.call(unit: @unit)
-      next unless coastals.include?(o.unit.province)
-      next unless coastals.include?(o.dest)
+      next result unless coastals.include?(o.unit.province)
+      next result unless coastals.include?(o.dest)
 
       result << ConvoyOrder.new(power: @power, unit: @unit, target: o.to_key)
     end
-    result
   end
 end

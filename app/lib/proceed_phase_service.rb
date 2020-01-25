@@ -65,10 +65,10 @@ class ProceedPhaseService
 
         if @table.phase_spr_1st? || @table.phase_fal_1st?
           # TODO: 和平チェック
-          if false
-            @table = @table.draw
-            break
-          end
+          # if false
+          #   @table = @table.draw
+          #   break
+          # end
 
           # 維持命令生成
           @table.last_phase_units.each do |unit|
