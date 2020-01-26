@@ -170,8 +170,8 @@ class ProceedPhaseService
     # 秋調整フェイズに進む
     @table = @table.proceed
 
-    # 調整フェイズスキップ判定
-    return if skip_3rd_phase?
+    # 調整フェイズ要否判定
+    return if need_3rd_phase?
 
     # 調整フェイズ終了処理
     proceed_phase_3rd
@@ -198,7 +198,6 @@ class ProceedPhaseService
 
   def occupy_provinces_by_units
     turn = @table.current_turn
-
     turn.units.where(phase: @table.phase).each do |unit|
       province = turn.provinces.find_by(code: unit.prov_key)
       province ||= turn.provinces.build(MapUtil.provinces[unit.prov_key])
@@ -220,55 +219,87 @@ class ProceedPhaseService
     turn.save!
   end
 
-  def skip_3rd_phase?
-    turn = @table.current_turn
+  def need_3rd_phase?
+    # 増設可能な国がある？
+    to_gain = exist_powers_to_gain?
 
-    to_gain = false
-    to_lose = false
-    @table.powers.each do |power|
-      next if power.symbol == 'x'
+    # 撤去が必要な国がある？
+    to_lose = exist_powers_have_to_lose?
 
-      provinces = turn.provinces
-                      .where(power: power.symbol)
-                      .where(supplycenter: true)
-      units = @table.last_phase_units.where(power: power)
-      # 滅亡している：調整不要
-      next if provinces.empty?
-      # ユニット数と補給都市数が一致している：調整不要
-      next if provinces.size == units.size
-
-      if provinces.size > units.size
-        homes = MapUtil.provinces.select do |_p, v|
-          v['supplycenter'] && v['owner'] == power.symbol
-        end .keys
-        homes.each do |province|
-          next unless units.where('province like ?', "#{province}%").empty?
-
-          # ユニットより補給都市が多く本国補給都市に空きがある：増設可
-          to_gain = true
-          break
-        end
-        next
-      end
-
-      # ユニットより補給都市が少ない：要撤去
-      to_lose = true
-      # 撤去命令登録
-      unit_provinces = PrioritizeDisbandingService.call(
-        table: @table,
-        power: power
-      )
-      (units.size - provinces.size).downto(0) do
-        break if unit_provinces.empty?
-
-        province = unit_provinces.pop
-        unit = @table.last_phase_units
-                     .where('province like ?', "#{province}%").first
-        turn.orders << DisbandOrder.new(power: power, unit: unit)
-      end
-    end
     # 要調整
     to_gain || to_lose
+  end
+
+  def exist_powers_to_gain?
+    @table.powers.each do |power|
+      next if power.master?
+
+      turn = @table.current_turn
+      supply_centers = turn.supply_centers_of(power)
+      units = @table.last_phase_units.where(power: power)
+
+      # 滅亡している：調整不要
+      next if supply_centers.empty?
+      # ユニット数が補給都市数以上：増設不要
+      next if supply_centers.size <= units.size
+
+      # ユニットより補給都市が多く本国補給都市に空きがある：増設可
+      return true if less_units_and_sc_not_full?(power, supply_centers, units)
+    end
+    false
+  end
+
+  def less_units_and_sc_not_full?(power, supply_centers, units)
+    return false unless supply_centers.size > units.size
+
+    homes = MapUtil.provinces.select do |_p, v|
+      v['supplycenter'] && v['owner'] == power.symbol
+    end .keys
+    homes.each do |province|
+      next unless units.select { |u| u.prov_key == province }.empty?
+
+      return true
+    end
+    false
+  end
+
+  def exist_powers_have_to_lose?
+    to_lose = false
+
+    @table.powers.each do |power|
+      next if power.master?
+
+      turn = @table.current_turn
+      supply_centers = turn.supply_centers_of(power)
+      units = @table.last_phase_units.where(power: power)
+
+      # 滅亡している：調整不要
+      next if supply_centers.empty?
+      # ユニット数が補給都市数以下： 撤去不要
+      next if supply_centers.size <= units.size
+
+      # ユニットより補給都市が少ない：要撤去
+      # 撤去命令登録
+      to_lose = more_units?(power, supply_centers)
+    end
+    to_lose
+  end
+
+  def more_units?(power, supply_centers)
+    unit_locations = PrioritizeDisbandingService.call(
+      table: @table,
+      power: power
+    )
+
+    to_lose = false
+    (unit_locations.size - supply_centers.size).downto(0) do
+      break unless (province = unit_locations.pop)
+
+      unit = @table.last_phase_units.select { |u| u.prov_key == province }.first
+      turn.orders << DisbandOrder.new(power: power, unit: unit)
+      to_lose = true
+    end
+    to_lose
   end
 
   def proceed_phase_3rd

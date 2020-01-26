@@ -28,6 +28,12 @@ class Turn < ApplicationRecord
     units.where(phase: phase).where(power: power).delete_all
   end
 
+  def supply_centers_of(power)
+    provinces
+      .where(power: power.symbol)
+      .where(supplycenter: true)
+  end
+
   private
 
   def set_phase(order)
