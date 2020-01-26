@@ -131,7 +131,7 @@ class Order < ApplicationRecord
 
   def dislodge(against: nil)
     self.status = Status::DISLODGED
-    self.keepout = against.unit.province[0, 3] if against
+    self.keepout = against.unit.prov_key if against
   end
 
   def dislodged?
