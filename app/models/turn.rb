@@ -20,6 +20,14 @@ class Turn < ApplicationRecord
     # ユニット情報を引き継ぎ
   end
 
+  def release_territoris_of(power)
+    provinces.where(power: power.symbol).delete_all
+  end
+
+  def remove_units_of(power, phase)
+    units.where(phase: phase).where(power: power).delete_all
+  end
+
   private
 
   def set_phase(order)

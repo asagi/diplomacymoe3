@@ -17,4 +17,8 @@ class Power < ApplicationRecord
   def supply_centers
     table.last_turn.provinces.where(power: symbol).where(supplycenter: true)
   end
+
+  def master?
+    symbol == 'x'
+  end
 end

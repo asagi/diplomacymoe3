@@ -147,15 +147,7 @@ class ProceedPhaseService
   end
 
   def proceed_phase_2nd
-    turn = @table.current_turn
-
-    # 撤退解散命令解決
-    retreat_orders = turn.orders.where(phase: @table.phase)
-    ResoluteRetreatsService.call(orders: retreat_orders)
-
-    # ユニット保存
-    @table = ArrangeUnitsService.call(table: @table)
-    @table.save!
+    proceed_phase_2nd_common
 
     # 春撤退フェイズであれば秋外交フェイズに進み更新終了
     if @table.phase_spr_2nd?
@@ -163,37 +155,14 @@ class ProceedPhaseService
       return
     end
 
-    # 秋撤退フェイズであれば占領処理と制覇チェックを行う
     # 前年の秋撤退フェイズから領地情報を取得
-    last_turn = @table.turns.find_by(number: @table.turn - 1)
-    last_turn.provinces.each do |province|
-      turn.provinces << province.dup
-    end
+    duplicate_last_occupied_provinces
 
     # 占領処理
-    turn.units.where(phase: @table.phase).each do |unit|
-      province = turn.provinces.find_by(code: unit.prov_key)
-      unless province
-        # 中立地域の占領
-        params = MapUtil.provinces[unit.prov_key]
-        params['code'] = unit.prov_key
-        province = turn.provinces.build(params)
-      end
-      province.power = unit.power.symbol
-      province.save!
-    end
+    occupy_provinces_by_units
 
     # 滅亡処理
-    supply_centers = turn.provinces.where(supplycenter: true)
-    @table.powers.each do |power|
-      next unless supply_centers.where(power: power.symbol).empty?
-
-      # 滅亡した国の全ての領土を解放
-      turn.provinces.where(power: power.symbol).delete_all
-      # 滅亡した国の全てのユニットを撤去
-      turn.units.where(phase: @table.phase).where(power: power).delete_all
-    end
-    turn.save!
+    eliminate_ruined_powers
 
     # 制覇チェック
     return if solo?
@@ -202,6 +171,58 @@ class ProceedPhaseService
     @table = @table.proceed
 
     # 調整フェイズスキップ判定
+    return if skip_3rd_phase?
+
+    # 調整フェイズ終了処理
+    proceed_phase_3rd
+  end
+
+  def proceed_phase_2nd_common
+    # 撤退解散命令解決
+    turn = @table.current_turn
+    retreat_orders = turn.orders.where(phase: @table.phase)
+    ResoluteRetreatsService.call(orders: retreat_orders)
+
+    # ユニット保存
+    @table = ArrangeUnitsService.call(table: @table)
+    @table.save!
+  end
+
+  def duplicate_last_occupied_provinces
+    turn = @table.current_turn
+    last_turn = @table.turns.find_by(number: @table.turn - 1)
+    last_turn.provinces.each do |province|
+      turn.provinces << province.dup
+    end
+  end
+
+  def occupy_provinces_by_units
+    turn = @table.current_turn
+
+    turn.units.where(phase: @table.phase).each do |unit|
+      province = turn.provinces.find_by(code: unit.prov_key)
+      province ||= turn.provinces.build(MapUtil.provinces[unit.prov_key])
+      province.occupied_by!(unit)
+    end
+  end
+
+  def eliminate_ruined_powers
+    turn = @table.current_turn
+    supply_centers = turn.provinces.where(supplycenter: true)
+    @table.powers.each do |power|
+      next unless supply_centers.where(power: power.symbol).empty?
+
+      # 滅亡した国の全ての領土を解放
+      turn.release_territoris_of(power)
+      # 滅亡した国の全てのユニットを撤去
+      turn.remove_units_of(power, @table.phase)
+    end
+    turn.save!
+  end
+
+  def skip_3rd_phase?
+    turn = @table.current_turn
+
     to_gain = false
     to_lose = false
     @table.powers.each do |power|
@@ -245,12 +266,9 @@ class ProceedPhaseService
                      .where('province like ?', "#{province}%").first
         turn.orders << DisbandOrder.new(power: power, unit: unit)
       end
-      # turn.orders.each { |o| p o }
     end
     # 要調整
-    return if to_gain || to_lose
-
-    proceed_phase_3rd
+    to_gain || to_lose
   end
 
   def proceed_phase_3rd
