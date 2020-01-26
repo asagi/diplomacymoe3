@@ -60,7 +60,6 @@ class ProceedPhaseService
     # TODO: 参加者が揃っていなければ終了
     unless @table.full?
       @table.discard
-      @table.save!
       return
     end
 
@@ -68,7 +67,6 @@ class ProceedPhaseService
 
     # 開始
     @table.start
-    @table.save!
   end
 
   def update_live_table_status
@@ -173,7 +171,7 @@ class ProceedPhaseService
     # 調整フェイズ要否判定
     return if need_3rd_phase?
 
-    # 調整フェイズ終了処理
+    # 調整の必要がなければ継続して次フェイズの処理を実行
     proceed_phase_3rd
   end
 
@@ -280,12 +278,12 @@ class ProceedPhaseService
 
       # ユニットより補給都市が少ない：要撤去
       # 撤去命令登録
-      to_lose = more_units?(power, supply_centers)
+      to_lose = excessive_units?(power, supply_centers)
     end
     to_lose
   end
 
-  def more_units?(power, supply_centers)
+  def excessive_units?(power, supply_centers)
     unit_locations = PrioritizeDisbandingService.call(
       table: @table,
       power: power
@@ -314,7 +312,6 @@ class ProceedPhaseService
     # 感想戦
     # 卓を閉鎖
     @table = @table.close
-    @table.save!
   end
 
   def peace?
