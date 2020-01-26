@@ -15,7 +15,7 @@ class ListPossibleRetreatsService
   def call
     @occupied_areas = @unit.turn.units
                            .where(phase: @unit.phase)
-                           .map { |u| u.province[0, 3] }
+                           .map(&:prov_key)
 
     # DisbandOrder
     disband = gen_disband_order_menu

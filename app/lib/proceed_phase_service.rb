@@ -172,11 +172,11 @@ class ProceedPhaseService
 
     # 占領処理
     turn.units.where(phase: @table.phase).each do |unit|
-      province = turn.provinces.find_by(code: unit.province[0, 3])
+      province = turn.provinces.find_by(code: unit.prov_key)
       unless province
         # 中立地域の占領
-        params = MapUtil.provinces[unit.province[0, 3]]
-        params['code'] = unit.province[0, 3]
+        params = MapUtil.provinces[unit.prov_key]
+        params['code'] = unit.prov_key
         province = turn.provinces.build(params)
       end
       province.power = unit.power.symbol

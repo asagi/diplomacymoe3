@@ -22,4 +22,8 @@ class Unit < ApplicationRecord
   def kind
     type.to_s[0].downcase
   end
+
+  def prov_key
+    province[0, 3]
+  end
 end
