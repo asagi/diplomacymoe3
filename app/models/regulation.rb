@@ -122,6 +122,6 @@ class Regulation < ApplicationRecord
   end
 
   def first_period
-    format('%s %s', due_date, start_time)
+    format('%<date>s %<time>s', date: due_date, time: start_time)
   end
 end

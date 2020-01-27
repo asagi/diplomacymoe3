@@ -15,13 +15,13 @@ class TablesController < ApplicationController
 
   def create
     create_table = CreateTableForm.new(owner: @auth_user, params: params)
-    if create_table.save
-      table = create_table.table
-      response.headers['Location'] = table_path(table)
-      render status: :created, json: { id: table.id }
-    else
+    unless create_table.save
       raise CustomError::BadRequest, create_table.errors.messages.to_json
     end
+
+    table = create_table.table
+    response.headers['Location'] = table_path(table)
+    render status: :created, json: { id: table.id }
   end
 
   private

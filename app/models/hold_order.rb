@@ -6,6 +6,10 @@ class HoldOrder < Order
   end
 
   def to_s
-    format('%s %s H', unit_kind, unit.province).gsub(/_(..)/, '(\1)')
+    format(
+      '%<kind>s %<prov>s H',
+      kind: unit_kind,
+      prov: unit.province
+    ).gsub(/_(..)/, '(\1)')
   end
 end

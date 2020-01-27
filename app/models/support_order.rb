@@ -7,10 +7,10 @@ class SupportOrder < Order
 
   def to_s
     format(
-      '%s %s S %s',
-      unit_kind,
-      unit.province,
-      formated_target
+      '%<kind>s %<prov>s S %<target>s',
+      kind: unit_kind,
+      prov: unit.province,
+      target: formated_target
     ).gsub(/_(..)/, '(\1)')
   end
 end

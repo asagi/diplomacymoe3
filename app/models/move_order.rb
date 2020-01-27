@@ -6,6 +6,11 @@ class MoveOrder < Order
   end
 
   def to_s
-    format('%s %s-%s', unit_kind, unit.province, dest).gsub(/_(..)/, '(\1)')
+    format(
+      '%<kind>s %<prov>s-%<dest>s',
+      kind: unit_kind,
+      prov: unit.province,
+      dest: dest
+    ).gsub(/_(..)/, '(\1)')
   end
 end

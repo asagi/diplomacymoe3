@@ -10,7 +10,7 @@ RSpec.describe 'tables', type: :request do
   let(:user) { create(:user) }
   let(:headers) do
     headers = {}
-    headers[:HTTP_AUTHORIZATION] = format('Bearer %s', user.token)
+    headers[:HTTP_AUTHORIZATION] = format('Bearer %<token>s', token: user.token)
     headers[:CONTENT_TYPE] = 'application/json'
     headers
   end

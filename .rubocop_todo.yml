@@ -6,67 +6,6 @@
 # Note that changes in the inspected code, or installation of new
 # versions of RuboCop, may require this file to be generated again.
 
-# # Offense count: 21
-# Metrics/AbcSize:
-#   Max: 183
-
-# Offense count: 7
-Metrics/CyclomaticComplexity:
-  Max: 29
-
-# Offense count: 20
-# Configuration parameters: CountComments, ExcludedMethods.
-Metrics/MethodLength:
-  Max: 130
-
-# Offense count: 6
-Metrics/PerceivedComplexity:
-  Max: 26
-
-# Offense count: 1
-Naming/AccessorMethodName:
-  Exclude:
-    - 'app/models/turn.rb'
-
-# Offense count: 7
-# Configuration parameters: MinNameLength, AllowNamesEndingInNumbers, AllowedNames, ForbiddenNames.
-# AllowedNames: io, id, to, by, on, in, at, ip, db, os
-Naming/MethodParameterName:
-  Exclude:
-    - 'app/controllers/application_controller.rb'
-
 # Offense count: 118
 Style/Documentation:
   Enabled: false
-
-# Offense count: 1
-Style/DoubleNegation:
-  Exclude:
-    - 'app/lib/create_initialized_table_service.rb'
-
-# Offense count: 21
-# Configuration parameters: EnforcedStyle.
-# SupportedStyles: annotated, template, unannotated
-Style/FormatStringToken:
-  Exclude:
-    - 'app/forms/create_table_form.rb'
-    - 'app/models/convoy_order.rb'
-    - 'app/models/disband_order.rb'
-    - 'app/models/hold_order.rb'
-    - 'app/models/move_order.rb'
-    - 'app/models/regulation.rb'
-    - 'app/models/retreat_order.rb'
-    - 'app/models/support_order.rb'
-    - 'spec/requests/tables_spec.rb'
-
-# Offense count: 2
-# Configuration parameters: MinBodyLength.
-Style/GuardClause:
-  Exclude:
-    - 'app/controllers/tables_controller.rb'
-    - 'app/forms/create_table_form.rb'
-
-# Offense count: 4
-Style/IdenticalConditionalBranches:
-  Exclude:
-    - 'app/lib/arrange_units_service.rb'

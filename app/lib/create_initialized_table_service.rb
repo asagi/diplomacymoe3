@@ -60,7 +60,7 @@ class CreateInitializedTableService
         type: province['type'],
         name: province['name'],
         jname: province['jname'],
-        supplycenter: !!province['supplycenter'],
+        supplycenter: province['supplycenter'] || false,
         power: province['owner']
       )
     end
