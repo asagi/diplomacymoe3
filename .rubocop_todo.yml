@@ -10,11 +10,6 @@
 Style/Documentation:
   Enabled: false
 
-# Offense count: 1
-Style/DoubleNegation:
-  Exclude:
-    - 'app/lib/create_initialized_table_service.rb'
-
 # Offense count: 21
 # Configuration parameters: EnforcedStyle.
 # SupportedStyles: annotated, template, unannotated
