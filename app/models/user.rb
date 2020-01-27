@@ -17,7 +17,7 @@ class User < ApplicationRecord
     user
   end
 
-  def authenticated_user_params(auth:)
+  def self.authenticated_user_params(auth)
     {
       # プロバイダ
       provider: auth[:provider],
