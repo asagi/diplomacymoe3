@@ -4,7 +4,7 @@ class Turn < ApplicationRecord
   belongs_to :table
   has_many :provinces
   has_many :units
-  has_many :orders, before_add: :set_phase
+  has_many :orders, before_add: :current_phase_to
 
   def initialize(options = {})
     options ||= { number: table.number }
@@ -36,7 +36,7 @@ class Turn < ApplicationRecord
 
   private
 
-  def set_phase(order)
+  def current_phase_to(order)
     order.phase = table.phase
   end
 end

@@ -6,27 +6,10 @@
 # Note that changes in the inspected code, or installation of new
 # versions of RuboCop, may require this file to be generated again.
 
-# # Offense count: 21
-# Metrics/AbcSize:
-#   Max: 183
-
-# Offense count: 7
-Metrics/CyclomaticComplexity:
-  Max: 29
-
-# Offense count: 20
-# Configuration parameters: CountComments, ExcludedMethods.
-Metrics/MethodLength:
-  Max: 130
-
-# Offense count: 6
-Metrics/PerceivedComplexity:
-  Max: 26
-
-# Offense count: 1
-Naming/AccessorMethodName:
-  Exclude:
-    - 'app/models/turn.rb'
+# # Offense count: 1
+# Naming/AccessorMethodName:
+#   Exclude:
+#     - 'app/models/turn.rb'
 
 # Offense count: 7
 # Configuration parameters: MinNameLength, AllowNamesEndingInNumbers, AllowedNames, ForbiddenNames.
