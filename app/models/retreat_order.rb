@@ -7,10 +7,10 @@ class RetreatOrder < Order
 
   def to_s
     format(
-      'Retreat %s %s-%s',
-      unit_kind,
-      unit.province,
-      dest
+      'Retreat %<kind>s %<prov>s-%<dest>s',
+      kind: unit_kind,
+      prov: unit.province,
+      dest: dest
     ).gsub(/_(..)/, '(\1)')
   end
 end

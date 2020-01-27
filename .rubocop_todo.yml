@@ -9,18 +9,3 @@
 # Offense count: 118
 Style/Documentation:
   Enabled: false
-
-# Offense count: 21
-# Configuration parameters: EnforcedStyle.
-# SupportedStyles: annotated, template, unannotated
-Style/FormatStringToken:
-  Exclude:
-    - 'app/forms/create_table_form.rb'
-    - 'app/models/convoy_order.rb'
-    - 'app/models/disband_order.rb'
-    - 'app/models/hold_order.rb'
-    - 'app/models/move_order.rb'
-    - 'app/models/regulation.rb'
-    - 'app/models/retreat_order.rb'
-    - 'app/models/support_order.rb'
-    - 'spec/requests/tables_spec.rb'

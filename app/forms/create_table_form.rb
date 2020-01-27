@@ -75,9 +75,9 @@ class CreateTableForm
     min_start_datetime = Time.zone.now + 1.hours
     start_datetime = Time.zone.parse(
       format(
-        '%sT%s:00+09:00',
-        @due_date,
-        ('0' + @start_time)[-5..5]
+        '%<date>sT%<time>s:00+09:00',
+        date: @due_date,
+        time: ('0' + @start_time)[-5..5]
       )
     )
 

@@ -6,6 +6,10 @@ class DisbandOrder < Order
   end
 
   def to_s
-    format('Disband %s %s', unit_kind, unit.province).gsub(/_(..)/, '(\1)')
+    format(
+      'Disband %<kind>s %<prov>s',
+      kind: unit_kind,
+      prov: unit.province
+    ).gsub(/_(..)/, '(\1)')
   end
 end
