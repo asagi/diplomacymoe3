@@ -21,32 +21,32 @@ class ApplicationController < ActionController::API
   rescue_from CustomError::Forbidden, with: :render_403
   rescue_from CustomError::Conflict, with: :render_409
 
-  def render_400(e)
-    render_error(e, 400)
+  def render_400(error)
+    render_error(error, 400)
   end
 
-  def render_401(e)
-    render_error(e, 401)
+  def render_401(error)
+    render_error(error, 401)
   end
 
-  def render_403(e)
-    render_error(e, 403)
+  def render_403(error)
+    render_error(error, 403)
   end
 
-  def render_404(e)
-    render_error(e, 404)
+  def render_404(error)
+    render_error(error, 404)
   end
 
-  def render_409(e)
-    render_error(e, 409)
+  def render_409(error)
+    render_error(error, 409)
   end
 
-  def render_500(e)
-    render_error(e, 500)
+  def render_500(error)
+    render_error(error, 500)
   end
 
-  def render_error(e, status)
-    render json: { errors: JSON.parse(e.message) }, status: status
+  def render_error(error, status)
+    render json: { errors: JSON.parse(error.message) }, status: status
   end
 
   protected

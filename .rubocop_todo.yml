@@ -6,18 +6,6 @@
 # Note that changes in the inspected code, or installation of new
 # versions of RuboCop, may require this file to be generated again.
 
-# # Offense count: 1
-# Naming/AccessorMethodName:
-#   Exclude:
-#     - 'app/models/turn.rb'
-
-# Offense count: 7
-# Configuration parameters: MinNameLength, AllowNamesEndingInNumbers, AllowedNames, ForbiddenNames.
-# AllowedNames: io, id, to, by, on, in, at, ip, db, os
-Naming/MethodParameterName:
-  Exclude:
-    - 'app/controllers/application_controller.rb'
-
 # Offense count: 118
 Style/Documentation:
   Enabled: false
