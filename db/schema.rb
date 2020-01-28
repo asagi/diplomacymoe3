@@ -10,7 +10,8 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_01_20_014653) do
+ActiveRecord::Schema.define(version: 2020_01_28_080843) do
+
   create_table "orders", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.bigint "turn_id"
     t.bigint "power_id"
@@ -86,6 +87,8 @@ ActiveRecord::Schema.define(version: 2020_01_20_014653) do
     t.datetime "period"
     t.datetime "last_nego_period"
     t.integer "status"
+    t.integer "number"
+    t.index ["number"], name: "index_tables_on_number", unique: true
     t.index ["regulation_id"], name: "index_tables_on_regulation_id"
   end
 

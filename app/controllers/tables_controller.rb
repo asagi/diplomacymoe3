@@ -27,6 +27,14 @@ class TablesController < ApplicationController
   private
 
   def set_table
-    @table = Table.find(params[:id])
+    id = params[:id]
+    num = params[:num]
+    raise CustomError::BadRequest if id && num
+
+    if id
+      @table = Table.find(id)
+    elsif num
+      @table = Table.find_by(number: num)
+    end
   end
 end

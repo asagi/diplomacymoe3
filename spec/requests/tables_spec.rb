@@ -95,4 +95,29 @@ RSpec.describe 'tables', type: :request do
       end
     end
   end
+
+  describe 'GET /table/number/:num' do
+    context '1 件もない場合' do
+      before :example do
+        table = create(:table)
+        table.number = 1
+        table.save!
+
+        get '/table/number/1'
+        @json = JSON.parse(response.body)
+      end
+
+      example 'API が正常に終了する' do
+        expect(response).to be_successful
+      end
+
+      example '200 が返ってくる' do
+        expect(response.status).to eq 200
+      end
+
+      example '取得した卓の卓番号が 1 であること' do
+        expect(@json['number']).to eq 1
+      end
+    end
+  end
 end
