@@ -14,7 +14,7 @@ RSpec.describe 'tables', type: :request do
     headers[:CONTENT_TYPE] = 'application/json'
     headers
   end
-  describe 'POST /tables' do
+  describe 'POST /api/tables' do
     context '娘/固定/標準/2020-01-09/1:00/鍵なし/おまかせ' do
       before :example do
         params_json = <<~'JSON'
@@ -54,7 +54,7 @@ RSpec.describe 'tables', type: :request do
     end
   end
 
-  describe 'GET /tables' do
+  describe 'GET /api/tables' do
     context '1 件もない場合' do
       before :example do
         get tables_path
@@ -96,14 +96,14 @@ RSpec.describe 'tables', type: :request do
     end
   end
 
-  describe 'GET /numbered-tables/:num' do
+  describe 'GET /api/numbered-tables/:num' do
     context '卓番号 1 を取得' do
       before :example do
         table = create(:table)
         table.number = 1
         table.save!
 
-        get '/numbered-tables/1'
+        get '/api/numbered-tables/1'
         @json = JSON.parse(response.body)
       end
 
