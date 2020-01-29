@@ -44,7 +44,8 @@ RSpec.describe 'tables', type: :request do
       end
 
       example 'Location ヘッダが設定されている' do
-        expect(response.headers['Location']).not_to be_nil
+        json = JSON.parse(response.body)
+        expect(response.headers['Location']).to eq table_path(json['id'])
       end
 
       example 'レスポンスに ID が含まれている' do
@@ -99,11 +100,11 @@ RSpec.describe 'tables', type: :request do
   describe 'GET /api/numbered-tables/:num' do
     context '卓番号 1 を取得' do
       before :example do
-        table = create(:table)
-        table.number = 1
-        table.save!
+        @table = create(:table)
+        @table.number = 1
+        @table.save!
 
-        get '/api/numbered-tables/1'
+        get numbered_table_path(@table.number)
         @json = JSON.parse(response.body)
       end
 
@@ -116,7 +117,7 @@ RSpec.describe 'tables', type: :request do
       end
 
       example '取得した卓の卓番号が 1 であること' do
-        expect(@json['number']).to eq 1
+        expect(@json['number']).to eq @table.number
       end
     end
   end
