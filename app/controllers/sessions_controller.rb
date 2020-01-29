@@ -26,12 +26,10 @@ class SessionsController < ApplicationController
   def destroy
     @auth_user.regenerate_token
     @auth_user.save!
-    render json: {}
+    render status: :no_content, json: {}
   end
 
   def failure
-    p request.fullpath
-    p request.env['omniauth.params']
-    # redirect_to request.env['omniauth.params']['origin']
+    redirect_to request.env['omniauth.params']['origin']
   end
 end
