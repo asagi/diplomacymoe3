@@ -7,5 +7,5 @@ Rails.application.routes.draw do
 
   resources :users, except: [:index]
   resources :tables
-  get "/table/number/:num", to: "tables#show"
+  get "/numbered-tables/:num", to: "tables#show"
 end

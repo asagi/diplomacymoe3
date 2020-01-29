@@ -29,7 +29,6 @@ class TablesController < ApplicationController
   def set_table
     id = params[:id]
     num = params[:num]
-    raise CustomError::BadRequest if id && num
 
     if id
       @table = Table.find(id)

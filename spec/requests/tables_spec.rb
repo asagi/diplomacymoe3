@@ -96,14 +96,14 @@ RSpec.describe 'tables', type: :request do
     end
   end
 
-  describe 'GET /table/number/:num' do
-    context '1 件もない場合' do
+  describe 'GET /numbered-tables/:num' do
+    context '卓番号 1 を取得' do
       before :example do
         table = create(:table)
         table.number = 1
         table.save!
 
-        get '/table/number/1'
+        get '/numbered-tables/1'
         @json = JSON.parse(response.body)
       end
 
