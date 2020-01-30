@@ -1,0 +1,195 @@
+openapi: 3.0.0
+info:
+  version: 1.0.0
+  title: Diplomacy MOE API
+  contact:
+    email: asagi@tepidworks.jp
+  description: Diplomacy MOE
+servers:
+  - url: https://dev.diplomacy.moe
+    description: Development server
+  - url: https://api.diplomacy.moe
+    description: Production server
+paths:
+  /api/users/me:
+    parameters: []
+    get:
+      operationId: get-api-users-me
+      summary: ユーザー情報取得
+      description: アクセストークンで特定されたユーザーの情報を取得する。
+      tags:
+        - user
+        - auth
+      parameters:
+        - name: HTTP_AUTHORIZATION
+          in: header
+          required: true
+          description: アクセストークン
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+        '401':
+          description: Unauthorized
+  /api/tables:
+    get:
+      operationId: get-api-tables
+      summary: 卓一覧情報取得
+      description: 卓一覧情報を取得する。
+      tags:
+        - table
+      responses:
+        '200':
+          description: OK
+    post:
+      operationId: post-api-tables
+      summary: 新規卓作成
+      description: 新規卓を作成する。
+      tags:
+        - auth
+        - table
+      parameters:
+        - name: HTTP_AUTHORIZATION
+          in: header
+          required: true
+          description: アクセストークン
+          schema:
+            type: string
+      requestBody:
+          required: true
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  face_type:
+                    type: integer
+                  period_rule:
+                    type: integer
+                  duration:
+                    type: integer
+                  juggling:
+                    type: integer
+                  private:
+                    type: boolean
+                  keyword:
+                    type: string
+                  due_date:
+                    type: string
+                    format: "yyyy-MM-dd"
+                  start_time:
+                    type: string
+                    format: "HH:MM"
+                  desired_power:
+                    type: string
+                    format: /[aefgirt]?/
+                required:
+                  - face_type
+                  - period_rule
+                  - duration
+                  - juggling
+                  - private
+                  - keyword
+                  - due_date
+                  - start_time
+                  - desired_power
+      responses:
+        '201':
+          description: Created
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+  '/api/tables/{id}':
+    get:
+      operationId: get-api-tables-id
+      summary: 卓情報取得
+      description: IDで指定された卓情報を取得する。
+      parameters:
+        - name: HTTP_AUTHORIZATION
+          in: header
+          description: アクセストークン
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: Bad Request
+        '404':
+          description: Not Found
+      tags:
+        - table
+    parameters:
+      - name: id
+        in: path
+        required: true
+        description: 卓ID
+        schema:
+          type: integer
+  /api/sessions/token:
+    put:
+      operationId: put-api-sessions-token
+      summary: アクセストークン更新
+      description: アクセストークンを再発行する。
+      tags:
+        - session
+        - auth
+      parameters:
+        - name: HTTP_AUTHORIZATION
+          in: header
+          description: アクセストークン
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+        '401':
+          description: Unauthorized
+    delete:
+      operationId: delete-api-sessions-token
+      summary: ログアウト
+      description: アクセストークンを破棄する。
+      tags:
+        - session
+        - auth
+      parameters:
+        - name: HTTP_AUTHORIZATION
+          in: header
+          description: アクセストークン
+          schema:
+            type: string
+      responses:
+        '204':
+          description: No Content
+  '/api/numbered-tables/{num}':
+    parameters:
+      - name: num
+        in: path
+        required: true
+        description: 卓番号
+        schema:
+          type: integer
+    get:
+      operationId: get-api-numbered-tables-num
+      summary: 番号付卓情報取得
+      description: 卓番号で指定された卓情報を取得する。
+      tags:
+        - table
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: Bad Request
+        '404':
+          description: Not Found
+tags:
+  - name: auth
+    description: Require authentification
+  - name: session
+    description: Session
+  - name: table
+    description: Table info
+  - name: user
+    description: User info
