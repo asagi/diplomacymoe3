@@ -24,8 +24,16 @@ class CreateTableForm
             inclusion: {
               in: Regulation.face_types.keys
             }
-  validates :period_rule, presence: true
-  validates :duration, presence: true
+  validates :period_rule,
+            presence: true,
+            inclusion: {
+              in: Regulation.period_rules.keys
+            }
+  validates :duration,
+            presence: true,
+            inclusion: {
+              in: Regulation.durations.keys
+            }
   validates :juggling, presence: true
   validates :due_date, presence: true, format: { with: /\d{4}-\d{2}-\d{2}/ }
   validates :start_time, presence: true, format: { with: /\d{1,2}:\d{2}/ }

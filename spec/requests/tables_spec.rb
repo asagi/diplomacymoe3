@@ -20,8 +20,8 @@ RSpec.describe 'tables', type: :request do
         params_json = <<~'JSON'
           {
             "face_type": "girl",
-            "period_rule": "1",
-            "duration": "2",
+            "period_rule": "fixed",
+            "duration": "standard",
             "juggling": "1",
             "private": false,
             "keyword": "",

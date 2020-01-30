@@ -16,9 +16,6 @@ defaults: &defaults
     fal_3rd: 4
     final: 4
   regulation:
-    period_rule:
-      fixed: 1
-      flexible: 2
     duration:
       short: 1
       standard: 2

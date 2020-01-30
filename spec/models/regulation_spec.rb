@@ -39,8 +39,8 @@ RSpec.describe Regulation, type: :model do
         before :example do
           options = {}
           options[:face_type] = Regulation::FaceType::GIRL
-          options[:period_rule] = Const.regulation.period_rule.fixed
-          options[:duration] = Const.regulation.duration.standard
+          options[:period_rule] = Regulation::PeriodRule::FIXED
+          options[:duration] = Regulation::Duration::STANDARD
           @regulation = Regulation.create(options)
         end
 
@@ -61,8 +61,8 @@ RSpec.describe Regulation, type: :model do
         before :example do
           options = {}
           options[:face_type] = Regulation::FaceType::FLAG
-          options[:period_rule] = Const.regulation.period_rule.flexible
-          options[:duration] = Const.regulation.duration.short
+          options[:period_rule] = Regulation::PeriodRule::FLEXIBLE
+          options[:duration] = Regulation::Duration::SHORT
           @regulation = Regulation.create(options)
         end
 
@@ -87,8 +87,8 @@ RSpec.describe Regulation, type: :model do
         context '処理フェイズが日付を跨がない場合' do
           before :example do
             options = {}
-            options[:period_rule] = Const.regulation.period_rule.fixed
-            options[:duration] = Const.regulation.duration.standard
+            options[:period_rule] = Regulation::PeriodRule::FIXED
+            options[:duration] = Regulation::Duration::STANDARD
             options[:due_date] = '2019-05-04'
             options[:start_time] = '20:00'
             @regulation = Regulation.create(options)
@@ -197,8 +197,8 @@ RSpec.describe Regulation, type: :model do
         context '処理フェイズが日付を跨ぐ場合' do
           before :example do
             options = {}
-            options[:period_rule] = Const.regulation.period_rule.fixed
-            options[:duration] = Const.regulation.duration.standard
+            options[:period_rule] = Regulation::PeriodRule::FIXED
+            options[:duration] = Regulation::Duration::STANDARD
             options[:due_date] = '2019-05-04'
             options[:start_time] = '23:30'
             @regulation = Regulation.create(options)
@@ -297,8 +297,8 @@ RSpec.describe Regulation, type: :model do
       context '変動制' do
         before :example do
           options = {}
-          options[:period_rule] = Const.regulation.period_rule.flexible
-          options[:duration] = Const.regulation.duration.standard
+          options[:period_rule] = Regulation::PeriodRule::FLEXIBLE
+          options[:duration] = Regulation::Duration::STANDARD
           options[:due_date] = '2019-05-04'
           options[:start_time] = '20:00'
           @regulation = Regulation.create(options)
@@ -356,8 +356,8 @@ RSpec.describe Regulation, type: :model do
         context '処理フェイズが日付を跨がない場合' do
           before :example do
             options = {}
-            options[:period_rule] = Const.regulation.period_rule.fixed
-            options[:duration] = Const.regulation.duration.short
+            options[:period_rule] = Regulation::PeriodRule::FIXED
+            options[:duration] = Regulation::Duration::SHORT
             options[:due_date] = '2019-05-04'
             options[:start_time] = '20:00'
             @regulation = Regulation.create(options)
@@ -461,8 +461,8 @@ RSpec.describe Regulation, type: :model do
         context '処理フェイズが日付を跨ぐ場合' do
           before :example do
             options = {}
-            options[:period_rule] = Const.regulation.period_rule.fixed
-            options[:duration] = Const.regulation.duration.short
+            options[:period_rule] = Regulation::PeriodRule::FIXED
+            options[:duration] = Regulation::Duration::SHORT
             options[:due_date] = '2019-05-04'
             options[:start_time] = '22:50'
             @regulation = Regulation.create(options)
@@ -572,8 +572,8 @@ RSpec.describe Regulation, type: :model do
       context '変動制' do
         before :example do
           options = {}
-          options[:period_rule] = Const.regulation.period_rule.flexible
-          options[:duration] = Const.regulation.duration.short
+          options[:period_rule] = Regulation::PeriodRule::FLEXIBLE
+          options[:duration] = Regulation::Duration::SHORT
           options[:due_date] = '2019-05-04'
           options[:start_time] = '20:00'
           @regulation = Regulation.create(options)

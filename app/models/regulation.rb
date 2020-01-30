@@ -8,19 +8,27 @@ class Regulation < ApplicationRecord
     flag: 1
   }, _prefix: false
 
+  enum period_rule: {
+    fixed: 0,
+    flexible: 1
+  }, _prefix: false
+
+  enum duration: {
+    short: 0,
+    standard: 1
+  }, _prefix: false
+
   module FaceType
     GIRL = 'girl'
     FLAG = 'flag'
   end
 
   module PeriodRule
-    # next_period は更新時刻以降に呼ばれるものとする
+    FIXED = 'fixed'
+    FLEXIBLE = 'flexible'
 
     module Fixed
-      def period_rule
-        'fixed'
-      end
-
+      # next_period は更新時刻以降に呼ばれるものとする
       def next_period(next_phase:)
         case next_phase
         when Table::Phase::SPR_1ST, Table::Phase::FAL_1ST
@@ -36,10 +44,7 @@ class Regulation < ApplicationRecord
     end
 
     module Flexible
-      def period_rule
-        'flexible'
-      end
-
+      # next_period は更新時刻以降に呼ばれるものとする
       def next_period(next_phase:)
         now = Time.zone.now
 
@@ -56,11 +61,10 @@ class Regulation < ApplicationRecord
   end
 
   module Duration
-    module Short
-      def duration
-        'short'
-      end
+    SHORT = 'short'
+    STANDARD = 'standard'
 
+    module Short
       def negotiation_time
         60 * 60
       end
@@ -71,10 +75,6 @@ class Regulation < ApplicationRecord
     end
 
     module Standard
-      def duration
-        'standard'
-      end
-
       def negotiation_time
         60 * 60 * 24
       end
@@ -88,24 +88,30 @@ class Regulation < ApplicationRecord
   def initialize(options = {})
     options ||= {}
     options[:face_type] ||= FaceType::GIRL
-    options[:period_rule] ||= Const.regulation.period_rule.fixed
-    options[:duration] ||= Const.regulation.duration.standard
+    options[:period_rule] ||= PeriodRule::FIXED
+    options[:duration] ||= Duration::STANDARD
     super
   end
 
   def period_rule_module
-    if period_rule == Const.regulation.period_rule.fixed
+    case period_rule
+    when PeriodRule::FIXED
       PeriodRule::Fixed
-    else
+    when PeriodRule::FLEXIBLE
       PeriodRule::Flexible
+    else
+      raise
     end
   end
 
   def duration_module
-    if duration == Const.regulation.duration.standard
+    case duration
+    when Duration::SHORT
+      Duration::Short
+    when Duration::STANDARD
       Duration::Standard
     else
-      Duration::Short
+      raise
     end
   end
 
