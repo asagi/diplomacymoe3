@@ -18,6 +18,11 @@ class Regulation < ApplicationRecord
     standard: 1
   }, _prefix: false
 
+  enum juggling: {
+    allow: 0,
+    disallow: 1
+  }, _prefix: false
+
   module FaceType
     GIRL = 'girl'
     FLAG = 'flag'
@@ -85,11 +90,17 @@ class Regulation < ApplicationRecord
     end
   end
 
+  module Juggling
+    ALLOW = 'allow'
+    DISALLOW = 'disallow'
+  end
+
   def initialize(options = {})
     options ||= {}
     options[:face_type] ||= FaceType::GIRL
     options[:period_rule] ||= PeriodRule::FIXED
     options[:duration] ||= Duration::STANDARD
+    options[:juggling] ||= Juggling::ALLOW
     super
   end
 

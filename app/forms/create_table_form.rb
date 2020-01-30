@@ -34,7 +34,11 @@ class CreateTableForm
             inclusion: {
               in: Regulation.durations.keys
             }
-  validates :juggling, presence: true
+  validates :juggling,
+            presence: true,
+            inclusion: {
+              in: Regulation.jugglings.keys
+            }
   validates :due_date, presence: true, format: { with: /\d{4}-\d{2}-\d{2}/ }
   validates :start_time, presence: true, format: { with: /\d{1,2}:\d{2}/ }
   validates :private, inclusion: { in: [true, false] }

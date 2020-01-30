@@ -22,7 +22,7 @@ RSpec.describe 'tables', type: :request do
             "face_type": "girl",
             "period_rule": "fixed",
             "duration": "standard",
-            "juggling": "1",
+            "juggling": "allow",
             "private": false,
             "keyword": "",
             "due_date": "2020-01-09",
