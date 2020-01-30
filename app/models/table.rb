@@ -63,7 +63,6 @@ class Table < ApplicationRecord
   after_initialize do
     next unless regulation
 
-    extend regulation.face_type_module
     extend regulation.period_rule_module
     extend regulation.duration_module
     status_created! unless status

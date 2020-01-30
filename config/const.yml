@@ -16,9 +16,6 @@ defaults: &defaults
     fal_3rd: 4
     final: 4
   regulation:
-    face_type:
-      girl: 1
-      flag: 2
     period_rule:
       fixed: 1
       flexible: 2

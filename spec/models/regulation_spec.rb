@@ -22,8 +22,8 @@ RSpec.describe Regulation, type: :model do
           @regulation = Regulation.create
         end
 
-        example 'フェイスタイプは 1' do
-          expect(table.regulation.face_type).to eq 1
+        example 'フェイスタイプは girl' do
+          expect(table.regulation.face_type).to eq Regulation::FaceType::GIRL
         end
 
         example '外交フェイズは 24 時間（60 * 60 * 24 秒）' do
@@ -38,14 +38,14 @@ RSpec.describe Regulation, type: :model do
       context '初期値を明示的に指定' do
         before :example do
           options = {}
-          options[:face_type] = Const.regulation.face_type.girl
+          options[:face_type] = Regulation::FaceType::GIRL
           options[:period_rule] = Const.regulation.period_rule.fixed
           options[:duration] = Const.regulation.duration.standard
           @regulation = Regulation.create(options)
         end
 
-        example 'フェイスタイプは 1' do
-          expect(table.regulation.face_type).to eq 1
+        example 'フェイスタイプは girl' do
+          expect(table.regulation.face_type).to eq Regulation::FaceType::GIRL
         end
 
         example '外交フェイズは 24 時間（60 * 60 * 24 秒）' do
@@ -60,14 +60,14 @@ RSpec.describe Regulation, type: :model do
       context 'デフォルト値とは逆の初期値を指定' do
         before :example do
           options = {}
-          options[:face_type] = Const.regulation.face_type.flag
+          options[:face_type] = Regulation::FaceType::FLAG
           options[:period_rule] = Const.regulation.period_rule.flexible
           options[:duration] = Const.regulation.duration.short
           @regulation = Regulation.create(options)
         end
 
-        example 'フェイスタイプは 2' do
-          expect(table.regulation.face_type).to eq 2
+        example 'フェイスタイプは flag' do
+          expect(table.regulation.face_type).to eq Regulation::FaceType::FLAG
         end
 
         example '外交フェイズは 60 分（60 * 60 秒）' do

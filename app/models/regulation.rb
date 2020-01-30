@@ -3,18 +3,14 @@
 class Regulation < ApplicationRecord
   has_one :table
 
-  module FaceType
-    module Girl
-      def face_type
-        'girl'
-      end
-    end
+  enum face_type: {
+    girl: 0,
+    flag: 1
+  }, _prefix: false
 
-    module Flag
-      def face_type
-        'flag'
-      end
-    end
+  module FaceType
+    GIRL = 'girl'
+    FLAG = 'flag'
   end
 
   module PeriodRule
@@ -91,18 +87,10 @@ class Regulation < ApplicationRecord
 
   def initialize(options = {})
     options ||= {}
-    options[:face_type] ||= Const.regulation.face_type.girl
+    options[:face_type] ||= FaceType::GIRL
     options[:period_rule] ||= Const.regulation.period_rule.fixed
     options[:duration] ||= Const.regulation.duration.standard
     super
-  end
-
-  def face_type_module
-    if face_type == Const.regulation.face_type.girl
-      FaceType::Girl
-    else
-      FaceType::Flag
-    end
   end
 
   def period_rule_module

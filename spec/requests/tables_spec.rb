@@ -19,7 +19,7 @@ RSpec.describe 'tables', type: :request do
       before :example do
         params_json = <<~'JSON'
           {
-            "face_type": "1",
+            "face_type": "girl",
             "period_rule": "1",
             "duration": "2",
             "juggling": "1",

@@ -19,7 +19,11 @@ class CreateTableForm
   validates :desired_power, inclusion: {
     in: ['', 'a', 'e', 'f', 'g', 'i', 'r', 't']
   }
-  validates :face_type, presence: true
+  validates :face_type,
+            presence: true,
+            inclusion: {
+              in: Regulation.face_types.keys
+            }
   validates :period_rule, presence: true
   validates :duration, presence: true
   validates :juggling, presence: true
