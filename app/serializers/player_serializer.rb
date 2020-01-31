@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class PlayerSerializer < ActiveModel::Serializer
   attribute :id
   attribute :table_id
