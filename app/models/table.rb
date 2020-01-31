@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class Table < ApplicationRecord
+  belongs_to :owner, class_name: :User, optional: true
   has_many :turns
   has_many :powers
   has_many :players

@@ -88,7 +88,9 @@ ActiveRecord::Schema.define(version: 2020_01_28_080843) do
     t.datetime "last_nego_period"
     t.integer "status"
     t.integer "number"
+    t.bigint "owner_id"
     t.index ["number"], name: "index_tables_on_number", unique: true
+    t.index ["owner_id"], name: "index_tables_on_owner_id"
     t.index ["regulation_id"], name: "index_tables_on_regulation_id"
   end
 
