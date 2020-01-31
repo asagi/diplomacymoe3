@@ -10,7 +10,7 @@ class TablesController < ApplicationController
   end
 
   def show
-    render json: @table
+    render json: @table, include: '**'
   end
 
   def create
