@@ -1,13 +1,17 @@
 # frozen_string_literal: true
 
 class TableSerializer < ActiveModel::Serializer
-  attributes :id
-  attributes :number
+  attribute :id
+  attribute :number
   has_one :owner
   has_many :players
   has_one :regulation
-  attributes :status
-  attributes :turn
-  attributes :phase
-  attributes :period
+  attribute :status
+  attribute :turn
+  attribute :phase
+  attribute :period
+
+  def players
+    object.players.select(&:user)
+  end
 end

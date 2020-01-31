@@ -1,12 +1,12 @@
 class PlayerSerializer < ActiveModel::Serializer
-  attributes :id
-  attributes :table_id
+  attribute :id
+  attribute :table_id
   belongs_to :user
-  attributes :desired_power
-  attributes :power
-  # attributes :status
-  # attributes :registered_at
-  # attributes :leaved_at
+  attribute :desired_power
+  attribute :power
+  # attribute :status
+  # attribute :registered_at
+  # attribute :leaved_at
 
   def power
     object.power&.symbol || ''
