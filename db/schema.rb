@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_01_28_080843) do
+ActiveRecord::Schema.define(version: 2020_01_31_130622) do
 
   create_table "orders", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.bigint "turn_id"
@@ -140,6 +140,7 @@ ActiveRecord::Schema.define(version: 2020_01_28_080843) do
   add_foreign_key "powers", "tables"
   add_foreign_key "provinces", "turns"
   add_foreign_key "tables", "regulations"
+  add_foreign_key "tables", "users", column: "owner_id"
   add_foreign_key "turns", "tables"
   add_foreign_key "units", "turns"
 end
