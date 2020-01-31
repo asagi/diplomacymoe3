@@ -6,7 +6,7 @@ class PlayerSerializer < ActiveModel::Serializer
   belongs_to :user
   attribute :desired_power
   attribute :power
-  # attribute :status
+  attribute :status
   # attribute :registered_at
   # attribute :leaved_at
 

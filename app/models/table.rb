@@ -4,7 +4,12 @@ class Table < ApplicationRecord
   belongs_to :owner, class_name: :User, optional: true
   has_many :turns
   has_many :powers
-  has_many :players
+  has_many :players,
+           -> { where.not(status: Player::Status::MASTER) }
+  has_many :active_players,
+           -> { where(status: Player::Status::ACTIVE) },
+           class_name: :Player
+  has_many :all_players, class_name: :Player
   belongs_to :regulation, optional: true
 
   enum status: {
@@ -100,7 +105,11 @@ class Table < ApplicationRecord
   end
 
   def add_master
-    players.create(user: nil, power: powers.find_by(symbol: 'x'))
+    players.create(
+      user: nil,
+      power: powers.find_by(symbol: 'x'),
+      status: Player::Status::MASTER
+    )
     self
   end
 
@@ -108,7 +117,11 @@ class Table < ApplicationRecord
     with_lock do
       raise NoPlaceAvailableError if full?
 
-      players.create(user: user, desired_power: desired_power)
+      players.create(
+        user: user,
+        desired_power: desired_power,
+        status: Player::Status::ACTIVE
+      )
     end
     self
   end

@@ -8,7 +8,7 @@ RSpec.describe CreateInitializedTableService, type: :service do
   end
 
   let(:master) do
-    table.players.find_by(power: table.powers.find_by(symbol: 'x'))
+    table.all_players.find_by(status: Player::Status::MASTER)
   end
   let(:user) { create(:user) }
   let(:table) { CreateInitializedTableService.call(owner: { user: user }) }
@@ -28,7 +28,7 @@ RSpec.describe CreateInitializedTableService, type: :service do
 
     describe 'プレイヤー' do
       example '生成された卓には最初のプレイヤーとして管理人と卓を立てたユーザーが登録されている' do
-        expect(table.players.size).to eq 2
+        expect(table.players.size).to eq 1
         expect(master).not_to be_nil
         expect(master.power.symbol).to eq 'x'
         expect(table.players.find_by(user_id: user.id)).not_to be_nil

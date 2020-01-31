@@ -54,7 +54,7 @@ RSpec.describe Table, type: :model do
           expect do
             table.add_player(user: create(:user))
           end.to raise_error(described_class::NoPlaceAvailableError)
-        end.to_not change(table.players, :size).from(7 + 1)
+        end.to_not change(table.active_players, :size).from(7)
       end
     end
   end

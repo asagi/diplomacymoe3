@@ -2,7 +2,6 @@
 
 class Power < ApplicationRecord
   belongs_to :table
-  has_one :player
   has_many :units
 
   A = 'a'

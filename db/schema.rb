@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_01_31_130622) do
+ActiveRecord::Schema.define(version: 2020_01_31_132012) do
 
   create_table "orders", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.bigint "turn_id"
@@ -36,6 +36,7 @@ ActiveRecord::Schema.define(version: 2020_01_31_130622) do
     t.bigint "user_id"
     t.bigint "power_id"
     t.string "desired_power"
+    t.integer "status", default: 0, null: false
     t.index ["power_id"], name: "index_players_on_power_id"
     t.index ["table_id"], name: "index_players_on_table_id"
     t.index ["user_id"], name: "index_players_on_user_id"
