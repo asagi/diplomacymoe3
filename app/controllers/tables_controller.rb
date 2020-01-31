@@ -10,7 +10,7 @@ class TablesController < ApplicationController
   end
 
   def show
-    render json: @table
+    render json: @table, include: '**'
   end
 
   def create
@@ -31,9 +31,9 @@ class TablesController < ApplicationController
     num = params[:num]
 
     if id
-      @table = Table.find(id)
+      @table = Table.find_by(id: id) || {}
     elsif num
-      @table = Table.find_by(number: num)
+      @table = Table.find_by(number: num) || {}
     end
   end
 end

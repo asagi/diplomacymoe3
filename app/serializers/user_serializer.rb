@@ -1,5 +1,10 @@
 # frozen_string_literal: true
 
 class UserSerializer < ActiveModel::Serializer
-  attributes :id, :uid, :nickname, :name, :url, :image_url, :token
+  attribute :id
+  attribute :uid
+  attribute :nickname
+  attribute :name
+  attribute :url
+  attribute :image_url
 end

@@ -14,6 +14,7 @@ class CreateInitializedTableService
 
   def call
     table = Table.create(
+      owner: @owner,
       turn: Const.turns.initial,
       phase: 'fal_3rd',
       regulation: @regulation
