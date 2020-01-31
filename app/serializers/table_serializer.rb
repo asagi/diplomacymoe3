@@ -11,7 +11,7 @@ class TableSerializer < ActiveModel::Serializer
   attribute :phase
   attribute :period
 
-  def players
-    object.players.select(&:user)
+  def phase
+    object.turn.positive? ? object.phase : nil
   end
 end
