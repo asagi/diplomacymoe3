@@ -11,8 +11,18 @@ class TableSerializer < ActiveModel::Serializer
   attribute :period
   has_many :powers
   has_many :players
+  has_many :units
+  has_many :occupieds
 
   def phase
     object.turn.positive? ? object.phase : nil
+  end
+
+  def units
+    object.last_phase_units
+  end
+
+  def occupieds
+    object.last_turn_occupides
   end
 end

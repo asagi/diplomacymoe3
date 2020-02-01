@@ -111,7 +111,7 @@ class Table < ApplicationRecord
 
       players.create(
         user: user,
-        desired_power: desired_power,
+        desired_power: desired_power || '',
         status: Player::Status::ACTIVE
       )
     end
@@ -119,8 +119,17 @@ class Table < ApplicationRecord
   end
 
   def last_phase_units
-    turn = phase_spr_1st? ? last_turn : current_turn
-    turn.units.where(phase: LAST_PHASE[phase])
+    object = phase_spr_1st? ? last_turn : current_turn
+    return [] if object.nil?
+
+    object.units.where(phase: (turn.zero? ? phase : LAST_PHASE[phase]))
+  end
+
+  def last_turn_occupides
+    object = turn.positive? ? last_turn : current_turn
+    return [] if object.nil?
+
+    object.occupieds
   end
 
   def current_turn

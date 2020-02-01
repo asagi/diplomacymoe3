@@ -3,6 +3,7 @@
 class Turn < ApplicationRecord
   belongs_to :table
   has_many :provinces
+  has_many :occupieds, -> { where.not(power: nil) }, class_name: :Province
   has_many :units
   has_many :orders, before_add: :current_phase_to
 
@@ -15,9 +16,9 @@ class Turn < ApplicationRecord
   def next
     table.turns.build(number: number + 1)
 
-    # 地域情報を引き継ぎ
+    # TODO: 地域情報を引き継ぎ
 
-    # ユニット情報を引き継ぎ
+    # TODO: ユニット情報を引き継ぎ
   end
 
   def release_territoris_of(power)
