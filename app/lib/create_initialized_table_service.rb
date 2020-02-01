@@ -84,7 +84,6 @@ class CreateInitializedTableService
   end
 
   def setup_initial_players(table)
-    table = table.add_master
     table = table.add_player(user: @owner, desired_power: @owner_desired_power)
     table.save!
     table

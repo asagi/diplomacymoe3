@@ -105,15 +105,6 @@ class Table < ApplicationRecord
     players.joins(:user).where(users: { admin: false }).size == 7
   end
 
-  def add_master
-    players.create(
-      user: nil,
-      power: powers.find_by(symbol: 'x'),
-      status: Player::Status::MASTER
-    )
-    self
-  end
-
   def add_player(user:, desired_power: '')
     with_lock do
       raise NoPlaceAvailableError if full?

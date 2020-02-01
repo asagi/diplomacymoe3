@@ -51,8 +51,8 @@ RSpec.describe 'tables', type: :request do
       example 'レスポンスに ID が含まれている' do
         json = JSON.parse(response.body)
         expect(json['id']).to be_positive
-        get table_path(json['id'])
-        puts response.body
+        # get table_path(json['id'])
+        # puts response.body
       end
     end
   end

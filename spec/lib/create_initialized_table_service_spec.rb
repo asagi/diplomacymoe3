@@ -21,16 +21,14 @@ RSpec.describe CreateInitializedTableService, type: :service do
 
   describe '#call' do
     describe '国' do
-      example '7 国 +1 (管理人) が生成されている' do
-        expect(table.powers.size).to eq 7 + 1
+      example '7 国 が生成されている' do
+        expect(table.powers.size).to eq 7
       end
     end
 
     describe 'プレイヤー' do
-      example '生成された卓には最初のプレイヤーとして管理人と卓を立てたユーザーが登録されている' do
+      example '生成された卓には最初のプレイヤーとして卓を立てたユーザーが登録されている' do
         expect(table.players.size).to eq 1
-        expect(master).not_to be_nil
-        expect(master.power.symbol).to eq 'x'
         expect(table.players.find_by(user_id: user.id)).not_to be_nil
       end
     end
