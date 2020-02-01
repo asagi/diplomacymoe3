@@ -3,6 +3,7 @@
 class Power < ApplicationRecord
   belongs_to :table
   has_many :units
+  has_one :player, -> { where(status: Player::Status::ACTIVE) }
 
   A = 'a'
   E = 'e'

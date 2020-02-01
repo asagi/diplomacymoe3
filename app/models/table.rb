@@ -3,7 +3,8 @@
 class Table < ApplicationRecord
   belongs_to :owner, class_name: :User, optional: true
   has_many :turns
-  has_many :powers
+  has_many :powers,
+           -> { where.not(symbol: 'x') }
   has_many :players,
            -> { where.not(status: Player::Status::MASTER) }
   has_many :active_players,
