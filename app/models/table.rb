@@ -129,7 +129,7 @@ class Table < ApplicationRecord
     object = turn.positive? ? last_turn : current_turn
     return [] if object.nil?
 
-    object.occupieds
+    object.territories
   end
 
   def current_turn

@@ -3,7 +3,7 @@
 class Turn < ApplicationRecord
   belongs_to :table
   has_many :provinces
-  has_many :occupieds, -> { where.not(power: nil) }, class_name: :Province
+  has_many :territories, -> { where.not(power: nil) }, class_name: :Province
   has_many :units
   has_many :orders, before_add: :current_phase_to
 

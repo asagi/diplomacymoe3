@@ -12,7 +12,7 @@ class TableSerializer < ActiveModel::Serializer
   has_many :powers
   has_many :players
   has_many :units
-  has_many :occupieds
+  has_many :territories
 
   def phase
     object.turn.positive? ? object.phase : nil
@@ -22,7 +22,7 @@ class TableSerializer < ActiveModel::Serializer
     object.last_phase_units
   end
 
-  def occupieds
+  def territories
     object.last_turn_occupides
   end
 end
