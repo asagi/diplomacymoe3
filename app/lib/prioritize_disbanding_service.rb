@@ -24,10 +24,10 @@ class PrioritizeDisbandingService
   def home_suuply_centers_for(unit)
     MapUtil.home_sc_codes(power: @power.symbol).map do |sc|
       [
-        MapUtil.distance(start: sc, to: unit.province),
+        MapUtil.distance(start: sc, to: unit.prov_code),
         unit.type,
-        MapUtil.provinces[unit.province]['name'],
-        unit.province
+        MapUtil.provinces[unit.prov_code]['name'],
+        unit.prov_code
       ]
     end
   end

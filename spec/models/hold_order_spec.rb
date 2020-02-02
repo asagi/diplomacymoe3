@@ -9,7 +9,7 @@ RSpec.describe HoldOrder, type: :model do
       @unit = Unit.create(
         type: Army.to_s,
         power: @power,
-        phase: 'spr_1st', province: 'par'
+        phase: 'spr_1st', prov_code: 'par'
       )
       expect(
         HoldOrder.new(power: @power, unit: @unit).to_s

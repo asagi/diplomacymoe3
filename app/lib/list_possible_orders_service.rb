@@ -35,11 +35,11 @@ class ListPossibleOrdersService
 
   def gen_move_order_menu
     result = []
-    MapUtil.adjacents[@unit.province].each do |code, data|
+    MapUtil.adjacents[@unit.prov_code].each do |prov_code, data|
       next unless data[@unit.type.downcase]
 
-      result << MoveOrder.new(power: @power, unit: @unit, dest: code)
-      @dests << code
+      result << MoveOrder.new(power: @power, unit: @unit, dest: prov_code)
+      @dests << prov_code
     end
     result
   end
@@ -47,10 +47,11 @@ class ListPossibleOrdersService
   def gen_movc_order_menu
     result = []
     return result unless @unit.army?
-    return result unless MapUtil.coastal?(@unit.province)
 
-    SearchReachableCoastalsService.call(unit: @unit).each do |code|
-      result << MoveOrder.new(power: @power, unit: @unit, dest: code)
+    return result unless MapUtil.coastal?(@unit.prov_code)
+
+    SearchReachableCoastalsService.call(unit: @unit).each do |prov_code|
+      result << MoveOrder.new(power: @power, unit: @unit, dest: prov_code)
     end
     result
   end
@@ -81,11 +82,11 @@ class ListPossibleOrdersService
   end
 
   def gen_conv_order_menu
-    return [] unless MapUtil.water?(@unit.province)
+    return [] unless MapUtil.water?(@unit.prov_code)
 
     @orders.where(type: MoveOrder.to_s).inject([]) do |result, o|
       coastals = SearchReachableCoastalsService.call(unit: @unit)
-      next result unless coastals.include?(o.unit.province)
+      next result unless coastals.include?(o.unit.prov_code)
       next result unless coastals.include?(o.dest)
 
       result << ConvoyOrder.new(power: @power, unit: @unit, target: o.to_key)

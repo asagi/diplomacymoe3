@@ -14,7 +14,7 @@ RSpec.describe ArrangeUnitsService, type: :service do
             type: Army.to_s,
             power: @power_g,
             phase: @table.phase,
-            province: 'bur'
+            prov_code: 'bur'
           )
           @table = @table.proceed
           @turn = @table.current_turn
@@ -30,7 +30,7 @@ RSpec.describe ArrangeUnitsService, type: :service do
         let(:table) { ArrangeUnitsService.call(table: @table) }
 
         example 'bur にドイツ陸軍があること' do
-          unit = @turn.units.where(phase: table.phase).find_by(province: 'bur')
+          unit = @turn.units.where(phase: table.phase).find_by(prov_code: 'bur')
           expect(unit).not_to be_nil
           expect(unit.power).to eq @power_g
           expect(unit.keepout).to be_nil
@@ -46,7 +46,7 @@ RSpec.describe ArrangeUnitsService, type: :service do
             type: Army.to_s,
             power: @power_g,
             phase: @table.phase,
-            province: 'bur'
+            prov_code: 'bur'
           )
           @table = @table.proceed
           @turn = @table.current_turn
@@ -64,14 +64,14 @@ RSpec.describe ArrangeUnitsService, type: :service do
         example 'bur にドイツ陸軍がないこと' do
           unit = table.current_turn.units.where(
             phase: table.phase
-          ).find_by(province: 'bur')
+          ).find_by(prov_code: 'bur')
           expect(unit).to be_nil
         end
 
         example 'mar にドイツ陸軍があること' do
           unit = table.current_turn.units.where(
             phase: table.phase
-          ).find_by(province: 'mar')
+          ).find_by(prov_code: 'mar')
           expect(unit).not_to be_nil
           expect(unit.power).to eq @power_g
           expect(unit.keepout).to be_nil
@@ -87,13 +87,13 @@ RSpec.describe ArrangeUnitsService, type: :service do
             type: Army.to_s,
             power: @power_g,
             phase: @table.phase,
-            province: 'bur'
+            prov_code: 'bur'
           )
           @unit_g_gas = @turn.units.create(
             type: Army.to_s,
             power: @power_g,
             phase: @table.phase,
-            province: 'gas'
+            prov_code: 'gas'
           )
           @table = @table.proceed
           @turn = @table.current_turn
@@ -112,14 +112,14 @@ RSpec.describe ArrangeUnitsService, type: :service do
         let(:table) { ArrangeUnitsService.call(table: @table) }
 
         example 'bur にドイツ陸軍があること' do
-          unit = @turn.units.where(phase: table.phase).find_by(province: 'bur')
+          unit = @turn.units.where(phase: table.phase).find_by(prov_code: 'bur')
           expect(unit).not_to be_nil
           expect(unit.power).to eq @power_g
           expect(unit.keepout).to be_nil
         end
 
         example 'gas にドイツ陸軍があること' do
-          unit = @turn.units.where(phase: table.phase).find_by(province: 'gas')
+          unit = @turn.units.where(phase: table.phase).find_by(prov_code: 'gas')
           expect(unit).not_to be_nil
           expect(unit.power).to eq @power_g
           expect(unit.keepout).to be_nil
@@ -135,13 +135,13 @@ RSpec.describe ArrangeUnitsService, type: :service do
             type: Army.to_s,
             power: @power_e,
             phase: @table.phase,
-            province: 'lon'
+            prov_code: 'lon'
           )
           @unit_e_nth = @turn.units.create(
             type: Fleet.to_s,
             power: @power_e,
             phase: @table.phase,
-            province: 'nth'
+            prov_code: 'nth'
           )
           @table = @table.proceed
           @turn = @table.current_turn
@@ -164,19 +164,19 @@ RSpec.describe ArrangeUnitsService, type: :service do
         example 'lon にイギリス陸軍がないこと' do
           unit = table.current_turn.units
                       .where(phase: table.phase)
-                      .find_by(province: 'lon')
+                      .find_by(prov_code: 'lon')
           expect(unit).to be_nil
         end
 
         example 'bel にイギリス陸軍があること' do
-          unit = @turn.units.where(phase: table.phase).find_by(province: 'bel')
+          unit = @turn.units.where(phase: table.phase).find_by(prov_code: 'bel')
           expect(unit).not_to be_nil
           expect(unit.power).to eq @power_e
           expect(unit.keepout).to be_nil
         end
 
         example 'nth にイギリス海軍があること' do
-          unit = @turn.units.where(phase: table.phase).find_by(province: 'nth')
+          unit = @turn.units.where(phase: table.phase).find_by(prov_code: 'nth')
           expect(unit).not_to be_nil
           expect(unit.power).to eq @power_e
           expect(unit.keepout).to be_nil
@@ -194,7 +194,7 @@ RSpec.describe ArrangeUnitsService, type: :service do
             type: Army.to_s,
             power: @power_g,
             phase: @table.phase,
-            province: 'bur',
+            prov_code: 'bur',
             keepout: 'mar'
           )
           @table = @table.proceed
@@ -209,7 +209,7 @@ RSpec.describe ArrangeUnitsService, type: :service do
         let(:table) { ArrangeUnitsService.call(table: @table) }
 
         example 'par に撤退したドイツ陸軍があること' do
-          unit = @turn.units.where(phase: table.phase).find_by(province: 'par')
+          unit = @turn.units.where(phase: table.phase).find_by(prov_code: 'par')
           expect(unit).not_to be_nil
           expect(unit.power).to eq @power_g
           expect(unit.keepout).to be_nil

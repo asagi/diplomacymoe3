@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_01_31_132012) do
+ActiveRecord::Schema.define(version: 2020_02_02_120244) do
 
   create_table "orders", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.bigint "turn_id"
@@ -109,7 +109,7 @@ ActiveRecord::Schema.define(version: 2020_01_31_132012) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "phase"
-    t.string "province"
+    t.string "prov_code"
     t.string "keepout"
     t.bigint "power_id"
     t.index ["power_id"], name: "index_units_on_power_id"

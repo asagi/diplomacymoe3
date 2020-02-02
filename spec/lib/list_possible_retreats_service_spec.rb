@@ -15,19 +15,19 @@ RSpec.describe ListPossibleRetreatsService, type: :service do
           type: Army.to_s,
           power: @power_f,
           phase: @table.phase,
-          province: 'bur'
+          prov_code: 'bur'
         )
         @unit_f_gas = @turn.units.create(
           type: Army.to_s,
           power: @power_f,
           phase: @table.phase,
-          province: 'gas'
+          prov_code: 'gas'
         )
         @unit_g_bur = @turn.units.create(
           type: Army.to_s,
           power: @power_g,
           phase: @table.phase,
-          province: 'bur',
+          prov_code: 'bur',
           keepout: 'mar'
         )
         @table = @table.proceed
@@ -93,37 +93,37 @@ RSpec.describe ListPossibleRetreatsService, type: :service do
           type: Army.to_s,
           power: @power_a,
           phase: @table.phase,
-          province: 'mun'
+          prov_code: 'mun'
         )
         @turn.units.create(
           type: Army.to_s,
           power: @power_a,
           phase: @table.phase,
-          province: 'tyr'
+          prov_code: 'tyr'
         )
         @turn.units.create(
           type: Army.to_s,
           power: @power_g,
           phase: @table.phase,
-          province: 'ber'
+          prov_code: 'ber'
         )
         @turn.units.create(
           type: Army.to_s,
           power: @power_r,
           phase: @table.phase,
-          province: 'war'
+          prov_code: 'war'
         )
         @turn.units.create(
           type: Army.to_s,
           power: @power_r,
           phase: @table.phase,
-          province: 'pru'
+          prov_code: 'pru'
         )
         @dislodged_unit = @turn.units.create(
           type: Army.to_s,
           power: @power_g,
           phase: @table.phase,
-          province: 'mun',
+          prov_code: 'mun',
           keepout: 'boh'
         )
         @table = @table.proceed
@@ -188,25 +188,25 @@ RSpec.describe ListPossibleRetreatsService, type: :service do
           type: Army.to_s,
           power: @power_r,
           phase: @table.phase,
-          province: 'rum'
+          prov_code: 'rum'
         )
         @turn.units.create(
           type: Army.to_s,
           power: @power_r,
           phase: @table.phase,
-          province: 'ser'
+          prov_code: 'ser'
         )
         @turn.units.create(
           type: Army.to_s,
           power: @power_r,
           phase: @table.phase,
-          province: 'bul'
+          prov_code: 'bul'
         )
         @dislodged_unit = @turn.units.create(
           type: Army.to_s,
           power: @power_t,
           phase: @table.phase,
-          province: 'bul',
+          prov_code: 'bul',
           keepout: 'rum'
         )
         @table = @table.proceed
@@ -262,37 +262,37 @@ RSpec.describe ListPossibleRetreatsService, type: :service do
           type: Fleet.to_s,
           power: @power_t,
           phase: @table.phase,
-          province: 'bla'
+          prov_code: 'bla'
         )
         @turn.units.create(
           type: Army.to_s,
           power: @power_r,
           phase: @table.phase,
-          province: 'rum'
+          prov_code: 'rum'
         )
         @turn.units.create(
           type: Army.to_s,
           power: @power_r,
           phase: @table.phase,
-          province: 'gre'
+          prov_code: 'gre'
         )
         @turn.units.create(
           type: Army.to_s,
           power: @power_r,
           phase: @table.phase,
-          province: 'ser'
+          prov_code: 'ser'
         )
         @turn.units.create(
           type: Army.to_s,
           power: @power_r,
           phase: @table.phase,
-          province: 'bul'
+          prov_code: 'bul'
         )
         @dislodged_unit = @turn.units.create(
           type: Army.to_s,
           power: @power_t,
           phase: @table.phase,
-          province: 'bul',
+          prov_code: 'bul',
           keepout: 'rum'
         )
         @table = @table.proceed
@@ -345,19 +345,19 @@ RSpec.describe ListPossibleRetreatsService, type: :service do
           type: Army.to_s,
           power: @power_g,
           phase: @table.phase,
-          province: 'pru'
+          prov_code: 'pru'
         )
         @turn.units.create(
           type: Army.to_s,
           power: @power_g,
           phase: @table.phase,
-          province: 'sil'
+          prov_code: 'sil'
         )
         @dislodged_unit = @turn.units.create(
           type: Army.to_s,
           power: @power_r,
           phase: @table.phase,
-          province: 'war',
+          prov_code: 'war',
           keepout: 'pru'
         )
         @table = @table.proceed
@@ -418,31 +418,31 @@ RSpec.describe ListPossibleRetreatsService, type: :service do
           type: Fleet.to_s,
           power: @power_g,
           phase: @table.phase,
-          province: 'ber'
+          prov_code: 'ber'
         )
         @turn.units.create(
           type: Army.to_s,
           power: @power_r,
           phase: @table.phase,
-          province: 'sil'
+          prov_code: 'sil'
         )
         @turn.units.create(
           type: Army.to_s,
           power: @power_r,
           phase: @table.phase,
-          province: 'war'
+          prov_code: 'war'
         )
         @turn.units.create(
           type: Fleet.to_s,
           power: @power_r,
           phase: @table.phase,
-          province: 'bal'
+          prov_code: 'bal'
         )
         @dislodged_unit = @turn.units.create(
           type: Army.to_s,
           power: @power_g,
           phase: @table.phase,
-          province: 'sil',
+          prov_code: 'sil',
           keepout: 'pru'
         )
         @table = @table.proceed
@@ -503,37 +503,37 @@ RSpec.describe ListPossibleRetreatsService, type: :service do
           type: Army.to_s,
           power: @power_g,
           phase: @table.phase,
-          province: 'ber'
+          prov_code: 'ber'
         )
         @turn.units.create(
           type: Army.to_s,
           power: @power_r,
           phase: @table.phase,
-          province: 'pru'
+          prov_code: 'pru'
         )
         @turn.units.create(
           type: Army.to_s,
           power: @power_r,
           phase: @table.phase,
-          province: 'sil'
+          prov_code: 'sil'
         )
         @turn.units.create(
           type: Army.to_s,
           power: @power_r,
           phase: @table.phase,
-          province: 'mun'
+          prov_code: 'mun'
         )
         @turn.units.create(
           type: Army.to_s,
           power: @power_r,
           phase: @table.phase,
-          province: 'tyr'
+          prov_code: 'tyr'
         )
         @dislodged_unit = @turn.units.create(
           type: Army.to_s,
           power: @power_g,
           phase: @table.phase,
-          province: 'mun',
+          prov_code: 'mun',
           keepout: 'boh'
         )
         @table = @table.proceed
@@ -598,31 +598,31 @@ RSpec.describe ListPossibleRetreatsService, type: :service do
           type: Army.to_s,
           power: @power_f,
           phase: @table.phase,
-          province: 'spa'
+          prov_code: 'spa'
         )
         @turn.units.create(
           type: Fleet.to_s,
           power: @power_f,
           phase: @table.phase,
-          province: 'lyo'
+          prov_code: 'lyo'
         )
         @turn.units.create(
           type: Fleet.to_s,
           power: @power_i,
           phase: @table.phase,
-          province: 'tys'
+          prov_code: 'tys'
         )
         @turn.units.create(
           type: Fleet.to_s,
           power: @power_i,
           phase: @table.phase,
-          province: 'tun'
+          prov_code: 'tun'
         )
         @dislodged_unit = @turn.units.create(
           type: Fleet.to_s,
           power: @power_f,
           phase: @table.phase,
-          province: 'tys',
+          prov_code: 'tys',
           keepout: 'ion'
         )
         @table = @table.proceed
@@ -687,31 +687,31 @@ RSpec.describe ListPossibleRetreatsService, type: :service do
           type: Army.to_s,
           power: @power_e,
           phase: @table.phase,
-          province: 'bel'
+          prov_code: 'bel'
         )
         @turn.units.create(
           type: Fleet.to_s,
           power: @power_e,
           phase: @table.phase,
-          province: 'nth'
+          prov_code: 'nth'
         )
         @turn.units.create(
           type: Fleet.to_s,
           power: @power_f,
           phase: @table.phase,
-          province: 'eng'
+          prov_code: 'eng'
         )
         @turn.units.create(
           type: Fleet.to_s,
           power: @power_f,
           phase: @table.phase,
-          province: 'iri'
+          prov_code: 'iri'
         )
         @dislodged_unit = @turn.units.create(
           type: Fleet.to_s,
           power: @power_e,
           phase: @table.phase,
-          province: 'eng',
+          prov_code: 'eng',
           keepout: 'bre'
         )
         @table = @table.proceed
@@ -780,25 +780,25 @@ RSpec.describe ListPossibleRetreatsService, type: :service do
           type: Army.to_s,
           power: @power_f,
           phase: @table.phase,
-          province: 'tun'
+          prov_code: 'tun'
         )
         @turn.units.create(
           type: Fleet.to_s,
           power: @power_i,
           phase: @table.phase,
-          province: 'tys'
+          prov_code: 'tys'
         )
         @turn.units.create(
           type: Fleet.to_s,
           power: @power_i,
           phase: @table.phase,
-          province: 'nap'
+          prov_code: 'nap'
         )
         @dislodged_unit = @turn.units.create(
           type: Fleet.to_s,
           power: @power_f,
           phase: @table.phase,
-          province: 'tys',
+          prov_code: 'tys',
           keepout: 'ion'
         )
         @table = @table.proceed
@@ -863,37 +863,37 @@ RSpec.describe ListPossibleRetreatsService, type: :service do
           type: Army.to_s,
           power: @power_f,
           phase: @table.phase,
-          province: 'nap'
+          prov_code: 'nap'
         )
         @turn.units.create(
           type: Fleet.to_s,
           power: @power_f,
           phase: @table.phase,
-          province: 'tys'
+          prov_code: 'tys'
         )
         @turn.units.create(
           type: Fleet.to_s,
           power: @power_f,
           phase: @table.phase,
-          province: 'ion'
+          prov_code: 'ion'
         )
         @turn.units.create(
           type: Army.to_s,
           power: @power_f,
           phase: @table.phase,
-          province: 'apu'
+          prov_code: 'apu'
         )
         @turn.units.create(
           type: Fleet.to_s,
           power: @power_i,
           phase: @table.phase,
-          province: 'rom'
+          prov_code: 'rom'
         )
         @dislodged_unit = @turn.units.create(
           type: Fleet.to_s,
           power: @power_i,
           phase: @table.phase,
-          province: 'nap',
+          prov_code: 'nap',
           keepout: 'tun'
         )
         @table = @table.proceed

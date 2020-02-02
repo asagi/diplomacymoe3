@@ -15,13 +15,13 @@ RSpec.describe ResoluteOrdersService, type: :service do
           type: Army.to_s,
           power: @power_g,
           phase: @table.phase,
-          province: 'ber'
+          prov_code: 'ber'
         )
         @unit_r = @turn.units.create(
           type: Army.to_s,
           power: @power_r,
           phase: @table.phase,
-          province: 'war'
+          prov_code: 'war'
         )
         @table = @table.proceed
         @turn = @table.turns.find_by(number: @table.turn)
@@ -79,19 +79,19 @@ RSpec.describe ResoluteOrdersService, type: :service do
           type: Fleet.to_s,
           power: @power_g,
           phase: @table.phase,
-          province: 'kie'
+          prov_code: 'kie'
         )
         @unit_g_ber = @turn.units.create(
           type: Army.to_s,
           power: @power_g,
           phase: @table.phase,
-          province: 'ber'
+          prov_code: 'ber'
         )
         @unit_r_war = @turn.units.create(
           type: Army.to_s,
           power: @power_r,
           phase: @table.phase,
-          province: 'pru'
+          prov_code: 'pru'
         )
         @table = @table.proceed
         @turn = @table.turns.find_by(number: @table.turn)
@@ -142,13 +142,13 @@ RSpec.describe ResoluteOrdersService, type: :service do
           type: Fleet.to_s,
           power: @power_f,
           phase: @table.phase,
-          province: 'ber'
+          prov_code: 'ber'
         )
         @unit_a = @turn.units.create(
           type: Army.to_s,
           power: @power_a,
           phase: @table.phase,
-          province: 'pru'
+          prov_code: 'pru'
         )
         @table = @table.proceed
         @turn = @table.turns.find_by(number: @table.turn)
@@ -190,19 +190,19 @@ RSpec.describe ResoluteOrdersService, type: :service do
           type: Army.to_s,
           power: @power_e,
           phase: @table.phase,
-          province: 'hol'
+          prov_code: 'hol'
         )
         @unit_e_bel = @turn.units.create(
           type: Fleet.to_s,
           power: @power_e,
           phase: @table.phase,
-          province: 'bel'
+          prov_code: 'bel'
         )
         @unit_f_nth = @turn.units.create(
           type: Fleet.to_s,
           power: @power_f,
           phase: @table.phase,
-          province: 'nth'
+          prov_code: 'nth'
         )
         @table = @table.proceed
         @turn = @table.turns.find_by(number: @table.turn)
@@ -253,19 +253,19 @@ RSpec.describe ResoluteOrdersService, type: :service do
           type: Army.to_s,
           power: @power_f,
           phase: @table.phase,
-          province: 'mar'
+          prov_code: 'mar'
         )
         @unit_f_gas = @turn.units.create(
           type: Army.to_s,
           power: @power_f,
           phase: @table.phase,
-          province: 'gas'
+          prov_code: 'gas'
         )
         @unit_g_bur = @turn.units.create(
           type: Army.to_s,
           power: @power_g,
           phase: @table.phase,
-          province: 'bur'
+          prov_code: 'bur'
         )
         @table = @table.proceed
         @turn = @table.turns.find_by(number: @table.turn)
@@ -322,19 +322,19 @@ RSpec.describe ResoluteOrdersService, type: :service do
           type: Army.to_s,
           power: @power_g,
           phase: @table.phase,
-          province: 'sil'
+          prov_code: 'sil'
         )
         @unit_g_bal = @turn.units.create(
           type: Fleet.to_s,
           power: @power_g,
           phase: @table.phase,
-          province: 'bal'
+          prov_code: 'bal'
         )
         @unit_r_pru = @turn.units.create(
           type: Army.to_s,
           power: @power_r,
           phase: @table.phase,
-          province: 'pru'
+          prov_code: 'pru'
         )
         @table = @table.proceed
         @turn = @table.turns.find_by(number: @table.turn)
@@ -391,25 +391,25 @@ RSpec.describe ResoluteOrdersService, type: :service do
           type: Fleet.to_s,
           power: @power_f,
           phase: @table.phase,
-          province: 'lyo'
+          prov_code: 'lyo'
         )
         @unit_f_wes = @turn.units.create(
           type: Fleet.to_s,
           power: @power_f,
           phase: @table.phase,
-          province: 'wes'
+          prov_code: 'wes'
         )
         @unit_i_nap = @turn.units.create(
           type: Fleet.to_s,
           power: @power_i,
           phase: @table.phase,
-          province: 'nap'
+          prov_code: 'nap'
         )
         @unit_i_rom = @turn.units.create(
           type: Fleet.to_s,
           power: @power_i,
           phase: @table.phase,
-          province: 'rom'
+          prov_code: 'rom'
         )
         @table = @table.proceed
         @turn = @table.turns.find_by(number: @table.turn)
@@ -473,25 +473,25 @@ RSpec.describe ResoluteOrdersService, type: :service do
           type: Fleet.to_s,
           power: @power_f,
           phase: @table.phase,
-          province: 'lyo'
+          prov_code: 'lyo'
         )
         @unit_f_wes = @turn.units.create(
           type: Fleet.to_s,
           power: @power_f,
           phase: @table.phase,
-          province: 'wes'
+          prov_code: 'wes'
         )
         @unit_i_tys = @turn.units.create(
           type: Fleet.to_s,
           power: @power_i,
           phase: @table.phase,
-          province: 'tys'
+          prov_code: 'tys'
         )
         @unit_i_rom = @turn.units.create(
           type: Fleet.to_s,
           power: @power_i,
           phase: @table.phase,
-          province: 'rom'
+          prov_code: 'rom'
         )
         @table = @table.proceed
         @turn = @table.turns.find_by(number: @table.turn)
@@ -552,37 +552,37 @@ RSpec.describe ResoluteOrdersService, type: :service do
           type: Army.to_s,
           power: @power_a,
           phase: @table.phase,
-          province: 'boh'
+          prov_code: 'boh'
         )
         @unit_a_tyr = @turn.units.create(
           type: Army.to_s,
           power: @power_a,
           phase: @table.phase,
-          province: 'tyr'
+          prov_code: 'tyr'
         )
         @unit_g_mun = @turn.units.create(
           type: Army.to_s,
           power: @power_g,
           phase: @table.phase,
-          province: 'mun'
+          prov_code: 'mun'
         )
         @unit_g_ber = @turn.units.create(
           type: Army.to_s,
           power: @power_g,
           phase: @table.phase,
-          province: 'ber'
+          prov_code: 'ber'
         )
         @unit_r_war = @turn.units.create(
           type: Army.to_s,
           power: @power_r,
           phase: @table.phase,
-          province: 'war'
+          prov_code: 'war'
         )
         @unit_r_pru = @turn.units.create(
           type: Army.to_s,
           power: @power_r,
           phase: @table.phase,
-          province: 'pru'
+          prov_code: 'pru'
         )
         @table = @table.proceed
         @turn = @table.turns.find_by(number: @table.turn)
@@ -670,25 +670,25 @@ RSpec.describe ResoluteOrdersService, type: :service do
           type: Army.to_s,
           power: @power_t,
           phase: @table.phase,
-          province: 'bul'
+          prov_code: 'bul'
         )
         @unit_r_rum = @turn.units.create(
           type: Army.to_s,
           power: @power_r,
           phase: @table.phase,
-          province: 'rum'
+          prov_code: 'rum'
         )
         @unit_r_ser = @turn.units.create(
           type: Army.to_s,
           power: @power_r,
           phase: @table.phase,
-          province: 'ser'
+          prov_code: 'ser'
         )
         @unit_r_sev = @turn.units.create(
           type: Army.to_s,
           power: @power_r,
           phase: @table.phase,
-          province: 'sev'
+          prov_code: 'sev'
         )
         @table = @table.proceed
         @turn = @table.turns.find_by(number: @table.turn)
@@ -748,37 +748,37 @@ RSpec.describe ResoluteOrdersService, type: :service do
           type: Army.to_s,
           power: @power_t,
           phase: @table.phase,
-          province: 'bul'
+          prov_code: 'bul'
         )
         @unit_t_bla = @turn.units.create(
           type: Fleet.to_s,
           power: @power_t,
           phase: @table.phase,
-          province: 'bla'
+          prov_code: 'bla'
         )
         @unit_r_rum = @turn.units.create(
           type: Army.to_s,
           power: @power_r,
           phase: @table.phase,
-          province: 'rum'
+          prov_code: 'rum'
         )
         @unit_r_gre = @turn.units.create(
           type: Army.to_s,
           power: @power_r,
           phase: @table.phase,
-          province: 'gre'
+          prov_code: 'gre'
         )
         @unit_r_ser = @turn.units.create(
           type: Army.to_s,
           power: @power_r,
           phase: @table.phase,
-          province: 'ser'
+          prov_code: 'ser'
         )
         @unit_r_sev = @turn.units.create(
           type: Army.to_s,
           power: @power_r,
           phase: @table.phase,
-          province: 'sev'
+          prov_code: 'sev'
         )
         @table = @table.proceed
         @turn = @table.turns.find_by(number: @table.turn)
@@ -856,25 +856,25 @@ RSpec.describe ResoluteOrdersService, type: :service do
           type: Army.to_s,
           power: @power_g,
           phase: @table.phase,
-          province: 'pru'
+          prov_code: 'pru'
         )
         @unit_g_sil = @turn.units.create(
           type: Army.to_s,
           power: @power_g,
           phase: @table.phase,
-          province: 'sil'
+          prov_code: 'sil'
         )
         @unit_r_war = @turn.units.create(
           type: Army.to_s,
           power: @power_r,
           phase: @table.phase,
-          province: 'war'
+          prov_code: 'war'
         )
         @unit_r_boh = @turn.units.create(
           type: Army.to_s,
           power: @power_r,
           phase: @table.phase,
-          province: 'boh'
+          prov_code: 'boh'
         )
         @table = @table.proceed
         @turn = @table.turns.find_by(number: @table.turn)
@@ -934,19 +934,19 @@ RSpec.describe ResoluteOrdersService, type: :service do
           type: Army.to_s,
           power: @power_g,
           phase: @table.phase,
-          province: 'pru'
+          prov_code: 'pru'
         )
         @unit_g_sil = @turn.units.create(
           type: Army.to_s,
           power: @power_g,
           phase: @table.phase,
-          province: 'sil'
+          prov_code: 'sil'
         )
         @unit_r_war = @turn.units.create(
           type: Army.to_s,
           power: @power_r,
           phase: @table.phase,
-          province: 'war'
+          prov_code: 'war'
         )
         @table = @table.proceed
         @turn = @table.turns.find_by(number: @table.turn)
@@ -997,31 +997,31 @@ RSpec.describe ResoluteOrdersService, type: :service do
           type: Fleet.to_s,
           power: @power_g,
           phase: @table.phase,
-          province: 'ber'
+          prov_code: 'ber'
         )
         @unit_g_sil = @turn.units.create(
           type: Army.to_s,
           power: @power_g,
           phase: @table.phase,
-          province: 'sil'
+          prov_code: 'sil'
         )
         @unit_r_pru = @turn.units.create(
           type: Army.to_s,
           power: @power_r,
           phase: @table.phase,
-          province: 'pru'
+          prov_code: 'pru'
         )
         @unit_r_war = @turn.units.create(
           type: Army.to_s,
           power: @power_r,
           phase: @table.phase,
-          province: 'war'
+          prov_code: 'war'
         )
         @unit_r_bal = @turn.units.create(
           type: Fleet.to_s,
           power: @power_r,
           phase: @table.phase,
-          province: 'bal'
+          prov_code: 'bal'
         )
         @table = @table.proceed
         @turn = @table.turns.find_by(number: @table.turn)
@@ -1100,37 +1100,37 @@ RSpec.describe ResoluteOrdersService, type: :service do
           type: Army.to_s,
           power: @power_g,
           phase: @table.phase,
-          province: 'ber'
+          prov_code: 'ber'
         )
         @unit_g_mun = @turn.units.create(
           type: Army.to_s,
           power: @power_g,
           phase: @table.phase,
-          province: 'mun'
+          prov_code: 'mun'
         )
         @unit_r_pru = @turn.units.create(
           type: Army.to_s,
           power: @power_r,
           phase: @table.phase,
-          province: 'pru'
+          prov_code: 'pru'
         )
         @unit_r_sil = @turn.units.create(
           type: Army.to_s,
           power: @power_r,
           phase: @table.phase,
-          province: 'sil'
+          prov_code: 'sil'
         )
         @unit_r_boh = @turn.units.create(
           type: Army.to_s,
           power: @power_r,
           phase: @table.phase,
-          province: 'boh'
+          prov_code: 'boh'
         )
         @unit_r_tyr = @turn.units.create(
           type: Army.to_s,
           power: @power_r,
           phase: @table.phase,
-          province: 'tyr'
+          prov_code: 'tyr'
         )
         @table = @table.proceed
         @turn = @table.turns.find_by(number: @table.turn)
@@ -1207,13 +1207,13 @@ RSpec.describe ResoluteOrdersService, type: :service do
           type: Army.to_s,
           power: @power_e,
           phase: @table.phase,
-          province: 'lon'
+          prov_code: 'lon'
         )
         @unit_e_nth = @turn.units.create(
           type: Fleet.to_s,
           power: @power_e,
           phase: @table.phase,
-          province: 'nth'
+          prov_code: 'nth'
         )
         @table = @table.proceed
         @turn = @table.turns.find_by(number: @table.turn)
@@ -1253,13 +1253,13 @@ RSpec.describe ResoluteOrdersService, type: :service do
             type: Army.to_s,
             power: @power_e,
             phase: @table.phase,
-            province: 'lon'
+            prov_code: 'lon'
           )
           @unit_e_nth = @turn.units.create(
             type: Fleet.to_s,
             power: @power_e,
             phase: @table.phase,
-            province: 'nth'
+            prov_code: 'nth'
           )
           @table = @table.proceed
           @turn = @table.turns.find_by(number: @table.turn)
@@ -1296,25 +1296,25 @@ RSpec.describe ResoluteOrdersService, type: :service do
           type: Army.to_s,
           power: @power_e,
           phase: @table.phase,
-          province: 'lon'
+          prov_code: 'lon'
         )
         @unit_e_eng = @turn.units.create(
           type: Fleet.to_s,
           power: @power_f,
           phase: @table.phase,
-          province: 'eng'
+          prov_code: 'eng'
         )
         @unit_e_mao = @turn.units.create(
           type: Fleet.to_s,
           power: @power_f,
           phase: @table.phase,
-          province: 'mao'
+          prov_code: 'mao'
         )
         @unit_f_wes = @turn.units.create(
           type: Fleet.to_s,
           power: @power_f,
           phase: @table.phase,
-          province: 'wes'
+          prov_code: 'wes'
         )
         @table = @table.proceed
         @turn = @table.turns.find_by(number: @table.turn)
@@ -1374,31 +1374,31 @@ RSpec.describe ResoluteOrdersService, type: :service do
           type: Army.to_s,
           power: @power_f,
           phase: @table.phase,
-          province: 'spa'
+          prov_code: 'spa'
         )
         @unit_f_lyo = @turn.units.create(
           type: Fleet.to_s,
           power: @power_f,
           phase: @table.phase,
-          province: 'lyo'
+          prov_code: 'lyo'
         )
         @unit_f_tys = @turn.units.create(
           type: Fleet.to_s,
           power: @power_f,
           phase: @table.phase,
-          province: 'tys'
+          prov_code: 'tys'
         )
         @unit_i_ion = @turn.units.create(
           type: Fleet.to_s,
           power: @power_i,
           phase: @table.phase,
-          province: 'ion'
+          prov_code: 'ion'
         )
         @unit_i_tun = @turn.units.create(
           type: Fleet.to_s,
           power: @power_i,
           phase: @table.phase,
-          province: 'tun'
+          prov_code: 'tun'
         )
         @table = @table.proceed
         @turn = @table.turns.find_by(number: @table.turn)
@@ -1466,19 +1466,19 @@ RSpec.describe ResoluteOrdersService, type: :service do
           type: Army.to_s,
           power: @power_f,
           phase: @table.phase,
-          province: 'par'
+          prov_code: 'par'
         )
         @unit_f_mar = @turn.units.create(
           type: Army.to_s,
           power: @power_f,
           phase: @table.phase,
-          province: 'mar'
+          prov_code: 'mar'
         )
         @unit_f_bur = @turn.units.create(
           type: Army.to_s,
           power: @power_f,
           phase: @table.phase,
-          province: 'bur'
+          prov_code: 'bur'
         )
         @table = @table.proceed
         @turn = @table.turns.find_by(number: @table.turn)
@@ -1530,25 +1530,25 @@ RSpec.describe ResoluteOrdersService, type: :service do
           type: Army.to_s,
           power: @power_f,
           phase: @table.phase,
-          province: 'par'
+          prov_code: 'par'
         )
         @unit_f_bur = @turn.units.create(
           type: Army.to_s,
           power: @power_f,
           phase: @table.phase,
-          province: 'bur'
+          prov_code: 'bur'
         )
         @unit_g_ruh = @turn.units.create(
           type: Army.to_s,
           power: @power_g,
           phase: @table.phase,
-          province: 'ruh'
+          prov_code: 'ruh'
         )
         @unit_i_mar = @turn.units.create(
           type: Army.to_s,
           power: @power_i,
           phase: @table.phase,
-          province: 'mar'
+          prov_code: 'mar'
         )
         @table = @table.proceed
         @turn = @table.turns.find_by(number: @table.turn)
@@ -1608,25 +1608,25 @@ RSpec.describe ResoluteOrdersService, type: :service do
           type: Army.to_s,
           power: @power_g,
           phase: @table.phase,
-          province: 'ruh'
+          prov_code: 'ruh'
         )
         @unit_g_mun = @turn.units.create(
           type: Army.to_s,
           power: @power_g,
           phase: @table.phase,
-          province: 'mun'
+          prov_code: 'mun'
         )
         @unit_f_par = @turn.units.create(
           type: Army.to_s,
           power: @power_f,
           phase: @table.phase,
-          province: 'par'
+          prov_code: 'par'
         )
         @unit_f_bur = @turn.units.create(
           type: Army.to_s,
           power: @power_f,
           phase: @table.phase,
-          province: 'bur'
+          prov_code: 'bur'
         )
         @table = @table.proceed
         @turn = @table.turns.find_by(number: @table.turn)
@@ -1685,25 +1685,25 @@ RSpec.describe ResoluteOrdersService, type: :service do
             type: Army.to_s,
             power: @power_g,
             phase: @table.phase,
-            province: 'ruh'
+            prov_code: 'ruh'
           )
           @unit_g_mun = @turn.units.create(
             type: Army.to_s,
             power: @power_g,
             phase: @table.phase,
-            province: 'mun'
+            prov_code: 'mun'
           )
           @unit_f_par = @turn.units.create(
             type: Army.to_s,
             power: @power_f,
             phase: @table.phase,
-            province: 'par'
+            prov_code: 'par'
           )
           @unit_f_bur = @turn.units.create(
             type: Army.to_s,
             power: @power_f,
             phase: @table.phase,
-            province: 'bur'
+            prov_code: 'bur'
           )
           @table = @table.proceed
           @turn = @table.turns.find_by(number: @table.turn)
@@ -1764,31 +1764,31 @@ RSpec.describe ResoluteOrdersService, type: :service do
           type: Army.to_s,
           power: @power_g,
           phase: @table.phase,
-          province: 'ruh'
+          prov_code: 'ruh'
         )
         @unit_g_mun = @turn.units.create(
           type: Army.to_s,
           power: @power_g,
           phase: @table.phase,
-          province: 'mun'
+          prov_code: 'mun'
         )
         @unit_g_sil = @turn.units.create(
           type: Army.to_s,
           power: @power_g,
           phase: @table.phase,
-          province: 'sil'
+          prov_code: 'sil'
         )
         @unit_a_tyr = @turn.units.create(
           type: Army.to_s,
           power: @power_a,
           phase: @table.phase,
-          province: 'tyr'
+          prov_code: 'tyr'
         )
         @unit_a_boh = @turn.units.create(
           type: Army.to_s,
           power: @power_a,
           phase: @table.phase,
-          province: 'boh'
+          prov_code: 'boh'
         )
         @table = @table.proceed
         @turn = @table.turns.find_by(number: @table.turn)
@@ -1858,37 +1858,37 @@ RSpec.describe ResoluteOrdersService, type: :service do
           type: Fleet.to_s,
           power: @power_e,
           phase: @table.phase,
-          province: 'den'
+          prov_code: 'den'
         )
         @unit_e_hel = @turn.units.create(
           type: Fleet.to_s,
           power: @power_e,
           phase: @table.phase,
-          province: 'hel'
+          prov_code: 'hel'
         )
         @unit_e_nth = @turn.units.create(
           type: Fleet.to_s,
           power: @power_e,
           phase: @table.phase,
-          province: 'nth'
+          prov_code: 'nth'
         )
         @unit_r_ber = @turn.units.create(
           type: Army.to_s,
           power: @power_r,
           phase: @table.phase,
-          province: 'ber'
+          prov_code: 'ber'
         )
         @unit_r_ska = @turn.units.create(
           type: Fleet.to_s,
           power: @power_r,
           phase: @table.phase,
-          province: 'ska'
+          prov_code: 'ska'
         )
         @unit_r_bal = @turn.units.create(
           type: Fleet.to_s,
           power: @power_r,
           phase: @table.phase,
-          province: 'bal'
+          prov_code: 'bal'
         )
         @table = @table.proceed
         @turn = @table.turns.find_by(number: @table.turn)
@@ -1966,19 +1966,19 @@ RSpec.describe ResoluteOrdersService, type: :service do
           type: Army.to_s,
           power: @power_a,
           phase: @table.phase,
-          province: 'ser'
+          prov_code: 'ser'
         )
         @unit_a_vie = @turn.units.create(
           type: Army.to_s,
           power: @power_a,
           phase: @table.phase,
-          province: 'vie'
+          prov_code: 'vie'
         )
         @unit_r_gal = @turn.units.create(
           type: Army.to_s,
           power: @power_a,
           phase: @table.phase,
-          province: 'gal'
+          prov_code: 'gal'
         )
         @table = @table.proceed
         @turn = @table.turns.find_by(number: @table.turn)
@@ -2029,25 +2029,25 @@ RSpec.describe ResoluteOrdersService, type: :service do
           type: Army.to_s,
           power: @power_e,
           phase: @table.phase,
-          province: 'lon'
+          prov_code: 'lon'
         )
         @unit_e_nth = @turn.units.create(
           type: Fleet.to_s,
           power: @power_e,
           phase: @table.phase,
-          province: 'nth'
+          prov_code: 'nth'
         )
         @unit_f_bel = @turn.units.create(
           type: Army.to_s,
           power: @power_f,
           phase: @table.phase,
-          province: 'bel'
+          prov_code: 'bel'
         )
         @unit_f_eng = @turn.units.create(
           type: Fleet.to_s,
           power: @power_f,
           phase: @table.phase,
-          province: 'eng'
+          prov_code: 'eng'
         )
         @table = @table.proceed
         @turn = @table.turns.find_by(number: @table.turn)
@@ -2107,31 +2107,31 @@ RSpec.describe ResoluteOrdersService, type: :service do
           type: Army.to_s,
           power: @power_e,
           phase: @table.phase,
-          province: 'lon'
+          prov_code: 'lon'
         )
         @unit_e_nth = @turn.units.create(
           type: Fleet.to_s,
           power: @power_e,
           phase: @table.phase,
-          province: 'nth'
+          prov_code: 'nth'
         )
         @unit_e_eng = @turn.units.create(
           type: Fleet.to_s,
           power: @power_e,
           phase: @table.phase,
-          province: 'eng'
+          prov_code: 'eng'
         )
         @unit_f_bre = @turn.units.create(
           type: Fleet.to_s,
           power: @power_f,
           phase: @table.phase,
-          province: 'bre'
+          prov_code: 'bre'
         )
         @unit_f_iri = @turn.units.create(
           type: Fleet.to_s,
           power: @power_f,
           phase: @table.phase,
-          province: 'iri'
+          prov_code: 'iri'
         )
         @table = @table.proceed
         @turn = @table.turns.find_by(number: @table.turn)
@@ -2206,25 +2206,25 @@ RSpec.describe ResoluteOrdersService, type: :service do
           type: Army.to_s,
           power: @power_f,
           phase: @table.phase,
-          province: 'tun'
+          prov_code: 'tun'
         )
         @unit_f_tys = @turn.units.create(
           type: Fleet.to_s,
           power: @power_f,
           phase: @table.phase,
-          province: 'tys'
+          prov_code: 'tys'
         )
         @unit_i_ion = @turn.units.create(
           type: Fleet.to_s,
           power: @power_i,
           phase: @table.phase,
-          province: 'ion'
+          prov_code: 'ion'
         )
         @unit_i_nap = @turn.units.create(
           type: Fleet.to_s,
           power: @power_i,
           phase: @table.phase,
-          province: 'nap'
+          prov_code: 'nap'
         )
         @table = @table.proceed
         @turn = @table.turns.find_by(number: @table.turn)
@@ -2292,31 +2292,31 @@ RSpec.describe ResoluteOrdersService, type: :service do
           type: Army.to_s,
           power: @power_f,
           phase: @table.phase,
-          province: 'tun'
+          prov_code: 'tun'
         )
         @unit_f_tys = @turn.units.create(
           type: Fleet.to_s,
           power: @power_f,
           phase: @table.phase,
-          province: 'tys'
+          prov_code: 'tys'
         )
         @unit_f_ion = @turn.units.create(
           type: Fleet.to_s,
           power: @power_f,
           phase: @table.phase,
-          province: 'ion'
+          prov_code: 'ion'
         )
         @unit_i_rom = @turn.units.create(
           type: Fleet.to_s,
           power: @power_i,
           phase: @table.phase,
-          province: 'rom'
+          prov_code: 'rom'
         )
         @unit_i_nap = @turn.units.create(
           type: Fleet.to_s,
           power: @power_i,
           phase: @table.phase,
-          province: 'nap'
+          prov_code: 'nap'
         )
         @table = @table.proceed
         @turn = @table.turns.find_by(number: @table.turn)
@@ -2395,37 +2395,37 @@ RSpec.describe ResoluteOrdersService, type: :service do
           type: Army.to_s,
           power: @power_f,
           phase: @table.phase,
-          province: 'tun'
+          prov_code: 'tun'
         )
         @unit_f_tys = @turn.units.create(
           type: Fleet.to_s,
           power: @power_f,
           phase: @table.phase,
-          province: 'tys'
+          prov_code: 'tys'
         )
         @unit_f_ion = @turn.units.create(
           type: Fleet.to_s,
           power: @power_f,
           phase: @table.phase,
-          province: 'ion'
+          prov_code: 'ion'
         )
         @unit_f_apu = @turn.units.create(
           type: Army.to_s,
           power: @power_f,
           phase: @table.phase,
-          province: 'apu'
+          prov_code: 'apu'
         )
         @unit_i_rom = @turn.units.create(
           type: Fleet.to_s,
           power: @power_i,
           phase: @table.phase,
-          province: 'rom'
+          prov_code: 'rom'
         )
         @unit_i_nap = @turn.units.create(
           type: Fleet.to_s,
           power: @power_i,
           phase: @table.phase,
-          province: 'nap'
+          prov_code: 'nap'
         )
         @table = @table.proceed
         @turn = @table.turns.find_by(number: @table.turn)

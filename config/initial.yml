@@ -6,79 +6,79 @@ defaults: &defaults
       genitive: Austrian
       jname: オーストリア
       units:
-      - province: vie
+      - prov_code: vie
         type: Army
-      - province: bud
+      - prov_code: bud
         type: Army
-      - province: tri
+      - prov_code: tri
         type: Fleet
     e:
       name: England
       genitive: English
       jname: イギリス
       units:
-      - province: lvp
+      - prov_code: lvp
         type: Army
-      - province: lon
+      - prov_code: lon
         type: Fleet
-      - province: edi
+      - prov_code: edi
         type: Fleet
     f:
       name: France
       genitive: French
       jname: フランス
       units:
-      - province: par
+      - prov_code: par
         type: Army
-      - province: mar
+      - prov_code: mar
         type: Army
-      - province: bre
+      - prov_code: bre
         type: Fleet
     g:
       name: Germany
       genitive: German
       jname: ドイツ
       units:
-      - province: ber
+      - prov_code: ber
         type: Army
-      - province: mun
+      - prov_code: mun
         type: Army
-      - province: kie
+      - prov_code: kie
         type: Fleet
     i:
       name: Italy
       genitive: Italian
       jname: イタリア
       units:
-      - province: rom
+      - prov_code: rom
         type: Army
-      - province: ven
+      - prov_code: ven
         type: Army
-      - province: nap
+      - prov_code: nap
         type: Fleet
     r:
       name: Russia
       genitive: Russian
       jname: ロシア
       units:
-      - province: mos
+      - prov_code: mos
         type: Army
-      - province: war
+      - prov_code: war
         type: Army
-      - province: stp_sc
+      - prov_code: stp_sc
         type: Fleet
-      - province: sev
+      - prov_code: sev
         type: Fleet
     t:
       name: Turky
       genitive: Turkish
       jname: トルコ
       units:
-      - province: con
+      - prov_code: con
         type: Army
-      - province: smy
+      - prov_code: smy
         type: Army
-      - province: ank
+      - prov_code: ank
         type: Fleet
     x:
       name: Master

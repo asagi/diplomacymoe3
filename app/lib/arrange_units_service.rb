@@ -52,7 +52,7 @@ class ArrangeUnitsService
       type: order.unit.type,
       power: order.unit.power,
       phase: @table.phase,
-      province: order.from
+      prov_code: order.from
     )
     unit.keepout = order.keepout
     unit.save!
@@ -63,7 +63,7 @@ class ArrangeUnitsService
       type: order.unit.type,
       power: order.unit.power,
       phase: @table.phase,
-      province: order.from
+      prov_code: order.from
     )
   end
 
@@ -72,7 +72,7 @@ class ArrangeUnitsService
       type: order.unit.type,
       power: order.unit.power,
       phase: @table.phase,
-      province: order.dest
+      prov_code: order.dest
     )
   end
 
@@ -81,7 +81,7 @@ class ArrangeUnitsService
       type: order.unit.type,
       power: order.unit.power,
       phase: @table.phase,
-      province: order.from
+      prov_code: order.from
     )
   end
 
@@ -117,7 +117,7 @@ class ArrangeUnitsService
       type: order.unit.type,
       power: order.unit.power,
       phase: @table.phase,
-      province: order.dest
+      prov_code: order.dest
     )
   end
 

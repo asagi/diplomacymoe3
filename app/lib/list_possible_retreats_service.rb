@@ -30,18 +30,18 @@ class ListPossibleRetreatsService
   end
 
   def gen_retreat_order_menu
-    MapUtil.adjacents[@unit.province].inject([]) do |result, (prov, data)|
-      next result unless retreatable?(prov[0, 3], data)
+    MapUtil.adjacents[@unit.prov_code].inject([]) do |result, (prov_code, data)|
+      next result unless retreatable?(prov_code[0, 3], data)
 
-      result << RetreatOrder.new(power: @power, unit: @unit, dest: prov)
+      result << RetreatOrder.new(power: @power, unit: @unit, dest: prov_code)
     end
   end
 
-  def retreatable?(prov, data)
+  def retreatable?(prov_code, data)
     return false unless data[@unit.type.downcase]
-    return false if @standoff.include?(prov)
-    return false if @occupied_areas.include?(prov)
-    return false if prov == @unit.keepout
+    return false if @standoff.include?(prov_code)
+    return false if @occupied_areas.include?(prov_code)
+    return false if prov_code == @unit.keepout
 
     true
   end

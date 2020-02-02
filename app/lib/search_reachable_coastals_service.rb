@@ -16,47 +16,46 @@ class SearchReachableCoastalsService
     return [] if @fleets.empty?
 
     waters = reachable_waters(
-      province: @unit.province,
-      fleets: @fleets.map(&:province)
+      prov_code: @unit.prov_code,
+      fleets: @fleets.map(&:prov_code)
     )
     # @unit が海上にいる（＝海軍）なら所在地を経路に追加
-    waters << @unit.province if MapUtil.water?(@unit.province)
+    waters << @unit.prov_code if MapUtil.water?(@unit.prov_code)
 
     coastals = reachable_coastals(
-      province: @unit.province,
+      prov_code: @unit.prov_code,
       waters: waters
     )
-
     coastals.map { |c| c[0, 3] }.uniq
   end
 
-  def reachable_waters(province:, fleets:, waters: [])
-    MapUtil.adjacents[province].each_key do |prov|
-      next if waters.include?(prov)
-      next unless fleets.include?(prov)
-      next unless MapUtil.water?(prov)
+  def reachable_waters(prov_code:, fleets:, waters: [])
+    MapUtil.adjacents[prov_code].each_key do |code|
+      next if waters.include?(code)
+      next unless fleets.include?(code)
+      next unless MapUtil.water?(code)
 
       waters = reachable_waters(
-        province: prov,
+        prov_code: code,
         fleets: fleets,
-        waters: waters.push(prov)
+        waters: waters.push(code)
       )
     end
     waters
   end
 
-  def reachable_coastals(province:, waters:)
+  def reachable_coastals(prov_code:, waters:)
     coastals = []
     waters.each do |water|
-      MapUtil.adjacents[water].each_key do |prov|
-        next if prov[0, 3] == province
-        next unless MapUtil.coastal?(prov)
+      MapUtil.adjacents[water].each_key do |code|
+        next if code[0, 3] == prov_code
+        next unless MapUtil.coastal?(code)
 
-        coastals << prov
+        coastals << code
       end
     end
     # 陸路で移動可能な海岸は除外
-    coastals -= MapUtil.adjacents[province]
+    coastals -= MapUtil.adjacents[prov_code]
                        .select { |_k, v| v['army'] }.keys
   end
 end

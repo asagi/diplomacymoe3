@@ -43,13 +43,13 @@ class Order < ApplicationRecord
     keys = []
     keys << power.symbol
     keys << unit_kind.downcase
-    keys << unit.province
+    keys << unit.prov_code
     keys << dest if dest
     keys.join('-')
   end
 
   def from
-    unit.province
+    unit.prov_code
   end
 
   def assumed?

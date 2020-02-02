@@ -24,6 +24,6 @@ class Unit < ApplicationRecord
   end
 
   def prov_key
-    province[0, 3]
+    prov_code[0, 3]
   end
 end

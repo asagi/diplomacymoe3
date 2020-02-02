@@ -3,7 +3,7 @@
 class UnitSerializer < ActiveModel::Serializer
   attribute :id
   attribute :kind
-  attribute :province
+  attribute :prov_code
   attribute :keepout
   attribute :owner
 

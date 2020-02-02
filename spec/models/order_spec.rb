@@ -18,7 +18,7 @@ RSpec.describe Order, type: :model do
           type: Army.to_s,
           power: @power_g,
           phase: @table.phase,
-          province: 'ber'
+          prov_code: 'ber'
         )
         @table = @table.proceed
         @turn = @table.turns.find_by(number: @table.turn)
@@ -38,7 +38,7 @@ RSpec.describe Order, type: :model do
           type: Army.to_s,
           power: @power_r,
           phase: @table.phase,
-          province: 'war'
+          prov_code: 'war'
         )
         @table = @table.proceed
         @turn = @table.turns.find_by(number: @table.turn)
@@ -64,13 +64,13 @@ RSpec.describe Order, type: :model do
           type: Army.to_s,
           power: @power_f,
           phase: @table.phase,
-          province: 'mar'
+          prov_code: 'mar'
         )
         @unit_f_gas = @turn.units.create(
           type: Army.to_s,
           power: @power_f,
           phase: @table.phase,
-          province: 'gas'
+          prov_code: 'gas'
         )
         @table = @table.proceed
         @turn = @table.turns.find_by(number: @table.turn)
@@ -104,19 +104,19 @@ RSpec.describe Order, type: :model do
           type: Fleet.to_s,
           power: @power_f,
           phase: @table.phase,
-          province: 'spa_nc'
+          prov_code: 'spa_nc'
         )
         @unit_f_bul = @turn.units.create(
           type: Fleet.to_s,
           power: @power_f,
           phase: @table.phase,
-          province: 'bul_ec'
+          prov_code: 'bul_ec'
         )
         @unit_f_con = @turn.units.create(
           type: Fleet.to_s,
           power: @power_f,
           phase: @table.phase,
-          province: 'con'
+          prov_code: 'con'
         )
         @table = @table.proceed
         @turn = @table.turns.find_by(number: @table.turn)

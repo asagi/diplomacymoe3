@@ -7,9 +7,9 @@ class DisbandOrder < Order
 
   def to_s
     format(
-      'Disband %<kind>s %<prov>s',
+      'Disband %<kind>s %<prov_code>s',
       kind: unit_kind,
-      prov: unit.province
+      prov_code: unit.prov_code
     ).gsub(/_(..)/, '(\1)')
   end
 end

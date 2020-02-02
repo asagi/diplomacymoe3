@@ -80,7 +80,7 @@ RSpec.describe ProceedPhaseService, type: :service do
         @table.period = '2019-05-12 07:00'
         # 仮想命令登録
         power_a = @table.powers.find_by(symbol: 'a')
-        unit_e_lon = @table.last_phase_units.find_by(province: 'lon')
+        unit_e_lon = @table.last_phase_units.find_by(prov_code: 'lon')
         @table.current_turn.orders << MoveOrder.new(
           power: power_a,
           unit: unit_e_lon,
@@ -154,7 +154,7 @@ RSpec.describe ProceedPhaseService, type: :service do
         # F lon が敗退したことにする
         power_e = @table.powers.find_by(symbol: Power::E)
         turn = @table.current_turn
-        unit_e = @table.last_phase_units.find_by(province: 'lon')
+        unit_e = @table.last_phase_units.find_by(prov_code: 'lon')
         order = ListPossibleOrdersService.call(
           turn: turn,
           power: power_e,
@@ -259,7 +259,7 @@ RSpec.describe ProceedPhaseService, type: :service do
         @table.current_turn.units.create(
           type: Fleet.to_s,
           power: power_e,
-          province: 'tun',
+          prov_code: 'tun',
           phase: @table.phase
         )
         # 更新期限調整
@@ -307,14 +307,14 @@ RSpec.describe ProceedPhaseService, type: :service do
         @table.current_turn.units.create(
           type: Fleet.to_s,
           power: power_e,
-          province: 'tun',
+          prov_code: 'tun',
           phase: @table.phase
         )
         # lon からユニット除去
         @table.current_turn
               .units
               .where(phase: @table.phase)
-              .find_by(province: 'lon')
+              .find_by(prov_code: 'lon')
               .delete
 
         # 更新期限調整

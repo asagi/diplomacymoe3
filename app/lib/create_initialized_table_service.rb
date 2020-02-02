@@ -46,23 +46,23 @@ class CreateInitializedTableService
   def setup_initial_turn(table)
     # 開幕ターン
     turn = table.turns.build
-    setup_initial_provbinces(turn)
+    setup_initial_provinces(turn)
     setup_inital_each_power_units(turn)
     table.save!
     table
   end
 
-  def setup_initial_provbinces(turn)
-    MapUtil.provinces.each do |code, province|
-      next unless province['owner']
+  def setup_initial_provinces(turn)
+    MapUtil.provinces.each do |code, prov|
+      next unless prov['owner']
 
       turn.provinces.build(
         code: code[0, 3],
-        type: province['type'],
-        name: province['name'],
-        jname: province['jname'],
-        supplycenter: province['supplycenter'] || false,
-        power: province['owner']
+        type: prov['type'],
+        name: prov['name'],
+        jname: prov['jname'],
+        supplycenter: prov['supplycenter'] || false,
+        power: prov['owner']
       )
     end
   end
@@ -75,7 +75,7 @@ class CreateInitializedTableService
       data['units'].each do |unit|
         turn.units.build(
           power: power,
-          province: unit['province'],
+          prov_code: unit['prov_code'],
           type: unit['type'],
           phase: turn.table.phase
         )

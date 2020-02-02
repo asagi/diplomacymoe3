@@ -14,7 +14,7 @@ RSpec.describe ResoluteRetreatsService, type: :service do
           type: Army.to_s,
           power: @power_g,
           phase: @table.phase,
-          province: 'bur',
+          prov_code: 'bur',
           keepout: 'mar'
         )
         @table = @table.proceed
@@ -50,7 +50,7 @@ RSpec.describe ResoluteRetreatsService, type: :service do
           type: Army.to_s,
           power: @power_g,
           phase: @table.phase,
-          province: 'bur',
+          prov_code: 'bur',
           keepout: 'mar'
         )
         @table = @table.proceed
@@ -87,14 +87,14 @@ RSpec.describe ResoluteRetreatsService, type: :service do
           type: Army.to_s,
           power: @power_f,
           phase: @table.phase,
-          province: 'gas',
+          prov_code: 'gas',
           keepout: 'bre'
         )
         @unit_g = @turn.units.create(
           type: Army.to_s,
           power: @power_g,
           phase: @table.phase,
-          province: 'bur',
+          prov_code: 'bur',
           keepout: 'mar'
         )
         @table = @table.proceed

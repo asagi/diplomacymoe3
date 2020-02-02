@@ -189,8 +189,8 @@ class ProceedPhaseService
   def duplicate_last_occupied_provinces
     turn = @table.current_turn
     last_turn = @table.turns.find_by(number: @table.turn - 1)
-    last_turn.provinces.each do |province|
-      turn.provinces << province.dup
+    last_turn.provinces.each do |prov|
+      turn.provinces << prov.dup
     end
   end
 
@@ -253,8 +253,8 @@ class ProceedPhaseService
     homes = MapUtil.provinces.select do |_p, v|
       v['supplycenter'] && v['owner'] == power.symbol
     end .keys
-    homes.each do |province|
-      next unless units.select { |u| u.prov_key == province }.empty?
+    homes.each do |prov_code|
+      next unless units.select { |u| u.prov_key == prov_code }.empty?
 
       return true
     end
@@ -291,9 +291,9 @@ class ProceedPhaseService
 
     to_lose = false
     (unit_locations.size - supply_centers.size).downto(0) do
-      break unless (province = unit_locations.pop)
+      break unless (prov_code = unit_locations.pop)
 
-      unit = @table.last_phase_units.select { |u| u.prov_key == province }.first
+      unit = @table.last_phase_units.select { |u| u.prov_key == prov_code }.first
       turn.orders << DisbandOrder.new(power: power, unit: unit)
       to_lose = true
     end

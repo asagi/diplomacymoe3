@@ -95,7 +95,7 @@ class ResoluteOrdersService
 
     # 支援対象の攻撃目標にはカットされない
     support_target = @orders.detect { |o| o.to_key == support.target }
-    enemies.reject { |enemy| support_target.dest == enemy.unit.province }
+    enemies.reject { |enemy| support_target.dest == enemy.unit.prov_code }
   end
 
   def resolute_cutting_support_orders_multiple_attack
@@ -123,7 +123,7 @@ class ResoluteOrdersService
   def resolute_cutting_support_orders_attacked_by_directly
     unsloved_support_orders.each do |s|
       next unless (enemy = effected_support_cutter(s).first)
-      next unless MapUtil.adjacents[s.unit.province][enemy.unit.province]
+      next unless MapUtil.adjacents[s.unit.prov_code][enemy.unit.prov_code]
 
       s.cut
       next
@@ -237,7 +237,7 @@ class ResoluteOrdersService
 
   def apply_convoy_orders_reject_impossible
     unsloved_move_orders_to_armies_on_coastal.each do |m|
-      dest = (MapUtil.adjacents[m.unit.province][m.dest])
+      dest = (MapUtil.adjacents[m.unit.prov_code][m.dest])
       # 陸路で移動可能
       next if dest && dest[m.unit.type.downcase]
       # 他の海路が生きている
@@ -280,7 +280,7 @@ class ResoluteOrdersService
 
   # 輸送妨害の優先解決
   def resolute_disturb_convoy_orders
-    @orders.select(&:convoy?).map { |c| c.unit.province }.each do |dest|
+    @orders.select(&:convoy?).map { |c| c.unit.prov_code }.each do |dest|
       resolute_move_orders_core(dest: dest)
     end
 
@@ -305,7 +305,7 @@ class ResoluteOrdersService
 
   # 支援妨害の優先解決
   def resolute_disturb_support_orders
-    dests = @orders.select(&:support?).map { |s| s.unit.province }
+    dests = @orders.select(&:support?).map { |s| s.unit.prov_code }
     return if dests.empty?
 
     dests.each do |dest|
@@ -381,7 +381,7 @@ class ResoluteOrdersService
       next if winner && m == winner
 
       m.fail
-      against = rewind_move_order_to(province: m.unit.province)
+      against = rewind_move_order_to(prov_code: m.unit.prov_code)
       m.dislodge(against: against) if against
     end
     @standoff << dest unless winner
@@ -404,7 +404,7 @@ class ResoluteOrdersService
       s.reject
     end
 
-    against = rewind_move_order_to(province: move.unit.province)
+    against = rewind_move_order_to(prov_code: move.unit.prov_code)
     move.dislodge(against: against) if against
   end
 
@@ -437,8 +437,8 @@ class ResoluteOrdersService
     coastals.include?(move.dest)
   end
 
-  def rewind_move_order_to(province:)
-    against_move = @orders.detect { |o| o.dest == province && o.succeeded? }
+  def rewind_move_order_to(prov_code:)
+    against_move = @orders.detect { |o| o.dest == prov_code && o.succeeded? }
     return nil unless against_move
 
     if against_move&.supports&.positive?
@@ -456,7 +456,7 @@ class ResoluteOrdersService
   end
 
   def hold_orders_on(dest)
-    hold_orders.detect { |h| h.unit.province == dest }
+    hold_orders.detect { |h| h.unit.prov_code == dest }
   end
 
   def unsloved_move_orders
@@ -469,19 +469,19 @@ class ResoluteOrdersService
 
   def unsloved_move_orders_against(move)
     unsloved_move_orders
-      .select { |m| m.dest == move.unit.province }
-      .detect { |m| m.unit.province == move.dest }
+      .select { |m| m.dest == move.unit.prov_code }
+      .detect { |m| m.unit.prov_code == move.dest }
   end
 
   def unsloved_move_orders_to_armies_on_coastal
     unsloved_move_orders
       .select { |m| m.unit.army? }
-      .select { |m| MapUtil.coastal?(m.unit.province) }
+      .select { |m| MapUtil.coastal?(m.unit.prov_code) }
   end
 
   def unsloved_move_orders_support_cutter(support)
     unsloved_move_orders
-      .select { |m| support.unit.province == m.dest }
+      .select { |m| support.unit.prov_code == m.dest }
       .reject { |m| m.power == support.power }
   end
 
@@ -507,7 +507,7 @@ class ResoluteOrdersService
 
   def attack_target_by(support_target)
     @orders.detect do |o|
-      o.unit.province == support_target.dest
+      o.unit.prov_code == support_target.dest
     end
   end
 end

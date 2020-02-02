@@ -7,9 +7,9 @@ class MoveOrder < Order
 
   def to_s
     format(
-      '%<kind>s %<prov>s-%<dest>s',
+      '%<kind>s %<prov_code>s-%<dest>s',
       kind: unit_kind,
-      prov: unit.province,
+      prov_code: unit.prov_code,
       dest: dest
     ).gsub(/_(..)/, '(\1)')
   end
