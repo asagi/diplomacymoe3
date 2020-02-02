@@ -293,7 +293,7 @@ class ProceedPhaseService
     (unit_locations.size - supply_centers.size).downto(0) do
       break unless (prov_code = unit_locations.pop)
 
-      unit = @table.last_phase_units.select { |u| u.prov_key == prov_code }.first
+      unit = @table.last_phase_units.detect { |u| u.prov_key == prov_code }
       turn.orders << DisbandOrder.new(power: power, unit: unit)
       to_lose = true
     end
