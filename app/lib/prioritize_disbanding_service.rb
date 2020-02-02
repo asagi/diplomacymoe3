@@ -26,7 +26,7 @@ class PrioritizeDisbandingService
       [
         MapUtil.distance(start: sc, to: unit.prov_code),
         unit.type,
-        MapUtil.provinces[unit.prov_code]['name'],
+        MapUtil.prov_list[unit.prov_code]['name'],
         unit.prov_code
       ]
     end

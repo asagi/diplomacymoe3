@@ -53,16 +53,16 @@ class CreateInitializedTableService
   end
 
   def setup_initial_provinces(turn)
-    MapUtil.provinces.each do |code, prov|
-      next unless prov['owner']
+    MapUtil.prov_list.each do |code, data|
+      next unless data['owner']
 
       turn.provinces.build(
         code: code[0, 3],
-        type: prov['type'],
-        name: prov['name'],
-        jname: prov['jname'],
-        supplycenter: prov['supplycenter'] || false,
-        power: prov['owner']
+        type: data['type'],
+        name: data['name'],
+        jname: data['jname'],
+        supplycenter: data['supplycenter'] || false,
+        power: data['owner']
       )
     end
   end

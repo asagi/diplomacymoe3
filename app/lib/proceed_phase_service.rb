@@ -198,7 +198,7 @@ class ProceedPhaseService
     turn = @table.current_turn
     turn.units.where(phase: @table.phase).each do |unit|
       province = turn.provinces.find_by(code: unit.prov_key)
-      province ||= turn.provinces.build(MapUtil.provinces[unit.prov_key])
+      province ||= turn.provinces.build(MapUtil.prov_list[unit.prov_key])
       province.occupied_by!(unit)
     end
   end
@@ -250,7 +250,7 @@ class ProceedPhaseService
   def less_units_and_sc_not_full?(power, supply_centers, units)
     return false unless supply_centers.size > units.size
 
-    homes = MapUtil.provinces.select do |_p, v|
+    homes = MapUtil.prov_list.select do |_p, v|
       v['supplycenter'] && v['owner'] == power.symbol
     end .keys
     homes.each do |prov_code|
