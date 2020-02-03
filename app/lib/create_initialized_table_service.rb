@@ -8,7 +8,7 @@ class CreateInitializedTableService
 
   def initialize(owner:, regulation:)
     @owner = owner[:user]
-    @owner_desired_power = owner['desired_power']
+    @owner_desired_power = owner[:desired_power]
     @regulation = regulation
   end
 
