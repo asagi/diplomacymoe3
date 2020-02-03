@@ -480,7 +480,7 @@ defaults: &defaults
      jname: ヨークシャー
      owner: e
 
-  adjacent_provs:
+  adjacencies:
     adr:
       apu:
         army: false

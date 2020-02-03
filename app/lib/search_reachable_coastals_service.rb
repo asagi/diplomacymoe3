@@ -30,7 +30,7 @@ class SearchReachableCoastalsService
   end
 
   def reachable_waters(prov_code:, fleets:, waters: [])
-    MapUtil.adjacent_provs[prov_code].each_key do |code|
+    MapUtil.adjacencies[prov_code].each_key do |code|
       next if waters.include?(code)
       next unless fleets.include?(code)
       next unless MapUtil.water?(code)
@@ -47,7 +47,7 @@ class SearchReachableCoastalsService
   def reachable_coastals(prov_code:, waters:)
     coastals = []
     waters.each do |water|
-      MapUtil.adjacent_provs[water].each_key do |code|
+      MapUtil.adjacencies[water].each_key do |code|
         next if code[0, 3] == prov_code
         next unless MapUtil.coastal?(code)
 
@@ -55,7 +55,7 @@ class SearchReachableCoastalsService
       end
     end
     # 陸路で移動可能な海岸は除外
-    coastals -= MapUtil.adjacent_provs[prov_code]
+    coastals -= MapUtil.adjacencies[prov_code]
                        .select { |_k, v| v['army'] }.keys
   end
 end

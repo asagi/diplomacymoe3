@@ -30,7 +30,7 @@ class ListPossibleRetreatsService
   end
 
   def gen_retreat_order_menu
-    MapUtil.adjacent_provs[@unit.prov_code].inject([]) do |result, (code, data)|
+    MapUtil.adjacencies[@unit.prov_code].inject([]) do |result, (code, data)|
       next result unless retreatable?(code[0, 3], data)
 
       result << RetreatOrder.new(power: @power, unit: @unit, dest: code)

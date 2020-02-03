@@ -123,7 +123,7 @@ class ResoluteOrdersService
   def resolute_cutting_support_orders_attacked_by_directly
     unsloved_support_orders.each do |s|
       next unless (enemy = effected_support_cutter(s).first)
-      next unless MapUtil.adjacent_provs[s.unit.prov_code][enemy.unit.prov_code]
+      next unless MapUtil.adjacencies[s.unit.prov_code][enemy.unit.prov_code]
 
       s.cut
       next
@@ -237,7 +237,7 @@ class ResoluteOrdersService
 
   def apply_convoy_orders_reject_impossible
     unsloved_move_orders_to_armies_on_coastal.each do |m|
-      dest = (MapUtil.adjacent_provs[m.unit.prov_code][m.dest])
+      dest = (MapUtil.adjacencies[m.unit.prov_code][m.dest])
       # 陸路で移動可能
       next if dest && dest[m.unit.type.downcase]
       # 他の海路が生きている

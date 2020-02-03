@@ -35,7 +35,7 @@ class ListPossibleOrdersService
 
   def gen_move_order_menu
     result = []
-    MapUtil.adjacent_provs[@unit.prov_code].each do |code, data|
+    MapUtil.adjacencies[@unit.prov_code].each do |code, data|
       next unless data[@unit.type.downcase]
 
       result << MoveOrder.new(power: @power, unit: @unit, dest: code)

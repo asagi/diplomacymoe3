@@ -31,19 +31,19 @@ class MapUtil < Settingslogic
   end
 
   def self.update_shortest_distance_from_start(current:, distances:)
-    adjacent_provs[current].each do |prov_code, _data|
+    adjacencies[current].each do |prov_code, _data|
       distances[prov_code] ||= max_provinces
       distances[prov_code] = [distances[prov_code], distances[current] + 1].min
     end
     distances
   end
 
-  def self.farther_adjacents_from_start(current:, distances:)
+  def self.farther_adjacencies_of_start(current:, distances:)
     distances = update_shortest_distance_from_start(
       current: current,
       distances: distances
     )
-    adjacent_provs[current]
+    adjacencies[current]
       .select { |prov_code, _data| distances[prov_code] > distances[current] }
       .map { |prov_code, _data| prov_code }
   end
@@ -51,11 +51,11 @@ class MapUtil < Settingslogic
   def self.calc_distance(current:, to:, distances:, depth: 0)
     return if (distances[to] || max_provinces) < depth
 
-    farther_adjacents_by_current = farther_adjacents_from_start(
+    farther_adjacencies_of_current = farther_adjacencies_of_start(
       current: current,
       distances: distances
     )
-    farther_adjacents_by_current.each do |prov_code|
+    farther_adjacencies_of_current.each do |prov_code|
       calc_distance(
         current: prov_code,
         to: to,
