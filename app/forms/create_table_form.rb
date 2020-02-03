@@ -68,7 +68,7 @@ class CreateTableForm
       desired_power: @desired_power
     }
     regulation_params = {
-      face_type: @facetype,
+      face_type: @face_type,
       period_rule: @period_rule,
       duration: @duration,
       juggling: @juggling,
