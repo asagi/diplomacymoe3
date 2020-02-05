@@ -46,7 +46,7 @@ class ApplicationController < ActionController::API
   end
 
   def render_error(error, status)
-    render json: { errors: JSON.parse(error.message) }, status: status
+    render json: { errors: error.message }, status: status
   end
 
   protected
