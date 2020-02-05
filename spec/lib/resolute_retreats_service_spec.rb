@@ -6,10 +6,10 @@ RSpec.describe ResoluteRetreatsService, type: :service do
   describe '#call' do
     context '解隊' do
       before :example do
-        @table = Table.create(turn: 1, phase: Table::Phase::SPR_1ST)
+        @table = Table.create(turn_number: 1, phase: Table::Phase::SPR_1ST)
         override_proceed(table: @table)
         @power_g = @table.powers.create(symbol: Power::G)
-        @turn = @table.turns.create(number: @table.turn)
+        @turn = @table.turns.create(number: @table.turn_number)
         @unit = @turn.units.create(
           type: Army.to_s,
           power: @power_g,
@@ -18,7 +18,7 @@ RSpec.describe ResoluteRetreatsService, type: :service do
           keepout: 'mar'
         )
         @table = @table.proceed
-        @turn = @table.turns.find_by(number: @table.turn)
+        @turn = @table.turns.find_by(number: @table.turn_number)
         @standoff = []
         @turn.orders << ListPossibleRetreatsService.call(
           power: @power_g,
@@ -41,10 +41,10 @@ RSpec.describe ResoluteRetreatsService, type: :service do
 
     context '撤退成功' do
       before :example do
-        @table = Table.create(turn: 1, phase: Table::Phase::SPR_1ST)
+        @table = Table.create(turn_number: 1, phase: Table::Phase::SPR_1ST)
         override_proceed(table: @table)
         @power_g = @table.powers.create(symbol: Power::G)
-        @turn = @table.turns.create(number: @table.turn)
+        @turn = @table.turns.create(number: @table.turn_number)
         @unit = @turn.units.create(
           type: Army.to_s,
           power: @power_g,
@@ -53,7 +53,7 @@ RSpec.describe ResoluteRetreatsService, type: :service do
           keepout: 'mar'
         )
         @table = @table.proceed
-        @turn = @table.turns.find_by(number: @table.turn)
+        @turn = @table.turns.find_by(number: @table.turn_number)
         @standoff = []
         @turn.orders << ListPossibleRetreatsService.call(
           power: @power_g,
@@ -76,11 +76,11 @@ RSpec.describe ResoluteRetreatsService, type: :service do
 
     context '撤退の競合' do
       before :example do
-        @table = Table.create(turn: 1, phase: Table::Phase::SPR_1ST)
+        @table = Table.create(turn_number: 1, phase: Table::Phase::SPR_1ST)
         override_proceed(table: @table)
         @power_f = @table.powers.create(symbol: Power::F)
         @power_g = @table.powers.create(symbol: Power::G)
-        @turn = @table.turns.create(number: @table.turn)
+        @turn = @table.turns.create(number: @table.turn_number)
         @unit_f = @turn.units.create(
           type: Army.to_s,
           power: @power_f,
@@ -96,7 +96,7 @@ RSpec.describe ResoluteRetreatsService, type: :service do
           keepout: 'mar'
         )
         @table = @table.proceed
-        @turn = @table.turns.find_by(number: @table.turn)
+        @turn = @table.turns.find_by(number: @table.turn_number)
         @standoff = []
         @turn.orders << ListPossibleRetreatsService.call(
           power: @power_f,

@@ -14,13 +14,13 @@ class ProceedPhaseService
     return @table if @table.status_closed?
 
     # ロック前状態取得
-    turn = @table.turn
+    turn_number = @table.turn_number
     phase = @table.phase
 
     # 卓をロック
     @table.with_lock do
       # ロック取得前にフェイズが変化していたら終了
-      raise ActiveRecord::Rollback unless @table.turn == turn
+      raise ActiveRecord::Rollback unless @table.turn_number == turn_number
       raise ActiveRecord::Rollback unless @table.phase == phase
 
       proceed_phase
@@ -187,7 +187,7 @@ class ProceedPhaseService
 
   def duplicate_last_occupied_provinces
     turn = @table.current_turn
-    last_turn = @table.turns.find_by(number: @table.turn - 1)
+    last_turn = @table.turns.find_by(number: @table.turn_number - 1)
     last_turn.provinces.each do |prov|
       turn.provinces << prov.dup
     end

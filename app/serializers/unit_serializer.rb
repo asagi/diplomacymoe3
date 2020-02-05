@@ -7,10 +7,6 @@ class UnitSerializer < ActiveModel::Serializer
   attribute :keepout
   attribute :owner
 
-  def turn
-    object.turn.number
-  end
-
   def phase
     object.turn.number.positive? ? object.phase : nil
   end

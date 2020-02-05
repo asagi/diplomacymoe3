@@ -76,8 +76,8 @@ class Table < ApplicationRecord
   end
 
   def initialize(options = {})
-    options ||= { turn: 0, phase: 0 }
-    options[:turn] ||= 0
+    options ||= { turn_number: 0, phase: 0 }
+    options[:turn_number] ||= 0
     options[:phase] ||= 0
     super
   end
@@ -122,22 +122,22 @@ class Table < ApplicationRecord
     object = phase_spr_1st? ? last_turn : current_turn
     return [] if object.nil?
 
-    object.units.where(phase: (turn.zero? ? phase : LAST_PHASE[phase]))
+    object.units.where(phase: (turn_number.zero? ? phase : LAST_PHASE[phase]))
   end
 
   def last_turn_occupides
-    object = turn.positive? ? last_turn : current_turn
+    object = turn_number.positive? ? last_turn : current_turn
     return [] if object.nil?
 
     object.territories
   end
 
   def current_turn
-    turns.find_by(number: turn)
+    turns.find_by(number: turn_number)
   end
 
   def last_turn
-    turns.find_by(number: turn - 1)
+    turns.find_by(number: turn_number - 1)
   end
 
   def proceed
@@ -148,9 +148,9 @@ class Table < ApplicationRecord
   end
 
   def proceed_turn
-    turn = turns.find_by(number: self.turn).next
-    turns << turn
-    self.turn = turn.number
+    turns << turns.find_by(number: turn_number).next
+    self.turn_number = turns.last.number
+    tap(&:save!)
   end
 
   def discard
@@ -184,10 +184,9 @@ class Table < ApplicationRecord
   end
 
   def order_targets
-    return Unit.none if turn == Const.turns.initial
+    return Unit.none if turn_number == Const.turns.initial
 
-    number = phase_spr_1st? ? turn - 1 : turn
-    turn = turns.find_by(number: number)
-    turn.units
+    number = phase_spr_1st? ? turn_number - 1 : turn_number
+    turns.find_by(number: number).units
   end
 end

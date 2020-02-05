@@ -7,9 +7,9 @@ RSpec.describe ArrangeUnitsService, type: :service do
     context '外交フェイズ' do
       context '維持' do
         before :example do
-          @table = Table.create(turn: 0, phase: Table::Phase::FAL_3RD)
+          @table = Table.create(turn_number: 0, phase: Table::Phase::FAL_3RD)
           @power_g = @table.powers.create(symbol: Power::G)
-          @turn = @table.turns.create(number: @table.turn)
+          @turn = @table.turns.create(number: @table.turn_number)
           @unit = @turn.units.create(
             type: Army.to_s,
             power: @power_g,
@@ -39,9 +39,9 @@ RSpec.describe ArrangeUnitsService, type: :service do
 
       context '移動' do
         before :example do
-          @table = Table.create(turn: 0, phase: Table::Phase::FAL_3RD)
+          @table = Table.create(turn_number: 0, phase: Table::Phase::FAL_3RD)
           @power_g = @table.powers.create(symbol: Power::G)
-          @turn = @table.turns.create(number: @table.turn)
+          @turn = @table.turns.create(number: @table.turn_number)
           @unit = @turn.units.create(
             type: Army.to_s,
             power: @power_g,
@@ -80,9 +80,9 @@ RSpec.describe ArrangeUnitsService, type: :service do
 
       context '支援' do
         before :example do
-          @table = Table.create(turn: 0, phase: Table::Phase::FAL_3RD)
+          @table = Table.create(turn_number: 0, phase: Table::Phase::FAL_3RD)
           @power_g = @table.powers.create(symbol: Power::G)
-          @turn = @table.turns.create(number: @table.turn)
+          @turn = @table.turns.create(number: @table.turn_number)
           @unit_g_bur = @turn.units.create(
             type: Army.to_s,
             power: @power_g,
@@ -128,9 +128,9 @@ RSpec.describe ArrangeUnitsService, type: :service do
 
       context '輸送' do
         before :example do
-          @table = Table.create(turn: 0, phase: Table::Phase::FAL_3RD)
+          @table = Table.create(turn_number: 0, phase: Table::Phase::FAL_3RD)
           @power_e = @table.powers.create(symbol: Power::E)
-          @turn = @table.turns.create(number: @table.turn)
+          @turn = @table.turns.create(number: @table.turn_number)
           @unit_e_lon = @turn.units.create(
             type: Army.to_s,
             power: @power_e,
@@ -187,9 +187,9 @@ RSpec.describe ArrangeUnitsService, type: :service do
     context '撤退フェイズ' do
       context '撤退' do
         before :example do
-          @table = Table.create(turn: 1, phase: Table::Phase::SPR_1ST)
+          @table = Table.create(turn_number: 1, phase: Table::Phase::SPR_1ST)
           @power_g = @table.powers.create(symbol: Power::G)
-          @turn = @table.turns.create(number: @table.turn)
+          @turn = @table.turns.create(number: @table.turn_number)
           @unit = @turn.units.create(
             type: Army.to_s,
             power: @power_g,

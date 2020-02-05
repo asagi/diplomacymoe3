@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_02_02_120244) do
+ActiveRecord::Schema.define(version: 2020_02_05_084932) do
 
   create_table "orders", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.bigint "turn_id"
@@ -82,7 +82,7 @@ ActiveRecord::Schema.define(version: 2020_02_02_120244) do
   create_table "tables", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "turn"
+    t.integer "turn_number"
     t.integer "phase"
     t.bigint "regulation_id"
     t.datetime "period"

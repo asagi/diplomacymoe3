@@ -6,11 +6,11 @@ RSpec.describe Order, type: :model do
   describe '#to_key' do
     context 'Diagram 5:' do
       before :example do
-        @table = Table.create(turn: 0, phase: Table::Phase::FAL_3RD)
+        @table = Table.create(turn_number: 0, phase: Table::Phase::FAL_3RD)
         override_proceed(table: @table)
         @power_g = @table.powers.create(symbol: Power::G)
         @power_r = @table.powers.create(symbol: Power::R)
-        @turn = @table.turns.create(number: @table.turn)
+        @turn = @table.turns.create(number: @table.turn_number)
       end
 
       example 'ドイツの ber 陸軍への sil への移動命令' do
@@ -21,7 +21,7 @@ RSpec.describe Order, type: :model do
           prov_code: 'ber'
         )
         @table = @table.proceed
-        @turn = @table.turns.find_by(number: @table.turn)
+        @turn = @table.turns.find_by(number: @table.turn_number)
         @turn.orders << ListPossibleOrdersService.call(
           turn: @turn,
           power: @power_g,
@@ -41,7 +41,7 @@ RSpec.describe Order, type: :model do
           prov_code: 'war'
         )
         @table = @table.proceed
-        @turn = @table.turns.find_by(number: @table.turn)
+        @turn = @table.turns.find_by(number: @table.turn_number)
         @turn.orders << ListPossibleOrdersService.call(
           turn: @turn,
           power: @power_r,
@@ -56,10 +56,10 @@ RSpec.describe Order, type: :model do
 
     context 'Diagram 8:' do
       before :example do
-        @table = Table.create(turn: 0, phase: Table::Phase::FAL_3RD)
+        @table = Table.create(turn_number: 0, phase: Table::Phase::FAL_3RD)
         override_proceed(table: @table)
         @power_f = @table.powers.create(symbol: Power::F)
-        @turn = @table.turns.create(number: @table.turn)
+        @turn = @table.turns.create(number: @table.turn_number)
         @unit_f_mar = @turn.units.create(
           type: Army.to_s,
           power: @power_f,
@@ -73,7 +73,7 @@ RSpec.describe Order, type: :model do
           prov_code: 'gas'
         )
         @table = @table.proceed
-        @turn = @table.turns.find_by(number: @table.turn)
+        @turn = @table.turns.find_by(number: @table.turn_number)
         @turn.orders << ListPossibleOrdersService.call(
           turn: @turn,
           power: @power_f,
@@ -96,10 +96,10 @@ RSpec.describe Order, type: :model do
 
     context 'その他:' do
       before :example do
-        @table = Table.create(turn: 0, phase: Table::Phase::FAL_3RD)
+        @table = Table.create(turn_number: 0, phase: Table::Phase::FAL_3RD)
         override_proceed(table: @table)
         @power_f = @table.powers.create(symbol: Power::F)
-        @turn = @table.turns.create(number: @table.turn)
+        @turn = @table.turns.create(number: @table.turn_number)
         @unit_f_spa = @turn.units.create(
           type: Fleet.to_s,
           power: @power_f,
@@ -119,7 +119,7 @@ RSpec.describe Order, type: :model do
           prov_code: 'con'
         )
         @table = @table.proceed
-        @turn = @table.turns.find_by(number: @table.turn)
+        @turn = @table.turns.find_by(number: @table.turn_number)
         @turn.orders << ListPossibleOrdersService.call(
           turn: @turn,
           power: @power_f,

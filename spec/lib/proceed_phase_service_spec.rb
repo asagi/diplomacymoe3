@@ -61,7 +61,7 @@ RSpec.describe ProceedPhaseService, type: :service do
 
       example '更新後の卓のターンが 1 年目の春外交フェイズであること' do
         travel_to('2019-05-12 07:00') do
-          expect(table.turn).to eq 1
+          expect(table.turn_number).to eq 1
           expect(table.phase_spr_1st?).to be true
         end
       end
@@ -102,7 +102,7 @@ RSpec.describe ProceedPhaseService, type: :service do
 
       example '卓のターンが 1 年目の秋外交フェイズであること' do
         travel_to('2019-05-12 07:00') do
-          expect(table.turn).to eq 1
+          expect(table.turn_number).to eq 1
           expect(table.phase_fal_1st?).to be true
         end
       end
@@ -170,7 +170,7 @@ RSpec.describe ProceedPhaseService, type: :service do
 
       example '卓のターンが 1 年目の春撤退フェイズであること' do
         travel_to('2019-05-12 07:00') do
-          expect(table.turn).to eq 1
+          expect(table.turn_number).to eq 1
           expect(table.phase_spr_2nd?).to be true
         end
       end
@@ -269,7 +269,7 @@ RSpec.describe ProceedPhaseService, type: :service do
 
       example '卓のターンが 2 年目の春外交フェイズであること' do
         travel_to('2019-05-12 07:00') do
-          expect(table.turn).to eq 2
+          expect(table.turn_number).to eq 2
           expect(table.phase_spr_1st?).to be true
         end
       end
@@ -324,7 +324,7 @@ RSpec.describe ProceedPhaseService, type: :service do
 
       example '卓のターンが 2 年目の秋調整フェイズであること' do
         travel_to('2019-05-12 07:00') do
-          expect(table.turn).to eq 1
+          expect(table.turn_number).to eq 1
           expect(table.phase_fal_3rd?).to be true
         end
       end
