@@ -200,7 +200,7 @@ RSpec.describe ArrangeUnitsService, type: :service do
           @table = @table.proceed
           @turn = @table.current_turn
           @order = ListPossibleRetreatsService.call(
-            turn: @turn, power: @power_g, unit: @unit
+            power: @power_g, unit: @unit
           ).detect { |r| r.dest == 'par' }
           @order.succeed
           @turn.orders << @order

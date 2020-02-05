@@ -21,7 +21,6 @@ RSpec.describe ResoluteRetreatsService, type: :service do
         @turn = @table.turns.find_by(number: @table.turn)
         @standoff = []
         @turn.orders << ListPossibleRetreatsService.call(
-          turn: @turn,
           power: @power_g,
           unit: @unit
         ).detect(&:disband?)
@@ -57,7 +56,6 @@ RSpec.describe ResoluteRetreatsService, type: :service do
         @turn = @table.turns.find_by(number: @table.turn)
         @standoff = []
         @turn.orders << ListPossibleRetreatsService.call(
-          turn: @turn,
           power: @power_g,
           unit: @unit
         ).detect { |r| r.dest == 'par' }
@@ -101,12 +99,10 @@ RSpec.describe ResoluteRetreatsService, type: :service do
         @turn = @table.turns.find_by(number: @table.turn)
         @standoff = []
         @turn.orders << ListPossibleRetreatsService.call(
-          turn: @turn,
           power: @power_f,
           unit: @unit_f
         ).detect { |r| r.dest == 'par' }
         @turn.orders << ListPossibleRetreatsService.call(
-          turn: @turn,
           power: @power_g,
           unit: @unit_g
         ).detect { |r| r.dest == 'par' }

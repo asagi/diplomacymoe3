@@ -1,12 +1,11 @@
 # frozen_string_literal: true
 
 class ListPossibleRetreatsService
-  def self.call(turn:, power:, unit:, standoff: [])
-    new(turn: turn, power: power, unit: unit, standoff: standoff).call
+  def self.call(power:, unit:, standoff: [])
+    new(power: power, unit: unit, standoff: standoff).call
   end
 
-  def initialize(turn:, power:, unit:, standoff:)
-    @turn = turn
+  def initialize(power:, unit:, standoff:)
     @power = power
     @unit = unit
     @standoff = standoff

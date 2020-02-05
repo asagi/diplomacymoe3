@@ -37,7 +37,6 @@ RSpec.describe ListPossibleRetreatsService, type: :service do
 
       let(:ordermenu) do
         ListPossibleRetreatsService.call(
-          turn: @turn,
           power: @power_g,
           unit: @unit_g_bur,
           standoff: @standoff
@@ -133,7 +132,6 @@ RSpec.describe ListPossibleRetreatsService, type: :service do
 
       let(:ordermenu) do
         ListPossibleRetreatsService.call(
-          turn: @turn,
           power: @power_g,
           unit: @dislodged_unit,
           standoff: @standoff
@@ -216,12 +214,8 @@ RSpec.describe ListPossibleRetreatsService, type: :service do
 
       let(:ordermenu) do
         ListPossibleRetreatsService.call(
-          turn: @turn,
-
           power: @power_t,
-
           unit: @dislodged_unit,
-
           standoff: @standoff
         )
       end
@@ -302,7 +296,6 @@ RSpec.describe ListPossibleRetreatsService, type: :service do
 
       let(:ordermenu) do
         ListPossibleRetreatsService.call(
-          turn: @turn,
           power: @power_t,
           unit: @dislodged_unit,
           standoff: @standoff
@@ -367,7 +360,6 @@ RSpec.describe ListPossibleRetreatsService, type: :service do
 
       let(:ordermenu) do
         ListPossibleRetreatsService.call(
-          turn: @turn,
           power: @power_r,
           unit: @dislodged_unit,
           standoff: @standoff
@@ -452,7 +444,6 @@ RSpec.describe ListPossibleRetreatsService, type: :service do
 
       let(:ordermenu) do
         ListPossibleRetreatsService.call(
-          turn: @turn,
           power: @power_g,
           unit: @dislodged_unit,
           standoff: @standoff
@@ -543,7 +534,6 @@ RSpec.describe ListPossibleRetreatsService, type: :service do
 
       let(:ordermenu) do
         ListPossibleRetreatsService.call(
-          turn: @turn,
           power: @power_g,
           unit: @dislodged_unit,
           standoff: @standoff
@@ -632,7 +622,6 @@ RSpec.describe ListPossibleRetreatsService, type: :service do
 
       let(:ordermenu) do
         ListPossibleRetreatsService.call(
-          turn: @turn,
           power: @power_f,
           unit: @dislodged_unit,
           standoff: @standoff
@@ -721,7 +710,6 @@ RSpec.describe ListPossibleRetreatsService, type: :service do
 
       let(:ordermenu) do
         ListPossibleRetreatsService.call(
-          turn: @turn,
           power: @power_e,
           unit: @dislodged_unit,
           standoff: @standoff
@@ -808,7 +796,6 @@ RSpec.describe ListPossibleRetreatsService, type: :service do
 
       let(:ordermenu) do
         ListPossibleRetreatsService.call(
-          turn: @turn,
           power: @power_f,
           unit: @dislodged_unit,
           standoff: @standoff
@@ -903,7 +890,6 @@ RSpec.describe ListPossibleRetreatsService, type: :service do
 
       let(:ordermenu) do
         ListPossibleRetreatsService.call(
-          turn: @turn,
           power: @power_i,
           unit: @dislodged_unit,
           standoff: @standoff

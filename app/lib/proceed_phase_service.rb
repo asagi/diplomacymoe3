@@ -135,7 +135,6 @@ class ProceedPhaseService
     turn = @table.current_turn
     dislodged_units.each do |unit|
       order = ListPossibleRetreatsService.call(
-        turn: turn,
         power: unit.power,
         unit: unit,
         standoff: keepout
