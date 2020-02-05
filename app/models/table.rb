@@ -142,66 +142,52 @@ class Table < ApplicationRecord
 
   def proceed
     self.phase = NEXT_PHASE[phase]
-    proceed_phase if phase_spr_1st?
+    proceed_turn if phase_spr_1st?
     self.period = next_period(next_phase: phase) if regulation
-    save!
-    self
+    tap(&:save!)
+  end
+
+  def proceed_turn
+    turn = turns.find_by(number: self.turn).next
+    turns << turn
+    self.turn = turn.number
   end
 
   def discard
-    status_discarded!
-    self
+    tap(&:status_discarded!)
   end
 
   def start
     proceed
     self.period = next_period(next_phase: phase) if regulation
-    status_started!
-    self
+    tap(&:status_started!)
   end
 
   def draw
-    turn = turns.find_by(number: self.turn).next
-    turns << turn
-    self.turn = turn.number
+    proceed_turn
     phase_spr_1st!
     self.period = last_nego_period + (60 * 60 * 24)
-    status_draw!
-    self
+    tap(&:status_draw!)
   end
 
   def solo
-    turn = turns.find_by(number: self.turn).next
-    turns << turn
-    self.turn = turn.number
+    proceed_turn
     phase_spr_1st!
     self.period = last_nego_period + (60 * 60 * 24)
-    status_solo!
-    self
+    tap(&:status_solo!)
   end
 
   def close
     proceed
-    phase_spr_1st!
     self.period = next_period(next_phase: phase) if regulation
-    status_closed!
-    self
+    tap(&:status_closed!)
   end
 
   def order_targets
     return Unit.none if turn == Const.turns.initial
 
-    number = turn
-    number -= 1 if phase_spr_1st?
+    number = phase_spr_1st? ? turn - 1 : turn
     turn = turns.find_by(number: number)
     turn.units
-  end
-
-  private
-
-  def proceed_phase
-    turn = turns.find_by(number: self.turn).next
-    turns << turn
-    self.turn = turn.number
   end
 end
