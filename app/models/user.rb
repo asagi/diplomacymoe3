@@ -24,6 +24,8 @@ class User < ApplicationRecord
       # UID
       uid: auth[:uid],
       # スクリーン名
+      nickname: auth[:info][:nickname],
+      # 名前
       name: auth[:info][:name],
       # 画像
       image_url: auth[:info][:image],
