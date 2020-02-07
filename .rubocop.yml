@@ -48,3 +48,5 @@ AllCops:
     - 'log/**/*'
     - 'public/**/*'
     - 'tmp/**/*'
+    - 'vendor/**/*'
+    
