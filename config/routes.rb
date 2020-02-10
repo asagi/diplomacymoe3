@@ -5,6 +5,8 @@ Rails.application.routes.draw do
     delete "/sessions/token", to: "sessions#destroy", as: "logout"
 
     resources :users, except: [:index]
+    get "/users/:id/tables", to: "users#tables", as: "users-tables"
+
     resources :tables
     get "/numbered-tables/:num", to: "tables#show", as: "numbered-table"
   end

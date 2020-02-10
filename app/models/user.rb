@@ -3,6 +3,9 @@
 class User < ApplicationRecord
   has_secure_token
 
+  has_many :players
+  has_many :tables, through: :players
+
   def self.find_or_create_from_auth(auth)
     params = authenticated_user_params(auth)
     user = User.find_by(uid: params[:uid])

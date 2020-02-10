@@ -3,6 +3,7 @@
 class Player < ApplicationRecord
   belongs_to :user, optional: true
   belongs_to :power, optional: true
+  belongs_to :table
 
   enum status: {
     active: 0,
