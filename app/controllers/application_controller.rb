@@ -46,10 +46,17 @@ class ApplicationController < ActionController::API
   end
 
   def render_error(error, status)
-    render json: { errors: error.message }, status: status
+    message = error_to_object(error)
+    render json: { errors: message }, status: status
   end
 
   protected
+
+  def error_to_object(error)
+    JSON.parse(error.message)
+  rescue StandardError
+    error.message
+  end
 
   def authenticate
     raise CustomError::Forbidden unless authenticate_user

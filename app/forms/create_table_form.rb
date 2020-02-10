@@ -61,6 +61,7 @@ class CreateTableForm
   end
 
   def save
+    return false unless permitted?
     return false if invalid?
 
     owner_params = {
@@ -86,6 +87,19 @@ class CreateTableForm
   end
 
   private
+
+  def permitted?
+    @owner.tables.each do |t|
+      next if t.status_closed?
+      next if t.status_discarded?
+      next if t.status_solo?
+      next if t.status_draw?
+
+      errors[:base] << 'Owner is not permitted to create tables.'
+      return false
+    end
+    true
+  end
 
   def check_start_datetime
     min_start_datetime = Time.zone.now + 1.hours

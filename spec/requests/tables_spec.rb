@@ -17,7 +17,7 @@ RSpec.describe 'tables', type: :request do
   describe 'POST /api/tables' do
     context '娘/固定/標準/2020-01-09/1:00/鍵なし/おまかせ' do
       before :example do
-        params_json = <<~'JSON'
+        @params_json = <<~'JSON'
           {
             "face_type": "girl",
             "period_rule": "fixed",
@@ -31,7 +31,7 @@ RSpec.describe 'tables', type: :request do
           }
         JSON
         travel_to('2020-01-08 06:50') do
-          post tables_path, params: params_json, headers: headers
+          post tables_path, params: @params_json, headers: headers
         end
       end
 
@@ -53,6 +53,14 @@ RSpec.describe 'tables', type: :request do
         expect(json['id']).to be_positive
         # get table_path(json['id'])
         # puts response.body
+      end
+
+      example '多重卓立て禁止' do
+        travel_to('2020-01-08 06:50') do
+          post tables_path, params: @params_json, headers: headers
+          # puts response.body
+          expect(response.status).to eq 400
+        end
       end
     end
   end
