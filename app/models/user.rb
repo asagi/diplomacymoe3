@@ -28,7 +28,7 @@ class User < ApplicationRecord
       # 名前
       name: auth[:info][:name],
       # 画像
-      image_url: auth[:info][:image].sub(/http:/, 'https:'),
+      image_url: auth[:extra][:raw_info][:profile_image_url_https],
       # URL
       url: auth[:info][:urls][:Twitter]
     }
