@@ -59,7 +59,7 @@ RSpec.describe 'tables', type: :request do
         travel_to('2020-01-08 06:50') do
           post tables_path, params: @params_json, headers: headers
           # puts response.body
-          expect(response.status).to eq 400
+          expect(response.status).to eq 422
         end
       end
     end

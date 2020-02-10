@@ -8,6 +8,7 @@ class ApplicationController < ActionController::API
     class Unauthorized < StandardError; end
     class Forbidden < StandardError; end
     class Conflict < StandardError; end
+    class UnprocessableEntity < StandardError; end
   end
 
   rescue_from StandardError, with: :render_500
@@ -20,6 +21,7 @@ class ApplicationController < ActionController::API
   rescue_from CustomError::Unauthorized, with: :render_401
   rescue_from CustomError::Forbidden, with: :render_403
   rescue_from CustomError::Conflict, with: :render_409
+  rescue_from CustomError::UnprocessableEntity, with: :render_422
 
   def render_400(error)
     render_error(error, 400)
@@ -39,6 +41,10 @@ class ApplicationController < ActionController::API
 
   def render_409(error)
     render_error(error, 409)
+  end
+
+  def render_422(error)
+    render_error(error, 422)
   end
 
   def render_500(error)

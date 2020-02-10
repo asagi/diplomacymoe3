@@ -61,9 +61,9 @@ class CreateTableForm
   end
 
   def save
-    return false unless permitted?
     return false if invalid?
 
+    permitted?
     owner_params = {
       user: @owner,
       desired_power: @desired_power
@@ -95,8 +95,7 @@ class CreateTableForm
       next if t.status_solo?
       next if t.status_draw?
 
-      errors[:base] << 'Owner is not permitted to create tables.'
-      return false
+      raise 'Owner is not permitted to create tables.'
     end
     true
   end
