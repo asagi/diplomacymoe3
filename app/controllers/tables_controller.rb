@@ -6,7 +6,9 @@ class TablesController < ApplicationController
 
   def index
     @tables = Table.all
-    render json: @tables
+    render json: @tables,
+           each_serializer: TableListSerializer,
+           include: '**'
   end
 
   def show
