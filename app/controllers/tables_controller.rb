@@ -17,12 +17,9 @@ class TablesController < ApplicationController
 
   def create
     create_table = CreateTableForm.new(owner: @auth_user, params: params)
-    begin
-      unless create_table.save
-        raise CustomError::BadRequest, create_table.errors.messages.to_json
-      end
-    rescue StandardError => e
-      raise CustomError::UnprocessableEntity, e
+    unless create_table.save
+      raise CustomError::UnprocessableEntity,
+            create_table.errors.messages.to_json
     end
 
     table = create_table.table
