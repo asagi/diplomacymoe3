@@ -7,4 +7,5 @@ class UserSerializer < ActiveModel::Serializer
   attribute :name
   attribute :url
   attribute :image_url
+  attribute :admin
 end
